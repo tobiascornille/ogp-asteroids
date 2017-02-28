@@ -5,7 +5,9 @@ import be.kuleuven.cs.som.annotate.*;
  * 
  * @author Simon Merckx and Tobias Cornille
  * 
- * @invar VERGEET NIET DE NOMINALE DINGEN TE DOEN KUT
+ * @invar  The orientation of each Spaceship must be a valid orientation for any
+ *         Spaceship.
+ *       | isValidOrientation(getOrientation())
  *
  */
 public class Ship {
@@ -97,7 +99,7 @@ public class Ship {
 	public void setOrientation(double orientation) {
 		assert isValidOrientation(orientation);
 		this.orientation = orientation;
-	}
+	} 
 	
 	/**
 	 * Variable registering the orientation of this Spaceship.
