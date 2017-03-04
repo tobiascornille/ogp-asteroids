@@ -120,8 +120,10 @@ public class Ship {
 	/**
 	 * Set the velocity of this spaceship to the given velocity.
 	 * 
-	 * @param  velocity
-	 *         The new velocity for this spaceship.
+	 * @param  xVelocity
+	 *         The new movement per time unit in the x direction for this spaceship.
+	 * @param  yVelocity
+	 *         The new movement per time unit in the y direction for this spaceship.   
 	 * @post   If the given velocity is a valid velocity for any spaceship,
 	 *         the velocity of this new spaceship is equal to the given
 	 *         velocity.
@@ -141,7 +143,6 @@ public class Ship {
 	 */
 	private double[] velocity;
 	private static final double C = 300000;
-
 
 	/**
 	 * Return the orientation of this Spaceship.
