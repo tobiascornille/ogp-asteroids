@@ -204,7 +204,7 @@ public class Ship {
 	 *       | result == (orientation >= 0) && (orientation <= Math.PI)
 	 */
 	public static boolean isValidOrientation(double orientation) {
-		return (orientation >= 0) && (orientation <= Math.PI);
+		return (orientation >= 0) && (orientation <= 2 * Math.PI);
 	}
 	
 	/**

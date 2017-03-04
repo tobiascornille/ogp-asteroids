@@ -17,7 +17,7 @@ public class Facade implements IFacade {
 		try {
 			return new Ship(x, y, xVelocity, yVelocity, radius, orientation);
 		} catch (TempException e) {
-			throw new ModelException("createShip failed");
+			throw new ModelException(e);
 		}
 	}
 
@@ -46,7 +46,7 @@ public class Facade implements IFacade {
 		try {
 			ship.move(dt);
 		} catch (TempException e) {
-			throw new ModelException("move failed");
+			throw new ModelException(e);
 		}
 		
 	}
