@@ -250,6 +250,7 @@ public class Ship {
 	 * Turn the ship by adding a given angle to the current orientation.
 	 * 
 	 * @param angle
+	 * 		  The given angle.
 	 * 
 	 * @pre The given angle plus the current orientation has to be valid.
 	 * 	  | isValidOrientation(this.getOrientation() + angle)
@@ -260,6 +261,32 @@ public class Ship {
 	public void turn(double angle) {
 		assert isValidOrientation(this.getOrientation() + angle);
 		this.setOrientation(this.getOrientation() + angle);		
+	}
+	
+	/**
+	 * Change the velocity of the ship based on the current velocity, the current orientation, and on a given amount.
+	 * 
+	 * @param amount
+	 * 		  The given amount.
+	 * 
+	 * @post The new velocity of the ship is derived by adding the amount times the cosinus or sinus of the current orientation
+	 * 		 to the old xVelocity and yVelocity, respectively.
+	 * 	   | new.getVelocity()[0] == this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()))
+	 * 	   | new.getVelocity()[1] == this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()))
+	 */
+	public void thrust(double amount) {
+		if (amount < 0) amount = 0;
+		double newXVelocity = this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()));
+		double newYVelocity = this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()));
+		
+		// Reduce velocity by 1 until it's valid -> not really efficient
+		while (! isValidVelocity(newXVelocity, newYVelocity)) {
+			newXVelocity--;
+			newYVelocity--;
+		}
+						
+		this.setVelocity(newXVelocity, newYVelocity);
+		
 	}
 	
 		
