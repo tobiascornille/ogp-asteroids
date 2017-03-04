@@ -74,7 +74,7 @@ public class Ship {
 	 *         The position to check.
 	 * @return 
 	 *       | result == true
-	*/
+	 */
 	public static boolean isValidPosition(double x, double y) {
 		return true;	// position can't be invalid in an unbounded space
 	}
@@ -144,7 +144,7 @@ public class Ship {
 	 *       |   then new.getVelocity() == velocity
 	 */
 	@Raw
-	public void setVelocity(double xVelocity, double yVelocity) {
+	private void setVelocity(double xVelocity, double yVelocity) {
 		if (isValidVelocity(xVelocity, yVelocity))	
 			this.velocity = new double[] {xVelocity, yVelocity};
 	}
@@ -174,7 +174,7 @@ public class Ship {
 	 *         The radius to check.
 	 * @return 
 	 *       | result == radius > 10
-	*/
+	 */
 	@Raw
 	public boolean canHaveAsRadius(double radius) {
 		return radius > 10;
@@ -202,7 +202,7 @@ public class Ship {
 	 *         The orientation to check.
 	 * @return 
 	 *       | result == (orientation >= 0) && (orientation <= Math.PI)
-	*/
+	 */
 	public static boolean isValidOrientation(double orientation) {
 		return (orientation >= 0) && (orientation <= Math.PI);
 	}
@@ -229,5 +229,22 @@ public class Ship {
 	 * Variable registering the orientation of this ship.
 	 */
 	private double orientation;
+	
+	/**
+	 * Change the position of the ship based on the current position, velocity and time duration dt.
+	 *
+	 * @param dt
+	 * 		  The given time duration.
+	 * @post  The new position of the ship is the old position of the ship plus the displacement of the ship.
+	 * 		| new.getPosition()[0] == this.getPosition()[0] + (this.getVelocity()[0] * dt)         
+	 *      | new.getPosition()[1] == this.getPosition()[1] + (this.getVelocity()[1] * dt)
+	 */
+	public void move(double dt) throws ModelException {
+		if (dt < 0) throw new ModelException();
+		double newX = this.getPosition()[0] + (this.getVelocity()[0] * dt); 
+		double newY = this.getPosition()[1] + (this.getVelocity()[1] * dt);
+		this.setPosition(newX, newY);         			
+	}
+	
 		
 }
