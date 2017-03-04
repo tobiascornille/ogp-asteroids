@@ -246,5 +246,21 @@ public class Ship {
 		this.setPosition(newX, newY);         			
 	}
 	
+	/**
+	 * Turn the ship by adding a given angle to the current orientation.
+	 * 
+	 * @param angle
+	 * 
+	 * @pre The given angle plus the current orientation has to be valid.
+	 * 	  | isValidOrientation(this.getOrientation() + angle)
+	 * 
+	 * @post The new orientation of the ship is the old orientation plus the angle.
+	 * 	   | new.getOrientation() == this.getOrientation() + angle;
+	 */
+	public void turn(double angle) {
+		assert isValidOrientation(this.getOrientation() + angle);
+		this.setOrientation(this.getOrientation() + angle);		
+	}
+	
 		
 }
