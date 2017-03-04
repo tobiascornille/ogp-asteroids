@@ -8,7 +8,7 @@ import java.lang.Math;
  * @author Simon Merckx and Tobias Cornille
  * 
  * @invar  The orientation of each Spaceship must be a valid orientation for any
- *         Spaceship.
+ *         spaceship.
  *       | isValidOrientation(getOrientation())
  * @invar  The position of each spaceship must be a valid position for any
  *         spaceship.
@@ -43,6 +43,7 @@ public class Ship {
 	public Ship (double x, double y, double xVelocity, double yVelocity, double radius, double orientation) throws ModelException {
 		this.setPosition(x, y);
 		this.setVelocity(xVelocity, yVelocity);
+		
 		this.setOrientation(orientation);
 		
 	}
@@ -121,9 +122,9 @@ public class Ship {
 	 * Set the velocity of this spaceship to the given velocity.
 	 * 
 	 * @param  xVelocity
-	 *         The new movement per time unit in the x direction for this spaceship.
+	 *         The new X component of the velocity of this spaceship.
 	 * @param  yVelocity
-	 *         The new movement per time unit in the y direction for this spaceship.   
+	 *         The new Y component of the velocity of this spaceship.   
 	 * @post   If the given velocity is a valid velocity for any spaceship,
 	 *         the velocity of this new spaceship is equal to the given
 	 *         velocity.
