@@ -10,7 +10,14 @@ import java.lang.Math;
  * @invar  The orientation of each Spaceship must be a valid orientation for any
  *         Spaceship.
  *       | isValidOrientation(getOrientation())
- *
+ * @invar  The position of each spaceship must be a valid position for any
+ *         spaceship.
+ *       | isValidPosition(getPosition())  
+ * @invar  The velocity of each spaceship must be a valid velocity for any
+ *         spaceship.
+ *       | isValidVelocity(getVelocity())
+ *       
+ *       
  */
 public class Ship {
 	
@@ -40,6 +47,102 @@ public class Ship {
 		
 	}
 	
+	/**
+	 * Return the position of this spaceship.
+	 */
+	@Basic @Raw
+	public double[] getPosition() {
+		return this.position;
+	}
+	
+	/**
+	 * Check whether the given position is a valid position for
+	 * any spaceship.
+	 *  
+	 * @param  position
+	 *         The position to check.
+	 * @return 
+	 *       | result == true
+	*/
+	public static boolean isValidPosition(double[] position) {
+		return true;
+		// Not sure if the position can be invalid
+	}
+	
+	/**
+	 * Set the position of this spaceship to the given position.
+	 * 
+	 * @param  x
+	 *         The new x coordinate of the position for this spaceship.
+	 * @param  y
+	 *         The new y coordinate of the position for this spaceship.
+	 * @post   The position of this new spaceship is equal to
+	 *         the given position.
+	 *       | new.getPosition() == position
+	 * @throws ModelException
+	 *         The given position is not a valid position for any
+	 *         spaceship.
+	 *       | ! isValidPosition(getPosition())
+	 */
+	@Raw
+	private void setPosition(double x, double y) throws ModelException {
+		if (! isValidPosition(new double[] {x,y})) throw new ModelException();
+		//Hier nog een verbetering aangebracht
+		this.position = new double[] {x,y};
+	}
+	
+	/**
+	 * Variable registering the position of this spaceship.
+	 */
+	private double[] position;
+	
+	/**
+	 * Return the velocity of this spaceship.
+	 */
+	@Basic @Raw
+	public double[] getVelocity() {
+		return this.velocity;
+	}
+	
+	/**
+	 * Check whether the given velocity is a valid velocity for
+	 * any spaceship.
+	 *  
+	 * @param  velocity
+	 *         The velocity to check.
+	 * @return 
+	 *       | result == Math.sqrt(velocity[0]*velocity[0] + velocity[1]*velocity[1]) <= C
+	*/
+	public static boolean isValidVelocity(double[] velocity) {
+		return (Math.sqrt(velocity[0]*velocity[0] + velocity[1]*velocity[1]) <= C);
+	}
+	
+	/**
+	 * Set the velocity of this spaceship to the given velocity.
+	 * 
+	 * @param  velocity
+	 *         The new velocity for this spaceship.
+	 * @post   If the given velocity is a valid velocity for any spaceship,
+	 *         the velocity of this new spaceship is equal to the given
+	 *         velocity.
+	 *       | if (isValidVelocity(velocity))
+	 *       |   then new.getVelocity() == velocity
+	 */
+	@Raw
+	public void setVelocity(double xVelocity, double yVelocity) {
+		if (isValidVelocity(new double[] {xVelocity, yVelocity}))	
+			// Slim om dit te doen??
+			// misschien beter om isValidVelocity ook met twee parameters te laten werken?
+			this.velocity = new double[] {xVelocity, yVelocity};
+	}
+	
+	/**
+	 * Variable registering the velocity of this spaceship.
+	 */
+	private double[] velocity;
+	private static final double C = 300000;
+
+
 	/**
 	 * Return the orientation of this Spaceship.
 	 */
@@ -74,7 +177,7 @@ public class Ship {
 	 *       | new.getOrientation() == orientation
 	 */
 	@Raw
-	public void setOrientation(double orientation) {
+	private void setOrientation(double orientation) {
 		assert isValidOrientation(orientation);
 		this.orientation = orientation;
 	} 
