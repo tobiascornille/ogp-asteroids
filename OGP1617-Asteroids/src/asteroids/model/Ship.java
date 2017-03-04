@@ -50,11 +50,11 @@ public class Ship {
 	 * 
 	 */
 	
-	public Ship (double x, double y, double xVelocity, double yVelocity, double radius, double orientation) throws ModelException {
+	public Ship (double x, double y, double xVelocity, double yVelocity, double radius, double orientation) throws TempException {
 		this.setPosition(x, y);
 		this.setVelocity(xVelocity, yVelocity);	
 		this.setOrientation(orientation);
-		if (! canHaveAsRadius(radius)) throw new ModelException();
+		if (! canHaveAsRadius(radius)) throw new TempException();
 		this.radius = radius;
 	}
 	
@@ -89,14 +89,14 @@ public class Ship {
 	 * @post   The position of this new ship is equal to
 	 *         the given position.
 	 *       | new.getPosition() == position
-	 * @throws ModelException
+	 * @throws TempException
 	 *         The given position is not a valid position for any
 	 *         ship.
 	 *       | ! isValidPosition(getPosition())
 	 */
 	@Raw
-	private void setPosition(double x, double y) throws ModelException {
-		if (! isValidPosition(x, y)) throw new ModelException();
+	private void setPosition(double x, double y) throws TempException {
+		if (! isValidPosition(x, y)) throw new TempException();
 		this.position = new double[] {x, y};
 	}
 	
@@ -239,8 +239,8 @@ public class Ship {
 	 * 		| new.getPosition()[0] == this.getPosition()[0] + (this.getVelocity()[0] * dt)         
 	 *      | new.getPosition()[1] == this.getPosition()[1] + (this.getVelocity()[1] * dt)
 	 */
-	public void move(double dt) throws ModelException {
-		if (dt < 0) throw new ModelException();
+	public void move(double dt) throws TempException {
+		if (dt < 0) throw new TempException();
 		double newX = this.getPosition()[0] + (this.getVelocity()[0] * dt); 
 		double newY = this.getPosition()[1] + (this.getVelocity()[1] * dt);
 		this.setPosition(newX, newY);         			

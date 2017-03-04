@@ -1,6 +1,6 @@
 package asteroids.model;
 
-public class ModelException extends Exception {
+public class TempException extends Exception {
 
 
 	private static final long serialVersionUID = 8326719687886649429L;
