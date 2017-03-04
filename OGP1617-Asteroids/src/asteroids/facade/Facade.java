@@ -63,10 +63,10 @@ public class Facade implements IFacade {
 
 	@Override
 	public double getDistanceBetween(Ship ship1, Ship ship2) throws ModelException {
-		// TODO Auto-generated method stub
-		return 100;
+		return ship1.getDistanceBetween(ship2);
+		
 	}
-
+	
 	@Override
 	public boolean overlap(Ship ship1, Ship ship2) throws ModelException {
 		// TODO Auto-generated method stub

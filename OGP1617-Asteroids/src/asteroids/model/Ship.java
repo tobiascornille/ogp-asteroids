@@ -278,16 +278,38 @@ public class Ship {
 		if (amount < 0) amount = 0;
 		double newXVelocity = this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()));
 		double newYVelocity = this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()));
-		
+		 
 		// Reduce velocity by 1 until it's valid -> not really efficient
 		while (! isValidVelocity(newXVelocity, newYVelocity)) {
 			newXVelocity--;
 			newYVelocity--;
 		}
-						
+					
 		this.setVelocity(newXVelocity, newYVelocity);
 		
 	}
+	
+	/**
+	 * Returns the distance between two ships.
+	 * The distance may be negative if both ships overlap.
+	 * The distance between a ship and itself is zero.
+	 *  
+	 * @param ship
+	 * 		  The other ship.
+	 * 
+	 * @return The distance between the two ships with coordinates (x1, y1) and (x2, y2) respectively.
+	 * 		 | Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)))
+	 * 
+	 */
+	public double getDistanceBetween(Ship ship) throws NullPointerException {
+		if (ship == null) throw new NullPointerException();
+		double x1 = this.getPosition()[0];
+		double x2 = ship.getPosition()[0];
+		double y1 = this.getPosition()[1];
+		double y2 = ship.getPosition()[1];
+		return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))); 		
+	}
+	
 	
 		
 }
