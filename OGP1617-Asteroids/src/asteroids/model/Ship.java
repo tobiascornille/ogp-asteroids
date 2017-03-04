@@ -16,11 +16,21 @@ import java.lang.Math;
  * @invar  The velocity of each ship must be a valid velocity for any
  *         ship.
  *       | isValidVelocity(getVelocity())
+ * @invar  Each ship can have its radius as radius.
+ *       | canHaveAsRadius(this.getRadius())	      
  *       
  */
 public class Ship {
 	
 	// ctrl + space voor suggesties
+	
+	/**
+	 * Initialize this new ship with default values.
+	 * 
+	 */
+	public Ship() {	
+		this.radius = 11;
+	}
 	
 	/**
 	 * Initialize this new ship with given X coordinate of the position, given Y coordinate of the position, 
@@ -39,10 +49,13 @@ public class Ship {
 	 * 
 	 * 
 	 */
+	
 	public Ship (double x, double y, double xVelocity, double yVelocity, double radius, double orientation) throws ModelException {
 		this.setPosition(x, y);
 		this.setVelocity(xVelocity, yVelocity);	
 		this.setOrientation(orientation);
+		if (! canHaveAsRadius(radius)) throw new ModelException();
+		this.radius = radius;
 	}
 	
 	/**
@@ -147,7 +160,34 @@ public class Ship {
 	private static final double C = 300000;
 	
 	/**
+	 * Return the radius of this ship.
+	 */
+	@Basic @Raw @Immutable
+	public double getRadius() {
+		return this.radius;
+	}
+	
+	/**
+	 * Check whether this ship can have the given radius as its radius.
+	 *  
+	 * @param  radius
+	 *         The radius to check.
+	 * @return 
+	 *       | result == radius > 10
+	*/
+	@Raw
+	public boolean canHaveAsRadius(double radius) {
+		return radius > 10;
+	}
+	
+	/**
+	 * Variable registering the radius of this ship.
+	 */
+	private final double radius;
+		
+	/**
 	 * Return the orientation of this ship.
+	 * 
 	 */
 	@Basic @Raw
 	public double getOrientation() {
@@ -189,5 +229,5 @@ public class Ship {
 	 * Variable registering the orientation of this ship.
 	 */
 	private double orientation;
-	
+		
 }
