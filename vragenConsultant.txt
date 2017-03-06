@@ -1,0 +1,4 @@
+-isValid... private?
+-Total programming paradigm -> okay to leave values unchanged if values are invalid or mod calculation?
+-How do we need to reduce the velocity in thrust method?
+-Distance calculation?
