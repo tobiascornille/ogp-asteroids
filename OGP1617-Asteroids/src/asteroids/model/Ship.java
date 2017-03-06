@@ -48,8 +48,7 @@ public class Ship {
 	 * 		  The orientation of this new ship.
 	 * 
 	 * 
-	 */
-	
+	 */	
 	public Ship (double x, double y, double xVelocity, double yVelocity, double radius, double orientation) throws TempException {
 		this.setPosition(x, y);
 		this.setVelocity(xVelocity, yVelocity);	
@@ -249,14 +248,14 @@ public class Ship {
 	/**
 	 * Turn the ship by adding a given angle to the current orientation.
 	 * 
-	 * @param angle
-	 * 		  The given angle.
+	 * @param 	angle
+	 * 		  	The given angle.
 	 * 
-	 * @pre The given angle plus the current orientation has to be valid.
-	 * 	  | isValidOrientation(this.getOrientation() + angle)
+	 * @pre		The given angle plus the current orientation has to be valid.
+	 * 	  	  | isValidOrientation(this.getOrientation() + angle)
 	 * 
-	 * @post The new orientation of the ship is the old orientation plus the angle.
-	 * 	   | new.getOrientation() == this.getOrientation() + angle;
+	 * @post 	The new orientation of the ship is the old orientation plus the angle.
+	 * 	      | new.getOrientation() == this.getOrientation() + angle;
 	 */
 	public void turn(double angle) {
 		assert isValidOrientation(this.getOrientation() + angle);
@@ -285,8 +284,7 @@ public class Ship {
 			newYVelocity--;
 		}
 					
-		this.setVelocity(newXVelocity, newYVelocity);
-		
+		this.setVelocity(newXVelocity, newYVelocity);	
 	}
 	
 	/**
@@ -297,17 +295,37 @@ public class Ship {
 	 * @param ship
 	 * 		  The other ship.
 	 * 
-	 * @return The distance between the two ships with coordinates (x1, y1) and (x2, y2) respectively.
-	 * 		 | Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)))
+	 * @return The distance between the two ships with coordinates (x1, y1) and (x2, y2) respectively and their radii.
+	 * 		 | result == (Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))) - r1 - r2)
 	 * 
+	 * @throws NullPointerException
+	 * 		   If this method is invoked with the null pointer as argument. 
 	 */
 	public double getDistanceBetween(Ship ship) throws NullPointerException {
 		if (ship == null) throw new NullPointerException();
+		if (ship == this) return 0;
 		double x1 = this.getPosition()[0];
 		double x2 = ship.getPosition()[0];
 		double y1 = this.getPosition()[1];
 		double y2 = ship.getPosition()[1];
-		return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))); 		
+		return (Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))) - this.getRadius() - ship.getRadius()); 		
+	}
+	/**
+	 * Returns true if and only if 2 ships overlap.
+	 * A ship always overlaps with itself.
+	 * 
+	 * @param ship
+	 * 		  The other ship.
+	 * 
+	 * @return Returns true if and only if 2 ships overlap.
+	 * 		  | result == this.getDistanceBetween(ship) <= 0
+	 * 
+	 * @throws NullPointerException
+	 * 		   If this method is invoked with the null pointer as argument. 
+	 */
+	public boolean overlap (Ship ship) throws NullPointerException {
+		if (ship == null) throw new NullPointerException();
+		return this.getDistanceBetween(ship) <= 0;
 	}
 	
 	
