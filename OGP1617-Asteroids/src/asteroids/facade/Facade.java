@@ -16,7 +16,7 @@ public class Facade implements IFacade {
 			throws ModelException {
 		try {
 			return new Ship(x, y, xVelocity, yVelocity, radius, orientation);
-		} catch (TempException e) {
+		} catch (IllegalArgumentException e) {
 			throw new ModelException(e);
 		}
 	}
@@ -74,14 +74,12 @@ public class Facade implements IFacade {
 
 	@Override
 	public double getTimeToCollision(Ship ship1, Ship ship2) throws ModelException {
-		// TODO Auto-generated method stub
-		return 100;
+		return ship1.getTimeToCollision(ship2);
 	}
 
 	@Override
 	public double[] getCollisionPosition(Ship ship1, Ship ship2) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		return ship1.getCollisionPosition(ship2);
 	}
 	
 }

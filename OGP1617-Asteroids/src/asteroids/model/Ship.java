@@ -49,11 +49,11 @@ public class Ship {
 	 * 
 	 * 
 	 */	
-	public Ship (double x, double y, double xVelocity, double yVelocity, double radius, double orientation) throws TempException {
+	public Ship (double x, double y, double xVelocity, double yVelocity, double radius, double orientation) throws IllegalArgumentException {
 		this.setPosition(x, y);
 		this.setVelocity(xVelocity, yVelocity);	
 		this.setOrientation(orientation);
-		if (! canHaveAsRadius(radius)) throw new TempException();
+		if (! canHaveAsRadius(radius)) throw new IllegalArgumentException();
 		this.radius = radius;
 	}
 	
@@ -94,8 +94,8 @@ public class Ship {
 	 *       | ! isValidPosition(getPosition())
 	 */
 	@Raw
-	private void setPosition(double x, double y) throws TempException {
-		if (! isValidPosition(x, y)) throw new TempException();
+	private void setPosition(double x, double y) throws IllegalArgumentException {
+		if (! isValidPosition(x, y)) throw new IllegalArgumentException();
 		this.position = new double[] {x, y};
 	}
 	
@@ -272,16 +272,19 @@ public class Ship {
 	 * 		 to the old xVelocity and yVelocity, respectively.
 	 * 	   | new.getVelocity()[0] == this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()))
 	 * 	   | new.getVelocity()[1] == this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()))
+	 * 	   | if (! isValidVelocity(newXVelocity, newYVelocity)) {
+	 * 	   |			newXVelocity = C * Math.cos(this.getOrientation());
+		   |		    newYVelocity = C * Math.sin(this.getOrientation());
+		   | }
 	 */
 	public void thrust(double amount) {
 		if (amount < 0) amount = 0;
 		double newXVelocity = this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()));
 		double newYVelocity = this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()));
 		 
-		// Reduce velocity by 1 until it's valid -> not really efficient
-		while (! isValidVelocity(newXVelocity, newYVelocity)) {
-			newXVelocity--;
-			newYVelocity--;
+		if (! isValidVelocity(newXVelocity, newYVelocity)) {
+			newXVelocity = C * Math.cos(this.getOrientation());
+			newYVelocity = C * Math.sin(this.getOrientation());
 		}
 					
 		this.setVelocity(newXVelocity, newYVelocity);	
@@ -327,6 +330,50 @@ public class Ship {
 		if (ship == null) throw new NullPointerException();
 		return this.getDistanceBetween(ship) <= 0;
 	}
+	
+	/**
+	 * 
+	 * @param ship
+	 * @return
+	 * @throws NullPointerException
+	 */
+	public double getTimeToCollision(Ship ship) throws NullPointerException {
+		double dvx = ship.getVelocity()[0] - this.getVelocity()[0];
+		double dvy = ship.getVelocity()[1] - this.getVelocity()[1];
+		
+		double dx = ship.getPosition()[0] - this.getPosition()[0];
+		double dy = ship.getPosition()[1] - this.getPosition()[1];
+		
+		double dvdr = ((dvx * dx) + (dvy * dy));
+		double dvdv = Math.pow(dvx, 2) + Math.pow(dvy, 2);
+		double drdr = Math.pow(dx, 2) + Math.pow(dy, 2);
+		
+		double s = this.getRadius() + ship.getRadius();
+		double d = (Math.pow(dvdr, 2) - dvdv) * drdr - Math.pow(s, 2); 
+		
+		if (((dvx * dx) + (dvy * dy)) >= 0)
+			return Double.POSITIVE_INFINITY;
+		else if (d <= 0)
+			return Double.POSITIVE_INFINITY;
+		else
+			return (-(dvdr + Math.sqrt(d))/dvdv);		
+	}
+	
+	/**
+	 * 
+	 * @param ship
+	 * @return
+	 */
+	public double[] getCollisionPosition(Ship ship) throws NullPointerException {
+		double dt = this.getTimeToCollision(ship);
+		if (dt == Double.POSITIVE_INFINITY)
+			return null;
+		
+		double newX = this.getPosition()[0] + (this.getVelocity()[0] * dt); 
+		double newY = this.getPosition()[1] + (this.getVelocity()[1] * dt);
+		return new double[] {newX, newY};	
+	}
+	
 	
 	
 		
