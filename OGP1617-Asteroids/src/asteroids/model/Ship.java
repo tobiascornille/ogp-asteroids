@@ -75,6 +75,8 @@ public class Ship {
 	 *       | result == true
 	 */
 	public static boolean isValidPosition(double x, double y) {
+		if ( Double.isNaN(x) || Double.isNaN(y) )
+			return false;
 		return true;	// position can't be invalid in an unbounded space
 	}
 	
@@ -95,7 +97,7 @@ public class Ship {
 	 */
 	@Raw
 	private void setPosition(double x, double y) throws IllegalArgumentException {
-		if (! isValidPosition(x, y)) throw new IllegalArgumentException();
+		if (!isValidPosition(x, y)) throw new IllegalArgumentException();
 		this.position = new double[] {x, y};
 	}
 	
@@ -203,7 +205,12 @@ public class Ship {
 	 *       | result == (orientation >= 0) && (orientation <= Math.PI)
 	 */
 	public static boolean isValidOrientation(double orientation) {
-		return (orientation >= 0) && (orientation <= 2 * Math.PI);
+		if ((orientation >= 0) && (orientation <= 2 * Math.PI))
+			return true;
+		else if ((orientation <= 0) && (orientation >= - 2 * Math.PI))
+			return true;
+		else
+			return false;
 	}
 	
 	/**
@@ -373,8 +380,6 @@ public class Ship {
 		double newY = this.getPosition()[1] + (this.getVelocity()[1] * dt);
 		return new double[] {newX, newY};	
 	}
-	
-	
 	
 		
 }
