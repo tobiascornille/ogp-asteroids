@@ -22,8 +22,6 @@ import java.lang.Math;
  */
 public class Ship {
 	
-	// ctrl + space voor suggesties
-	
 	/**
 	 * Initialize this new ship with default values.
 	 * 
@@ -75,9 +73,7 @@ public class Ship {
 	 *       | result == true
 	 */
 	public static boolean isValidPosition(double x, double y) {
-		if ( Double.isNaN(x) || Double.isNaN(y) )
-			return false;
-		return true;	// position can't be invalid in an unbounded space
+		return ! Double.isNaN(x) && ! Double.isNaN(y);
 	}
 	
 	/**
@@ -124,6 +120,8 @@ public class Ship {
 	 *       | result == (getSpeed(xVelocity, yVelocity) >= -C) && (getSpeed(xVelocity, yVelocity) <= C)
 	 */
 	public static boolean isValidVelocity(double xVelocity, double yVelocity) {
+		if (Double.isNaN(xVelocity) || Double.isNaN(yVelocity))
+			return false;
 		return (getSpeed(xVelocity, yVelocity) >= -C) && (getSpeed(xVelocity, yVelocity) <= C);
 	}
 	
@@ -178,7 +176,7 @@ public class Ship {
 	 */
 	@Raw
 	public boolean canHaveAsRadius(double radius) {
-		return radius > 10;
+		return ! Double.isNaN(radius) && radius > 10;
 	}
 	
 	/**
@@ -202,15 +200,10 @@ public class Ship {
 	 * @param  orientation
 	 *         The orientation to check.
 	 * @return 
-	 *       | result == (orientation >= 0) && (orientation <= Math.PI)
+	 *       | result == (orientation >= -2 * Math.PI) && (orientation <= 2 * Math.PI)
 	 */
 	public static boolean isValidOrientation(double orientation) {
-		if ((orientation >= 0) && (orientation <= 2 * Math.PI))
-			return true;
-		else if ((orientation <= 0) && (orientation >= - 2 * Math.PI))
-			return true;
-		else
-			return false;
+		return (orientation >= -2 * Math.PI) && (orientation <= 2 * Math.PI);
 	}
 	
 	/**
@@ -339,12 +332,29 @@ public class Ship {
 	}
 	
 	/**
+	 * Returns when, if ever, two ships will collide.
+	 * Returns Double.POSITIVE_INFINITY if the ships never collide.
+	 * This method does not apply to ships that overlap. 
 	 * 
-	 * @param ship
-	 * @return
-	 * @throws NullPointerException
+	 * @param 	ship
+	 * 		  	The other ship.
+	 * @return  If the ships never collide, this method returns Double.POSITIVE_INFINITY.
+	 * 			Else, it returns the time to the moment when the positions of ships are off by the sum of their radii.
+	 * 		|	if (Exists time: distance(this, ship) == this.getRadius() + ship.getRadius()) 
+	 * 		|		then return time
+	 * 		|	else
+	 * 		|		return Double.POSITIVE_INFINITY
+	 * @throws 	NullPointerException
+	 * 		   	If this method is invoked with the null pointer as argument.
+	 * 		|	(ship == null)
+	 * @throws 	IllegalArgumentException
+	 * 		   	If this method is invoked with two overlapping ships.
+	 * 		|	(this.overlap(ship))
 	 */
-	public double getTimeToCollision(Ship ship) throws NullPointerException {
+	public double getTimeToCollision(Ship ship) throws NullPointerException, IllegalArgumentException {
+		if (ship == null) throw new NullPointerException();
+		if (this.overlap(ship)) throw new IllegalArgumentException();
+		
 		double dvx = ship.getVelocity()[0] - this.getVelocity()[0];
 		double dvy = ship.getVelocity()[1] - this.getVelocity()[1];
 		
