@@ -356,7 +356,7 @@ public class Ship {
 		double drdr = Math.pow(dx, 2) + Math.pow(dy, 2);
 		
 		double s = this.getRadius() + ship.getRadius();
-		double d = (Math.pow(dvdr, 2) - dvdv) * drdr - Math.pow(s, 2); 
+		double d = Math.pow(dvdr, 2) - (dvdv * (drdr - Math.pow(s, 2))); 
 		
 		if (((dvx * dx) + (dvy * dy)) >= 0)
 			return Double.POSITIVE_INFINITY;
