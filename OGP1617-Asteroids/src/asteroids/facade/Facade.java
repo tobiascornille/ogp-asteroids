@@ -1,6 +1,5 @@
 package asteroids.facade;
 import asteroids.model.Ship;
-import asteroids.model.TempException;
 import asteroids.part1.facade.IFacade;
 import asteroids.util.ModelException;
 
@@ -45,7 +44,7 @@ public class Facade implements IFacade {
 	public void move(Ship ship, double dt) throws ModelException {
 		try {
 			ship.move(dt);
-		} catch (TempException e) {
+		} catch (IllegalArgumentException e) {
 			throw new ModelException(e);
 		}
 		
