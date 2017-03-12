@@ -417,11 +417,23 @@ public class Ship {
 		double X1 = this.getPosition()[0] + (this.getVelocity()[0] * dt); 
 		double Y1 = this.getPosition()[1] + (this.getVelocity()[1] * dt);
 		
-		//double X2 = ship.getPosition()[0] + (ship.getVelocity()[0] * dt); 
-		//double Y2 = ship.getPosition()[1] + (ship.getVelocity()[1] * dt);
+		double X2 = ship.getPosition()[0] + (ship.getVelocity()[0] * dt); 
+		double Y2 = ship.getPosition()[1] + (ship.getVelocity()[1] * dt);
 		
-		double x = X1 + (this.getRadius() * Math.cos(this.getOrientation()));
-		double y = Y1 + (this.getRadius() * Math.sin(this.getOrientation()));
+		double theta = Math.atan((Y2-Y1)/(X2-X1));
+		
+		double x = 0;
+		double y = 0;
+		
+		if (X1 < X2) {
+			x = X1 + (this.getRadius() * Math.cos(theta));
+			y = Y1 + (this.getRadius() * Math.sin(theta));
+		}
+		else {
+			x = X1 + (this.getRadius() * -Math.cos(theta));
+			y = Y1 + (this.getRadius() * -Math.sin(theta));
+		}
+			
 		
 		
 		return new double[] {x, y};
