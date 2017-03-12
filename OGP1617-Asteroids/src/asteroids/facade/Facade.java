@@ -32,7 +32,8 @@ public class Facade implements IFacade {
 
 	@Override
 	public double getShipRadius(Ship ship) throws ModelException {
-		return ship.getRadius();
+			return ship.getRadius();
+		
 	}
 
 	@Override

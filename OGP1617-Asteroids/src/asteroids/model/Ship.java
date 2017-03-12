@@ -6,6 +6,7 @@ import java.lang.Math;
 /**
  * 
  * @author Simon Merckx and Tobias Cornille
+ * 			
  * 
  * @invar 	The orientation of each ship must be a valid orientation for any 
  * 			ship.
@@ -416,13 +417,11 @@ public class Ship {
 		double X1 = this.getPosition()[0] + (this.getVelocity()[0] * dt); 
 		double Y1 = this.getPosition()[1] + (this.getVelocity()[1] * dt);
 		
-		double X2 = ship.getPosition()[0] + (ship.getVelocity()[0] * dt); 
-		double Y2 = ship.getPosition()[1] + (ship.getVelocity()[1] * dt);
+		//double X2 = ship.getPosition()[0] + (ship.getVelocity()[0] * dt); 
+		//double Y2 = ship.getPosition()[1] + (ship.getVelocity()[1] * dt);
 		
-		double theta = Math.atan((Y2-Y1)/(X2-X1));
-		System.out.println(theta);
-		double x = Math.min(X1, X2) + this.getRadius() * Math.cos(theta);
-		double y = Math.min(Y1, Y2) + this.getRadius() * Math.sin(theta);
+		double x = X1 + (this.getRadius() * Math.cos(this.getOrientation()));
+		double y = Y1 + (this.getRadius() * Math.sin(this.getOrientation()));
 		
 		
 		return new double[] {x, y};
