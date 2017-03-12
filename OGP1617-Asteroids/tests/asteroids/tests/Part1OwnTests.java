@@ -11,7 +11,7 @@ import asteroids.facade.Facade;
 import asteroids.part1.facade.IFacade;
 import asteroids.util.ModelException;
 
-public class OwnTests {
+public class Part1OwnTests {
 	
 	private static final double EPSILON = 0.0001;
 
