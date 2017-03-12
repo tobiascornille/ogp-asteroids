@@ -1,8 +1,1 @@
-asteroids.facade
 asteroids.model
-asteroids.part1
-asteroids.part1.facade
-asteroids.part1.internal
-asteroids.tests
-asteroids.util
-asteroids.util.internal

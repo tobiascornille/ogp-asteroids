@@ -65,19 +65,15 @@ public class Part1OwnTests {
 	@Test
 	public void testGetVelocity() throws ModelException {
 		Ship ship = facade.createShip(200, 200, 50, 50, 11, Math.PI);
-		double[] velocity = ship.getPosition();
-		assertEquals(200, velocity[0], EPSILON);
-		assertEquals(200, velocity[1], EPSILON);
+		double[] velocity = ship.getVelocity();
+		assertEquals(50, velocity[0], EPSILON);
+		assertEquals(50, velocity[1], EPSILON);
 	}
 			
 	@Test  (expected = ModelException.class)
 	public void testCreateShipIllegalRadius() throws ModelException {
 			// Testing for illegal radius
-			Ship ship = facade.createShip(200, 200, 50, 50, 9, Math.PI);
-			double[] velocity = ship.getVelocity();
-			assertEquals(50, velocity[0], EPSILON);
-			assertEquals(50, velocity[1], EPSILON);
-		
+			facade.createShip(200, 200, 50, 50, 9, Math.PI);	
 	}
 	
 	@Test
@@ -116,20 +112,28 @@ public class Part1OwnTests {
 		double orientation = ship.getOrientation();
 		assertEquals(2 * Math.PI, orientation, EPSILON);
 		ship.turn(Math.PI/2);
-		assertEquals(2 * Math.PI + Math.PI/2 ,ship.getOrientation(), EPSILON);
+		assertEquals(2 * Math.PI + Math.PI/2, ship.getOrientation(), EPSILON);
 	}
 	
-	@Test
+	@Test 
 	public void testThrust() throws ModelException {
 		// Testen thrust
 		Ship ship = facade.createShip(200, 200, 50, 50, 11, 0);
 		ship.thrust(3);
 		double[] velocity = ship.getVelocity();
 		assertEquals(53, velocity[0], EPSILON);
-		assertEquals(50, velocity[1], EPSILON);
-		
+		assertEquals(50, velocity[1], EPSILON);	
 	}
 	
+	@Test 
+	public void testThrustIllegal() throws ModelException {
+		// Testen thrust
+		Ship ship = facade.createShip(200, 200, 50, 50, 11, 0);
+		ship.thrust(300000);
+		assertEquals(300000, ship.getVelocity()[0], EPSILON);
+		assertEquals(0, ship.getVelocity()[1], EPSILON);
+	}
+		
 	@Test
 	public void testDistanceBetweenOverlap() throws ModelException {
 		// Testing the distance between
@@ -146,6 +150,7 @@ public class Part1OwnTests {
 	
 	@Test
 	public void testDistanceBetweenSameShip() throws ModelException {
+		// Testing to see what method returns when called on same ship
 		Ship ship1 = facade.createShip(0, 0, 50, 50, 11,0);
 		double distance2 = ship1.getDistanceBetween(ship1);
 		assertEquals(0, distance2, EPSILON);			
@@ -159,5 +164,60 @@ public class Part1OwnTests {
 		double distance = ship1.getDistanceBetween(ship2);
 		assertEquals(48.7106, distance, EPSILON);
 	}
+	
+	@Test
+	public void testTimeToCollison() throws ModelException {
+		Ship ship1 = facade.createShip(-100, 0, 0, 0, 100, 0);
+		Ship ship2 = facade.createShip(1100, 0, -100, 0, 100, 0);
+		assertEquals(10, ship1.getTimeToCollision(ship2), EPSILON);
+	}
+	
+	@Test
+	public void testTimeToCollisonInfinity() throws ModelException {
+		Ship ship1 = facade.createShip(-100, 0, 0, 0, 100, 0);
+		Ship ship2 = facade.createShip(1100, 0, 100, 0, 100, 0);
+		assertEquals(Double.POSITIVE_INFINITY, ship1.getTimeToCollision(ship2), EPSILON);
+	}
+	
+	@Test
+	public void testGetCollisionPositionRight() throws ModelException {
+		// From rights
+		Ship ship1 = facade.createShip(-100, 0, 0, 0, 100, 0);
+		Ship ship2 = facade.createShip(1100, 0, -100, 0, 100, 0);
+		double[] colPos = ship1.getCollisionPosition(ship2);
+		assertEquals(0, colPos[0], EPSILON);
+		assertEquals(0, colPos[1], EPSILON);
+	}
+	
+	@Test
+	public void testGetCollisionPositionUnder() throws ModelException {
+		// From under
+		Ship ship1 = facade.createShip(0, 100, 0, 0, 100, 0);
+		Ship ship2 = facade.createShip(0, 1100, 0, -100, 100, Math.PI/2);
+		double[] colPos = ship1.getCollisionPosition(ship2);
+		assertEquals(0, colPos[0], EPSILON);
+		assertEquals(0, colPos[1], EPSILON);
+	}
+	
+	@Test
+	public void testGetCollisionPositionLeft() throws ModelException {
+		// From left
+		Ship ship1 = facade.createShip(100, 0, 0, 0, 100, 0);
+		Ship ship2 = facade.createShip(-1100, 0, 100, 0, 100, 0);
+		double[] colPos = ship1.getCollisionPosition(ship2);
+		assertEquals(0, colPos[0], EPSILON);
+		assertEquals(0, colPos[1], EPSILON);
+	}
+	
+	@Test
+	public void testGetCollisionPositionAbove() throws ModelException {
+		// From above
+		Ship ship1 = facade.createShip(0, 100, 0, 0, 100, 0);
+		Ship ship2 = facade.createShip(0, 1100, 0, -100, 100, 3 * Math.PI/2);
+		double[] colPos = ship1.getCollisionPosition(ship2);
+		assertEquals(0, colPos[0], EPSILON);
+		assertEquals(0, colPos[1], EPSILON);
+	}
+	
 	
 }

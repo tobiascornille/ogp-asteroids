@@ -5,8 +5,9 @@ import java.lang.Math;
 
 /**
  * 
- * @author Simon Merckx and Tobias Cornille
- * 			
+ * @author 	Simon Merckx and Tobias Cornille
+ *         	first bach informatics.
+ * @version 1.0
  * 
  * @invar 	The orientation of each ship must be a valid orientation for any 
  * 			ship.
@@ -26,6 +27,8 @@ public class Ship {
 	/**
 	 * Initialize this new ship with default values.
 	 * 
+	 * @effect	The radius of this new ship is set to 11.
+	 * 		|	this.radius = 11
 	 */
 	public Ship() {	
 		this.radius = 11;
@@ -47,6 +50,23 @@ public class Ship {
 	 * 			The radius of this new ship.
 	 * @param 	orientation
 	 * 			The orientation of this new ship.
+	 * 
+	 * @throws  IllegalArgumentException
+	 * 			If radius is invalid 
+	 * 		|	! canHaveAsRadius(radius)
+	 * 
+	 * @pre     The given orientation must be a valid orientation for any
+	 *         	ship.
+	 *      | 	isValidOrientation(orientation)	
+	 *      
+	 * @effect	The position of this new ship is set to the given x, y coordinates.  
+	 * 		|	this.setPosition(x, y)
+	 * @effect  The velocity of this new ship is set to the given xVelocity, yVelocity values.
+	 * 		|   this.setVelocity(xVelocity, yVelocity)
+	 * @effect  The orientation of this new ship is set to the given orientation.
+	 *      |   this.setOrientation(orientation)    
+	 * @effect  The radius of this new ship is set to the given radius.
+	 * 		|	this.radius = radius     
 	 */	
 	public Ship (double x, double y, double xVelocity, double yVelocity, double radius, double orientation) throws IllegalArgumentException {
 		this.setPosition(x, y);
@@ -67,6 +87,69 @@ public class Ship {
 		return this.position;
 	}
 	
+	/**
+	 * Change the position of the ship based on the current position, velocity and time duration dt.
+	 *
+	 * @param	dt
+	 *			The given time duration.
+	 * @post	The new position of the ship is the old position of the ship plus the displacement of the ship.
+	 *		|	new.getPosition()[0] == this.getPosition()[0] + (this.getVelocity()[0] * dt)         
+	 *		|	new.getPosition()[1] == this.getPosition()[1] + (this.getVelocity()[1] * dt)
+	 */
+	public void move(double dt) throws IllegalArgumentException {
+		if (dt < 0) throw new IllegalArgumentException();
+		double newX = this.getPosition()[0] + (this.getVelocity()[0] * dt); 
+		double newY = this.getPosition()[1] + (this.getVelocity()[1] * dt);
+		this.setPosition(newX, newY);         			
+	}
+	
+	/**
+	 * Returns the distance between two ships.
+	 * The distance may be negative if both ships overlap.
+	 * The distance between a ship and itself is zero.
+	 *  
+	 * @param 	ship
+	 * 		  	The other ship.
+	 * 
+	 * @return 	If both ships are the same, 0 is returned.
+	 * 			Otherwise, the distance between the two ships 
+	 * 			with coordinates (x1, y1) and (x2, y2) respectively 
+	 * 			and their radii is returned.
+	 * 		|	if (this == ship)
+	 * 		|		then result == 0
+	 * 		|	else result == (Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))) - r1 - r2)
+	 * 
+	 * @throws IllegalArgumentException
+	 * 		   If this method is invoked with null as argument. 
+	 */
+	public double getDistanceBetween(Ship ship) throws IllegalArgumentException {
+		if (ship == null) throw new IllegalArgumentException();
+		if (this == ship) return 0;
+		double x1 = this.getPosition()[0];
+		double x2 = ship.getPosition()[0];
+		double y1 = this.getPosition()[1];
+		double y2 = ship.getPosition()[1];
+		return (Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))) - this.getRadius() - ship.getRadius()); 		
+	}
+	
+	/**
+	 * Returns true if and only if 2 ships overlap.
+	 * A ship always overlaps with itself.
+	 * 
+	 * @param 	ship
+	 * 		  	The other ship.
+	 * 
+	 * @return 	Returns true if and only if 2 ships overlap.
+	 * 		| 	result == (this.getDistanceBetween(ship) &lt;= 0)
+	 * 
+	 * @throws 	IllegalArgumentException
+	 * 		   	If this method is invoked with null as argument. 
+	 */
+	public boolean overlap (Ship ship) throws IllegalArgumentException {
+		if (ship == null) throw new IllegalArgumentException();
+		return (this.getDistanceBetween(ship) <= 0);
+	}
+		
 	/**
 	 * Check whether the given position is a valid position for
 	 * any ship.
@@ -115,6 +198,33 @@ public class Ship {
 	@Basic @Raw
 	public double[] getVelocity() {
 		return this.velocity;
+	}
+	
+	/**
+	 * Change the velocity of the ship based on the current velocity, the current orientation, and on a given amount.
+	 * 
+	 * @param 	amount
+	 * 		  	The given amount.
+	 * 
+	 * @post	The new velocity of the ship is derived by adding the amount times the cosinus or sinus of the current orientation
+	 * 		 	to the old xVelocity and yVelocity, respectively.
+	 * 	   	| 	new.getVelocity()[0] == this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()))
+	 * 	   	| 	new.getVelocity()[1] == this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()))
+	 * 	   	| 	if (! isValidVelocity(newXVelocity, newYVelocity))
+	 * 	   	|		then newXVelocity = C * Math.cos(this.getOrientation())
+		   	|		     newYVelocity = C * Math.sin(this.getOrientation())
+	 */
+	public void thrust(double amount) {
+		if (amount < 0) amount = 0;
+		double newXVelocity = this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()));
+		double newYVelocity = this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()));
+		 
+		if (! isValidVelocity(newXVelocity, newYVelocity)) {
+			newXVelocity = C * Math.cos(this.getOrientation());
+			newYVelocity = C * Math.sin(this.getOrientation());
+		}
+					
+		this.setVelocity(newXVelocity, newYVelocity);	
 	}
 	
 	/**
@@ -211,6 +321,23 @@ public class Ship {
 	}
 	
 	/**
+	 * Turn the ship by adding a given angle to the current orientation.
+	 * 
+	 * @param 	angle
+	 * 		  	The given angle.
+	 * 
+	 * @pre		The given angle plus the current orientation has to be valid.
+	 * 	  	  | isValidOrientation(this.getOrientation() + angle)
+	 * 
+	 * @post 	The new orientation of the ship is the old orientation plus the angle.
+	 * 	      | new.getOrientation() == this.getOrientation() + angle;
+	 */
+	public void turn(double angle) {
+		assert isValidOrientation(this.getOrientation() + angle);
+		this.setOrientation(this.getOrientation() + angle);		
+	}
+	
+	/**
 	 * Check whether the given orientation is a valid orientation for
 	 * any ship.
 	 *  
@@ -245,114 +372,7 @@ public class Ship {
 	 * Variable registering the orientation of this ship.
 	 */
 	private double orientation = 0;
-	
-	/**
-	 * Change the position of the ship based on the current position, velocity and time duration dt.
-	 *
-	 * @param	dt
-	 *			The given time duration.
-	 * @post	The new position of the ship is the old position of the ship plus the displacement of the ship.
-	 *		|	new.getPosition()[0] == this.getPosition()[0] + (this.getVelocity()[0] * dt)         
-	 *		|	new.getPosition()[1] == this.getPosition()[1] + (this.getVelocity()[1] * dt)
-	 */
-	public void move(double dt) throws IllegalArgumentException {
-		if (dt < 0) throw new IllegalArgumentException();
-		double newX = this.getPosition()[0] + (this.getVelocity()[0] * dt); 
-		double newY = this.getPosition()[1] + (this.getVelocity()[1] * dt);
-		this.setPosition(newX, newY);         			
-	}
-	
-	/**
-	 * Turn the ship by adding a given angle to the current orientation.
-	 * 
-	 * @param 	angle
-	 * 		  	The given angle.
-	 * 
-	 * @pre		The given angle plus the current orientation has to be valid.
-	 * 	  	  | isValidOrientation(this.getOrientation() + angle)
-	 * 
-	 * @post 	The new orientation of the ship is the old orientation plus the angle.
-	 * 	      | new.getOrientation() == this.getOrientation() + angle;
-	 */
-	public void turn(double angle) {
-		assert isValidOrientation(this.getOrientation() + angle);
-		this.setOrientation(this.getOrientation() + angle);		
-	}
-	
-	/**
-	 * Change the velocity of the ship based on the current velocity, the current orientation, and on a given amount.
-	 * 
-	 * @param 	amount
-	 * 		  	The given amount.
-	 * 
-	 * @post	The new velocity of the ship is derived by adding the amount times the cosinus or sinus of the current orientation
-	 * 		 	to the old xVelocity and yVelocity, respectively.
-	 * 	   	| 	new.getVelocity()[0] == this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()))
-	 * 	   	| 	new.getVelocity()[1] == this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()))
-	 * 	   	| 	if (! isValidVelocity(newXVelocity, newYVelocity))
-	 * 	   	|		then newXVelocity = C * Math.cos(this.getOrientation())
-		   	|		     newYVelocity = C * Math.sin(this.getOrientation())
-	 */
-	public void thrust(double amount) {
-		if (amount < 0) amount = 0;
-		double newXVelocity = this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()));
-		double newYVelocity = this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()));
-		 
-		if (! isValidVelocity(newXVelocity, newYVelocity)) {
-			newXVelocity = C * Math.cos(this.getOrientation());
-			newYVelocity = C * Math.sin(this.getOrientation());
-		}
-					
-		this.setVelocity(newXVelocity, newYVelocity);	
-	}
-	
-	/**
-	 * Returns the distance between two ships.
-	 * The distance may be negative if both ships overlap.
-	 * The distance between a ship and itself is zero.
-	 *  
-	 * @param 	ship
-	 * 		  	The other ship.
-	 * 
-	 * @return 	If both ships are the same, 0 is returned.
-	 * 			Otherwise, the distance between the two ships 
-	 * 			with coordinates (x1, y1) and (x2, y2) respectively 
-	 * 			and their radii is returned.
-	 * 		|	if (this == ship)
-	 * 		|		then result == 0
-	 * 		|	else result == (Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))) - r1 - r2)
-	 * 
-	 * @throws IllegalArgumentException
-	 * 		   If this method is invoked with null as argument. 
-	 */
-	public double getDistanceBetween(Ship ship) throws IllegalArgumentException {
-		if (ship == null) throw new IllegalArgumentException();
-		if (this == ship) return 0;
-		double x1 = this.getPosition()[0];
-		double x2 = ship.getPosition()[0];
-		double y1 = this.getPosition()[1];
-		double y2 = ship.getPosition()[1];
-		return (Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))) - this.getRadius() - ship.getRadius()); 		
-	}
-	
-	/**
-	 * Returns true if and only if 2 ships overlap.
-	 * A ship always overlaps with itself.
-	 * 
-	 * @param 	ship
-	 * 		  	The other ship.
-	 * 
-	 * @return 	Returns true if and only if 2 ships overlap.
-	 * 		| 	result == (this.getDistanceBetween(ship) &lt;= 0)
-	 * 
-	 * @throws 	IllegalArgumentException
-	 * 		   	If this method is invoked with null as argument. 
-	 */
-	public boolean overlap (Ship ship) throws IllegalArgumentException {
-		if (ship == null) throw new IllegalArgumentException();
-		return (this.getDistanceBetween(ship) <= 0);
-	}
-	
+		
 	/**
 	 * Returns when, if ever, two ships will collide.
 	 * Returns Double.POSITIVE_INFINITY if the ships never collide.
@@ -407,7 +427,7 @@ public class Ship {
 	 * 		   	If this method is invoked with null pointer as argument.
 	 * 		|	(ship == null)
 	 */
-	public double[] getCollisionPosition(Ship ship) throws NullPointerException {
+	public double[] getCollisionPosition(Ship ship) throws IllegalArgumentException {
 		if (ship == null) throw new IllegalArgumentException();
 		
 		double dt = this.getTimeToCollision(ship);
@@ -433,9 +453,7 @@ public class Ship {
 			x = X1 + (this.getRadius() * -Math.cos(theta));
 			y = Y1 + (this.getRadius() * -Math.sin(theta));
 		}
-			
-		
-		
+	
 		return new double[] {x, y};
 	}
 }
