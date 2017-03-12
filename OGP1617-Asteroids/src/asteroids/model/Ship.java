@@ -42,6 +42,8 @@ public class Ship {
 	 * 			the X component of the velocity of this new ship.
 	 * @param 	yVelocity
 	 * 			the Y component of the velocity of this new ship.
+	 * @param	radius
+	 * 			The radius of this new ship.
 	 * @param 	orientation
 	 * 			The orientation of this new ship.
 	 */	
@@ -55,6 +57,9 @@ public class Ship {
 	
 	/**
 	 * Return the position of this ship.
+	 * 
+	 * @return	Returns the position of this ship.
+	 * 		|	result == this.position
 	 */
 	@Basic @Raw
 	public double[] getPosition() {
@@ -102,6 +107,9 @@ public class Ship {
 	
 	/**
 	 * Return the velocity of this ship.
+	 * 
+	 * @return	Returns the velocity of this ship.
+	 * 		|	result == this.velocity
 	 */
 	@Basic @Raw
 	public double[] getVelocity() {
@@ -128,7 +136,7 @@ public class Ship {
 	/**
 	 * Return the velocity of this ship.
 	 */
-	public static double getSpeed(double xVelocity, double yVelocity) {
+	private static double getSpeed(double xVelocity, double yVelocity) {
 		return Math.sqrt(xVelocity * xVelocity + yVelocity * yVelocity);
 	}
 	
@@ -163,6 +171,9 @@ public class Ship {
 	
 	/**
 	 * Return the radius of this ship.
+	 * 
+	 * @return	Returns the radius of this ship.
+	 * 		|	result == this.radius
 	 */
 	@Basic @Raw @Immutable
 	public double getRadius() {
@@ -190,6 +201,8 @@ public class Ship {
 	/**
 	 * Return the orientation of this ship.
 	 * 
+	 * @return	Returns the orientation of this ship.
+	 * 		|	result == this.orientation
 	 */
 	@Basic @Raw
 	public double getOrientation() {
@@ -305,7 +318,7 @@ public class Ship {
 	 * 			with coordinates (x1, y1) and (x2, y2) respectively 
 	 * 			and their radii is returned.
 	 * 		|	if (this == ship)
-	 * 		|	then result == 0
+	 * 		|		then result == 0
 	 * 		|	else result == (Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))) - r1 - r2)
 	 * 
 	 * @throws IllegalArgumentException
@@ -329,7 +342,7 @@ public class Ship {
 	 * 		  	The other ship.
 	 * 
 	 * @return 	Returns true if and only if 2 ships overlap.
-	 * 		| 	result == (this.getDistanceBetween(ship) <= 0)
+	 * 		| 	result == (this.getDistanceBetween(ship) &lt;= 0)
 	 * 
 	 * @throws 	IllegalArgumentException
 	 * 		   	If this method is invoked with null as argument. 
@@ -407,9 +420,9 @@ public class Ship {
 		double Y2 = ship.getPosition()[1] + (ship.getVelocity()[1] * dt);
 		
 		double theta = Math.atan((Y2-Y1)/(X2-X1));
-		
-		double x = X1 + this.getRadius() * Math.cos(theta);
-		double y = Y1 + this.getRadius() * Math.sin(theta);
+		System.out.println(theta);
+		double x = Math.min(X1, X2) + this.getRadius() * Math.cos(theta);
+		double y = Math.min(Y1, Y2) + this.getRadius() * Math.sin(theta);
 		
 		
 		return new double[] {x, y};
