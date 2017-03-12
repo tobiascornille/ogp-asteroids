@@ -4,11 +4,13 @@ import be.kuleuven.cs.som.annotate.*;
 import java.lang.Math;
 
 /**
+ * A class of ships involving a position, velocity, radius and orientation.
  * 
- * @author 	Simon Merckx and Tobias Cornille
- *         	first bach informatics.
+ * @author 	Simon Merckx and Tobias Cornille.
+ *         	We both study informatics (1ba).
+ *         	Private repo on https://github.com/tobiascornille/Asteroids
+ *         	Please send us an email with your account info so we can add you as a contributer.
  * @version 1.0
- * 
  * @invar 	The orientation of each ship must be a valid orientation for any 
  * 			ship.
  * 		|	isValidOrientation(getOrientation())
@@ -19,8 +21,7 @@ import java.lang.Math;
  * 			ship.
  * 		|	isValidVelocity(getVelocity())
  * @invar	Each ship can have its radius as radius.
- * 		|	canHaveAsRadius(this.getRadius())	      
- * 
+ * 		|	canHaveAsRadius(this.getRadius())
  */
 public class Ship {
 	
@@ -50,15 +51,12 @@ public class Ship {
 	 * 			The radius of this new ship.
 	 * @param 	orientation
 	 * 			The orientation of this new ship.
-	 * 
 	 * @throws  IllegalArgumentException
-	 * 			If radius is invalid 
+	 * 			If the radius is invalid.
 	 * 		|	! canHaveAsRadius(radius)
-	 * 
 	 * @pre     The given orientation must be a valid orientation for any
 	 *         	ship.
 	 *      | 	isValidOrientation(orientation)	
-	 *      
 	 * @effect	The position of this new ship is set to the given x, y coordinates.  
 	 * 		|	this.setPosition(x, y)
 	 * @effect  The velocity of this new ship is set to the given xVelocity, yVelocity values.
@@ -95,9 +93,12 @@ public class Ship {
 	 * @post	The new position of the ship is the old position of the ship plus the displacement of the ship.
 	 *		|	new.getPosition()[0] == this.getPosition()[0] + (this.getVelocity()[0] * dt)         
 	 *		|	new.getPosition()[1] == this.getPosition()[1] + (this.getVelocity()[1] * dt)
+	 * throws	IllegalArgumentException
+	 * 			If the time dt is less than 0 or NaN.
+	 * 		|	(dt &lt; 0) || (Double.isNaN(dt))
 	 */
 	public void move(double dt) throws IllegalArgumentException {
-		if (dt < 0) throw new IllegalArgumentException();
+		if ((dt < 0) || (Double.isNaN(dt))) throw new IllegalArgumentException();
 		double newX = this.getPosition()[0] + (this.getVelocity()[0] * dt); 
 		double newY = this.getPosition()[1] + (this.getVelocity()[1] * dt);
 		this.setPosition(newX, newY);         			
@@ -110,7 +111,6 @@ public class Ship {
 	 *  
 	 * @param 	ship
 	 * 		  	The other ship.
-	 * 
 	 * @return 	If both ships are the same, 0 is returned.
 	 * 			Otherwise, the distance between the two ships 
 	 * 			with coordinates (x1, y1) and (x2, y2) respectively 
@@ -118,9 +118,9 @@ public class Ship {
 	 * 		|	if (this == ship)
 	 * 		|		then result == 0
 	 * 		|	else result == (Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1))) - r1 - r2)
-	 * 
-	 * @throws IllegalArgumentException
-	 * 		   If this method is invoked with null as argument. 
+	 * @throws 	IllegalArgumentException
+	 * 		   	If this method is invoked with null as argument. 
+	 * 		|	ship == null
 	 */
 	public double getDistanceBetween(Ship ship) throws IllegalArgumentException {
 		if (ship == null) throw new IllegalArgumentException();
@@ -138,12 +138,11 @@ public class Ship {
 	 * 
 	 * @param 	ship
 	 * 		  	The other ship.
-	 * 
 	 * @return 	Returns true if and only if 2 ships overlap.
 	 * 		| 	result == (this.getDistanceBetween(ship) &lt;= 0)
-	 * 
 	 * @throws 	IllegalArgumentException
 	 * 		   	If this method is invoked with null as argument. 
+	 * 		|	ship == null
 	 */
 	public boolean overlap (Ship ship) throws IllegalArgumentException {
 		if (ship == null) throw new IllegalArgumentException();
@@ -154,9 +153,11 @@ public class Ship {
 	 * Check whether the given position is a valid position for
 	 * any ship.
 	 *  
-	 * @param	position
-	 *         	The position to check.
-	 * @return 
+	 * @param	x
+	 *         	The x coordinate to check.
+	 * @param	y
+	 *         	The y coordinate to check.
+	 * @return 	Returns true if neither x nor y are NaN.
 	 *     	| 	result == (! Double.isNaN(x) && ! Double.isNaN(y))
 	 */
 	private static boolean isValidPosition(double x, double y) {
@@ -205,14 +206,13 @@ public class Ship {
 	 * 
 	 * @param 	amount
 	 * 		  	The given amount.
-	 * 
 	 * @post	The new velocity of the ship is derived by adding the amount times the cosinus or sinus of the current orientation
 	 * 		 	to the old xVelocity and yVelocity, respectively.
 	 * 	   	| 	new.getVelocity()[0] == this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()))
 	 * 	   	| 	new.getVelocity()[1] == this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()))
 	 * 	   	| 	if (! isValidVelocity(newXVelocity, newYVelocity))
 	 * 	   	|		then newXVelocity = C * Math.cos(this.getOrientation())
-		   	|		     newYVelocity = C * Math.sin(this.getOrientation())
+	 *	   	|		     newYVelocity = C * Math.sin(this.getOrientation())
 	 */
 	public void thrust(double amount) {
 		if (amount < 0) amount = 0;
@@ -233,7 +233,7 @@ public class Ship {
 	 *  
 	 * @param	velocity
 	 *         	The velocity to check.
-	 * @return 
+	 * @return 	Returns true if neither xVelocity nor yVelocity are NaN, and if the absolute value of the speed is less than C.
 	 *     	| 	if (Double.isNaN(xVelocity) || Double.isNaN(yVelocity))
 	 *     	|		then result == false
 	 *     	|	else result == (getSpeed(xVelocity, yVelocity) >= -C) && (getSpeed(xVelocity, yVelocity) <= C)
@@ -245,7 +245,14 @@ public class Ship {
 	}
 	
 	/**
-	 * Return the velocity of this ship.
+	 * Return the speed of this ship.
+	 * 
+	 * @param	xVelocity
+	 * 			The X component of the velocity of this ship.
+	 * @param	yVelocity
+	 * 			The Y component of the velocity of this ship.
+	 * @return	Returns the square root of the sum of the squares of the x and y component of the velocity.
+	 * 		|	result == Math.sqrt(xVelocity * xVelocity + yVelocity * yVelocity)
 	 */
 	private static double getSpeed(double xVelocity, double yVelocity) {
 		return Math.sqrt(xVelocity * xVelocity + yVelocity * yVelocity);
@@ -266,6 +273,7 @@ public class Ship {
 	 */
 	@Raw
 	private void setVelocity(double xVelocity, double yVelocity) {
+		// If the velocity is not valid, then the velocity is left unchanged.
 		if (isValidVelocity(xVelocity, yVelocity))	
 			this.velocity = new double[] {xVelocity, yVelocity};
 	}
@@ -296,7 +304,7 @@ public class Ship {
 	 *  
 	 * @param  	radius
 	 *         	The radius to check.
-	 * @return 
+	 * @return	Returns true if the radius is not NaN and if the radius is larger than 10.
 	 *     	| 	result == (! Double.isNaN(radius)) && (radius > 10)
 	 */
 	@Raw
@@ -325,10 +333,8 @@ public class Ship {
 	 * 
 	 * @param 	angle
 	 * 		  	The given angle.
-	 * 
 	 * @pre		The given angle plus the current orientation has to be valid.
 	 * 	  	  | isValidOrientation(this.getOrientation() + angle)
-	 * 
 	 * @post 	The new orientation of the ship is the old orientation plus the angle.
 	 * 	      | new.getOrientation() == this.getOrientation() + angle;
 	 */
@@ -343,7 +349,7 @@ public class Ship {
 	 *  
 	 * @param  	orientation
 	 *         	The orientation to check.
-	 * @return 
+	 * @return	Returns true if the orientation is not NaN and if the orientation is between 0 and 2 pi.
 	 *     	| 	result == (! Double.isNaN(orientation)) && (orientation >= 0) && (orientation <= 2 * Math.PI)
 	 */
 	private static boolean isValidOrientation(double orientation) {
@@ -421,8 +427,7 @@ public class Ship {
 	 * 		|	if (this.getTimeToCollision(ship) == Double.POSITIVE_INFINITY)
 	 *		|		then return null
 	 *		|	else
-	 *		|		return collision position		
-	 * 
+	 *		|		return collisionPosition
 	 * @throws 	IllegalArgumentException
 	 * 		   	If this method is invoked with null pointer as argument.
 	 * 		|	(ship == null)
@@ -442,8 +447,8 @@ public class Ship {
 		
 		double theta = Math.atan((Y2-Y1)/(X2-X1));
 		
-		double x = 0;
-		double y = 0;
+		double x;
+		double y;
 		
 		if (X1 < X2) {
 			x = X1 + (this.getRadius() * Math.cos(theta));
