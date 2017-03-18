@@ -10,7 +10,7 @@ import java.lang.Math;
  *         	We both study informatics (1ba).
  *         	Private repo on https://github.com/tobiascornille/Asteroids
  *         	Please send us an email with your account info so we can add you as a contributer.
- * @version 1.0
+ * @version 1.1
  * @invar 	The orientation of each ship must be a valid orientation for any 
  * 			ship.
  * 		|	isValidOrientation(getOrientation())
