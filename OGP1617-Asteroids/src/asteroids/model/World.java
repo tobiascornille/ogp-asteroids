@@ -5,13 +5,9 @@ import java.lang.Math;
  * 
  * @author Simon Merckx and Tobias Cornille
  * 
+ * @invar  Each world can have its size as size .
+ *       | canHaveAsSize(this.getSize()[0], this.getSize()[1])
  * 
- * @invar  Each world can have its width as width .
- *       | canHaveAsWidth(this.getWidth())
- *       
- * @invar  Each world can have its height as height .
- *       | canHaveAsHeight(this.getHeight())
- *
  */
 public class World {
 	/**
@@ -24,76 +20,45 @@ public class World {
 	 * 		  The height of this new world.
 	 * 			
 	 * @post  
-	 *       | if (canHaveAsWidth(width))
-	 *       |   then new.getWidth() == width
-	 *       |   else new.getWidth() == Double.MAX_VALUE
-	 *       
-	 * @post 
-	 *       | if (canHaveAsHeight(height))
-	 *       |   then new.getHeight() == height
-	 *       |   else new.getHeight() == Double.MAX_VALUE      
+	 *       | if (canHaveAsSize(width, height))
+	 *       |   then new.getSize() == new double[] {width, height}
+	 *       |   else new.getWidth() == new double[] {Double.MAX_VALUE, Double.MAX_VALUE}  
 	 * 
 	 */
 	public World (double width, double height) {
-		if (! canHaveAsWidth(width)) this.width = Double.MAX_VALUE;
+		if (canHaveAsSize(width, height)) 
+			this.size = new double[] {width, height};
 		else
-			this.width = width;
-		if (! canHaveAsHeight(height)) this.height = Double.MAX_VALUE;
-		else
-			this.height = height;
+			this.size = new double[] {Double.MAX_VALUE, Double.MAX_VALUE};
 	}
-		
+
 	/**
-	 * Return the width of this world.
+	 * Return the size of this world.
 	 */
 	@Basic @Raw @Immutable
-	public double getWidth() {
-		return this.width;
+	public double[] getSize() {
+		return this.size;
 	}
 	
 	/**
-	 * Check whether this world can have the given width as its width.
+	 * Check whether this world can have the given size as its size.
 	 *  
 	 * @param  width
-	 *         The width to check.
-	 * @return 
-	 *       | result == (0 <= width && width >= Double.MAX_VALUE)
-	*/
-	@Raw
-	public boolean canHaveAsWidth(double width) {
-		return (0 <= width && width >= Double.MAX_VALUE);
-	}
-	
-	/**
-	 * Variable registering the width of this world.
-	 */
-	private final double width;
-	
-	/**
-	 * Return the height of this world.
-	 */
-	@Basic @Raw @Immutable
-	public double getHeight() {
-		return this.height;
-	}
-	
-	/**
-	 * Check whether this world can have the given height as its height.
-	 *  
+	 *         The width of the size to check.
 	 * @param  height
-	 *         The height to check.
+	 *         The height of the size to check.
 	 * @return 
-	 * 
-	 *       | result == (0 <= height && height >= Double.MAX_VALUE)
-	*/
+	 *       | @see implementation
+	 */
 	@Raw
-	public boolean canHaveAsHeight(double height) {
-		return (0 <= height && height >= Double.MAX_VALUE);
+	private boolean canHaveAsSize(double width, double height) {
+		return ((0 <= width && width <= Double.MAX_VALUE) && (0 <= height && height <= Double.MAX_VALUE));
 	}
 	
 	/**
-	 * Variable registering the height of this world.
+	 * Variable registering the size of this world.
 	 */
-	private final double height;
+	private final double[] size;
 
+	
 	}

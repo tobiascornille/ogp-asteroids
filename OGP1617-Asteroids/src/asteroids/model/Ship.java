@@ -19,7 +19,7 @@ import java.lang.Math;
  * 		|	isValidPosition(getPosition())  
  * @invar	The velocity of each ship must be a valid velocity for any 
  * 			ship.
- * 		|	isValidVelocity(getVelocity())
+ * 		|	isValidVelocity(getVelocity()[0], getVelocity()[1])
  * @invar	Each ship can have its radius as radius.
  * 		|	canHaveAsRadius(this.getRadius())
  */
@@ -269,7 +269,7 @@ public class Ship {
 	 *         	the velocity of this new ship is equal to the given
 	 *         	velocity.
 	 *     	| 	if (isValidVelocity(xVelocity, yVelocity))
-	 *      |   	then new.getVelocity() == velocity
+	 *      |   	then new.getVelocity() == new double[] {xVelocity, yVelocity}
 	 */
 	@Raw
 	private void setVelocity(double xVelocity, double yVelocity) {
