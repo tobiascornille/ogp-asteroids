@@ -199,4 +199,32 @@ public class World {
 	 *       |     (! entity.isTerminated()) )
 	 */
 	private final Set<Entity> entities = new HashSet<Entity>();
+	
+	/**
+	 * Terminate this world.
+	 *
+	 * @post   This world  is terminated.
+	 *       | new.isTerminated()
+	 * @post   ...
+	 *       | ...
+	 */
+	 public void terminate() {
+		 //TODO break connection
+		 this.isTerminated = true;
+	 }
+	 
+	 /**
+	  * Return a boolean indicating whether or not this world
+	  * is terminated.
+	  */
+	 @Basic @Raw
+	 public boolean isTerminated() {
+		 return this.isTerminated;
+	 }
+	 
+	 /**
+	  * Variable registering whether this world is terminated.
+	  */
+	 private boolean isTerminated = false;
+	 
 }

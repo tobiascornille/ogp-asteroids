@@ -217,7 +217,7 @@ public class Facade implements asteroids.part2.facade.IFacade {
 	@Override
 	public World createWorld(double width, double height) throws ModelException {
 		// TODO Auto-generated method stub
-		return null;
+		return new World(width, height);
 	}
 
 	@Override
@@ -235,7 +235,7 @@ public class Facade implements asteroids.part2.facade.IFacade {
 	@Override
 	public double[] getWorldSize(World world) throws ModelException {
 		// TODO Auto-generated method stub
-		return null;
+		return world.getSize();
 	}
 
 	@Override
