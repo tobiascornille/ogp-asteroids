@@ -1,6 +1,7 @@
 package asteroids.model;
 import be.kuleuven.cs.som.annotate.*;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -15,7 +16,8 @@ import java.util.Set;
  */
 public class World {
 	/**
-	 * Initialize this new world with given width and height.
+	 * Initialize this new world as a non-terminated world
+	 * with given width and height and with no entities yet.
 	 * 
 	 * @param width
 	 * 		  The width for this new world.
@@ -27,7 +29,8 @@ public class World {
 	 *       | if (canHaveAsSize(width, height))
 	 *       |   then new.getSize() == new double[] {width, height}
 	 *       |   else new.getWidth() == new double[] {Double.MAX_VALUE, Double.MAX_VALUE}  
-	 * 
+	 * @post   This new world has no entities yet.
+	 *       | new.getNbEntities() == 0
 	 */
 	public World (double width, double height) {
 		if (canHaveAsSize(width, height)) 
@@ -205,12 +208,22 @@ public class World {
 	 *
 	 * @post   This world  is terminated.
 	 *       | new.isTerminated()
-	 * @post   ...
-	 *       | ...
+	 @post   All entities belonging to this ship
+	 *         upon entry, have been terminated.
+	 *       | for each entity in Entity:
+	 *       |   if (this.hasAsEntity(entity))
+	 *       |     then ((new entity).isTerminated()) 
 	 */
 	 public void terminate() {
-		 //TODO break connection
-		 this.isTerminated = true;
+		 if (!isTerminated()) {
+			// We avoid ConcurrentModificationException by using an iterator
+			 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    removeEntity(entity);
+			    entity.terminate();
+			 }
+			 this.isTerminated = true;
+		 }
 	 }
 	 
 	 /**

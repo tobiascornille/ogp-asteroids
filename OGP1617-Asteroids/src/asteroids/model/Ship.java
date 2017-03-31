@@ -157,4 +157,10 @@ public class Ship extends Entity{
 	protected boolean canHaveAsRadius(double radius) {
 		return (! Double.isNaN(radius)) && (radius > 10);
 	}
+
+	@Override
+	public void terminate() {
+		// TODO Auto-generated method stub
+		
+	}
 }

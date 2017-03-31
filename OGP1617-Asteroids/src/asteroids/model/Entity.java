@@ -19,6 +19,7 @@ import be.kuleuven.cs.som.annotate.*;
  * 		|	canHaveAsRadius(this.getRadius())
  */
 public abstract class Entity {
+	
 	/**
 	 * Initialize this new entity with given radius.
 	 * 
@@ -252,8 +253,7 @@ public abstract class Entity {
 	/**
 	 * Variable registering the velocity of this entity.
 	 */
-	private double[] v
-	elocity = {0,0};
+	private double[] velocity = {0,0};
 	
 	/**
 	 * Constant registering the speed of light.
@@ -367,4 +367,27 @@ public abstract class Entity {
 	
 		return new double[] {x, y};
 	}
+
+	/**
+	 * Terminate this entity.
+	 *
+	 * @post   This entity  is terminated.
+	 *       | new.isTerminated()
+	 */
+	 public abstract void terminate();
+	 
+	 /**
+	  * Return a boolean indicating whether or not this entity
+	  * is terminated.
+	  */
+	 @Basic @Raw
+	 public boolean isTerminated() {
+		 return this.isTerminated;
+	 }
+	 
+	 /**
+	  * Variable registering whether this person is terminated.
+	  */
+	 private boolean isTerminated = false;
+	 
 }
