@@ -177,10 +177,47 @@ public class Vector implements Comparable<Vector>{
 	 * 
 	 * @param	other
 	 * 			The other vector to compare with.
+	 * @return	The result is equal to the difference of the magnitude
+	 * 			of this vector and the magnitude of the other vector.
+	 * 			| result == this.getMagnitude() - other.getMagnitude()
 	 */
 	@Override
 	public int compareTo(Vector other) {
 		return (int) (this.getMagnitude() - other.getMagnitude());
 	}
-
+	
+	/**
+	 * Check whether this vector is equal to the given object.
+	 * 
+	 * @param 	other
+	 * 			The other object to compare with.
+	 * @return	True if and only if the given object is effective,
+	 * 			if this vector and the given object belong to the 
+	 * 			same class, and if this vector and the other object
+	 * 			interpreted as a vector have equal x components and
+	 * 			equal y components.
+	 * 		|	result ==
+	 * 		|		( 	(other != null)
+	 * 		|			&& (this.getClass() == other.getClass())
+	 * 		|			&& (this.getXComponent() == (Vector other).getXComponent())
+	 * 		|			&& (this.getYComponent() == (Vector other).getYComponent())	)
+	 */
+	@Override
+	public boolean equals(Object other){
+		if (other == null)
+			return false;
+		if (this.getClass() != other.getClass())
+			return false;
+		Vector otherVector = (Vector) other;
+		return (this.getXComponent() == otherVector.getXComponent()) && 
+				(this.getYComponent() == otherVector.getYComponent());
+	}
+	
+	/**
+	 * Return the hash code for this vector.
+	 */
+	@Override
+	public int hashCode(){
+		return (int) this.getMagnitude();
+	}
 }

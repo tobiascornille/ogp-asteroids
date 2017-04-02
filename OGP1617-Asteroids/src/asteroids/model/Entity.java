@@ -6,10 +6,10 @@ import be.kuleuven.cs.som.annotate.*;
  * 
  * @invar	The position of each entity must be a valid position for any 
  * 			entity.
- * 		|	isValidPosition(getPosition())  
+ * 		|	isValidPosition(this.getPosition())  
  * @invar	The velocity of each entity must be a valid velocity for any 
  * 			entity.
- * 		|	isValidVelocity(getVelocity()[0], getVelocity()[1])
+ * 		|	isValidVelocity(this.getVelocity())
  * @invar	Each entity can have its radius as radius.
  * 		|	canHaveAsRadius(this.getRadius())
  * 
@@ -25,7 +25,7 @@ public abstract class Entity {
 	 * Initialize this new entity with given radius.
 	 * 
 	 * @effect	The radius of this new ship is set to the given radius.
-	 * 		|	this.radius = radius
+	 * 		|	this.setRadius(radius)
 	 */
 	public Entity(double radius) {	
 		this.radius = radius;
@@ -49,15 +49,15 @@ public abstract class Entity {
 	 * 			If the radius is invalid.
 	 * 		|	! canHaveAsRadius(radius)
 	 * @effect	The position of this new entity is set to the given x, y coordinates.  
-	 * 		|	this.setPosition(x, y)
+	 * 		|	this.setPosition(new Vector(x, y))
 	 * @effect  The velocity of this new entity is set to the given xVelocity, yVelocity values.
-	 * 		|   this.setVelocity(xVelocity, yVelocity) 
+	 * 		|   this.setVelocity(new Vector(xVelocity, yVelocity)) 
 	 * @effect  The radius of this new ship is set to the given radius.
-	 * 		|	this.radius = radius    
+	 * 		|	this.setRadius(radius) 
 	 */	
 	public Entity (double x, double y, double xVelocity, double yVelocity, double radius) throws IllegalArgumentException {
-		this.setPosition(x, y);
-		this.setVelocity(xVelocity, yVelocity);
+		this.setPosition(new Vector(x, y));
+		this.setVelocity(new Vector(xVelocity, yVelocity));
 		if (! canHaveAsRadius(radius)) throw new IllegalArgumentException();
 		this.radius = radius;
 	}
@@ -69,7 +69,7 @@ public abstract class Entity {
 	 * 		|	result == this.position
 	 */
 	@Basic @Raw
-	public double[] getPosition() {
+	public Vector getPosition() {
 		return this.position;
 	}
 	
@@ -78,18 +78,18 @@ public abstract class Entity {
 	 *
 	 * @param	dt
 	 *			The given time duration.
-	 * @post	The new position of the entity is the old position of the entity plus the displacement of the entity.
-	 *		|	new.getPosition()[0] == this.getPosition()[0] + (this.getVelocity()[0] * dt)         
-	 *		|	new.getPosition()[1] == this.getPosition()[1] + (this.getVelocity()[1] * dt)
+	 * @post	The new position of the entity is the old position 
+	 * 			of the entity plus the displacement of the entity.
+	 *		|	new.getPosition().equals 
+	 *		|		this.getPosition().add(this.getVelocity().times(dt))        
 	 * throws	IllegalArgumentException
 	 * 			If the time dt is less than 0 or NaN.
 	 * 		|	(dt &lt; 0) || (Double.isNaN(dt))
 	 */
 	public void move(double dt) throws IllegalArgumentException {
-		if ((dt < 0) || (Double.isNaN(dt))) throw new IllegalArgumentException();
-		double newX = this.getPosition()[0] + (this.getVelocity()[0] * dt); 
-		double newY = this.getPosition()[1] + (this.getVelocity()[1] * dt);
-		this.setPosition(newX, newY);         			
+		if (dt < 0) throw new IllegalArgumentException();
+		Vector newPosition = this.getPosition().add(this.getVelocity().times(dt)); 
+		this.setPosition(newPosition);         			
 	}
 	
 	/**
@@ -168,15 +168,15 @@ public abstract class Entity {
 	 *     	| 	! isValidPosition(getPosition())
 	 */
 	@Raw
-	private void setPosition(double x, double y) throws IllegalArgumentException {
-		if (!isValidPosition(x, y)) throw new IllegalArgumentException();
-		this.position = new double[] {x, y};
+	private void setPosition(Vector position) throws IllegalArgumentException {
+		if (!isValidPosition(position)) throw new IllegalArgumentException();
+		this.position = position;
 	}
 	
 	/**
 	 * Variable registering the position of this entity.
 	 */
-	private double[] position = {0,0};
+	private Vector position = Vector.NULL_VECTOR;
 	
 	/**
 	 * Return the velocity of this entity.
@@ -185,7 +185,7 @@ public abstract class Entity {
 	 * 		|	result == this.velocity
 	 */
 	@Basic @Raw
-	public double[] getVelocity() {
+	public Vector getVelocity() {
 		return this.velocity;
 	}
 		
@@ -237,13 +237,13 @@ public abstract class Entity {
 	protected void setVelocity(double xVelocity, double yVelocity) {
 		// If the velocity is not valid, then the velocity is left unchanged.
 		if (isValidVelocity(xVelocity, yVelocity))	
-			this.velocity = new double[] {xVelocity, yVelocity};
+			this.velocity = new Vector(xVelocity, yVelocity);
 	}
 	
 	/**
 	 * Variable registering the velocity of this entity.
 	 */
-	private double[] velocity = {0,0};
+	private Vector velocity = Vector.NULL_VECTOR;
 	
 	/**
 	 * Constant registering the speed of light.
