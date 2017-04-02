@@ -165,6 +165,7 @@ public class World {
 	 *       | new.hasAsEntity(entity)
 	 */
 	public void addEntity(@Raw Entity entity) {
+		// TODO work out defensively?
 		assert (entity != null) && (entity.getWorld() == this);
 		entities.add(entity);
 	}
@@ -185,6 +186,7 @@ public class World {
 	 */
 	@Raw
 	public void removeEntity(Entity entity) {
+		// TODO defensively?
 		assert this.hasAsEntity(entity) && (entity.getWorld() == null);
 		entities.remove(entity);
 	}
@@ -208,7 +210,7 @@ public class World {
 	 *
 	 * @post   This world  is terminated.
 	 *       | new.isTerminated()
-	 @post   All entities belonging to this ship
+	 * @post   All entities belonging to this ship
 	 *         upon entry, have been terminated.
 	 *       | for each entity in Entity:
 	 *       |   if (this.hasAsEntity(entity))
@@ -239,5 +241,76 @@ public class World {
 	  * Variable registering whether this world is terminated.
 	  */
 	 private boolean isTerminated = false;
+	 
+	 /**
+	  * Returns the entity, if any, at a given position.
+	  * 
+	  * @param postion
+	  * 	   The given position.
+	  * @return 
+	  * 	  | @see implemantation
+	  */
+	 public Entity returnEntityGivenPosition(Vector position) {
+		 // TODO Make hashmap with key = reference to position, and value is the entity!
+		 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    if (entity.getPosition() == position)
+			    	return entity;	    
+		 }
+		 
+		 return null;
+	 }
+	 
+	 /**
+	  * 
+	  * @return
+	  * 	  | @see implementation
+	  */
+	 public Set<Entity> queryEntities() {
+		 return entities;
+	 }
+	 
+	 /**
+	  * 
+	  * @return
+	  * 	  | @see implementation
+	  */
+	 public Set<Entity> queryShips() {	 
+		 Set<Entity> ships = new HashSet<Entity>();
+		 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    if (entity instanceof Ship)
+			    	ships.add(entity);
+		 }
+		 
+		 return ships;
+			    	
+	 }
+	 
+	 /**
+	  * @return 
+	  *       | @see implementation
+	  * 
+	  */
+	 public Set<Entity> queryBullets() {	 
+		 Set<Entity> bullets = new HashSet<Entity>();
+		 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    if (entity instanceof Bullet)
+			    	bullets.add(entity);
+		 }
+		 
+		 return bullets;
+			    	
+	 }
+	 
+	 /**
+	  * 
+	  * @param dt
+	  */
+	 public void Evolve(Double dt) {
+		 //TODO implementation
+		 
+	 }
 	 
 }
