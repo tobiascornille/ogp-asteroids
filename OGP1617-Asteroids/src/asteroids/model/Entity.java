@@ -4,11 +4,6 @@ import be.kuleuven.cs.som.annotate.*;
 /**
  * A class of entities involving a position, velocity, radius and mass.
  * 
- * @author 	Simon Merckx and Tobias Cornille.
- *         	We both study informatics (1ba).
- *         	Private repo on https://github.com/tobiascornille/Asteroids
- *         	Please send us an email with your account info so we can add you as a contributer.
- * @version 1.1
  * @invar	The position of each entity must be a valid position for any 
  * 			entity.
  * 		|	isValidPosition(getPosition())  
@@ -17,6 +12,12 @@ import be.kuleuven.cs.som.annotate.*;
  * 		|	isValidVelocity(getVelocity()[0], getVelocity()[1])
  * @invar	Each entity can have its radius as radius.
  * 		|	canHaveAsRadius(this.getRadius())
+ * 
+ * @version 1.2
+ * @author 	Simon Merckx and Tobias Cornille.
+ *         	We both study informatics (1ba).
+ *         	Private repo on https://github.com/tobiascornille/Asteroids
+ *         	Please send us an email with your account info so we can add you as a contributer.
  */
 public abstract class Entity {
 	
@@ -59,17 +60,6 @@ public abstract class Entity {
 		this.setVelocity(xVelocity, yVelocity);
 		if (! canHaveAsRadius(radius)) throw new IllegalArgumentException();
 		this.radius = radius;
-	}
-	
-	
-	public boolean isValidWorld(World world) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public World getWorld() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	/**
@@ -286,8 +276,8 @@ public abstract class Entity {
 	private final double radius;
 	
 	/**
-	 * Returns when, if ever, two entities will collide.
-	 * Returns Double.POSITIVE_INFINITY if the entities never collide.
+	 * Return when, if ever, two entities will collide.
+	 * Return Double.POSITIVE_INFINITY if the entities never collide.
 	 * This method does not apply to entities that overlap. 
 	 * 
 	 * @param 	entity
@@ -324,8 +314,8 @@ public abstract class Entity {
 	}
 	
 	/**
-	 * Returns where, if ever, two entities will collide.
-	 * Returns null if the entities never collide.
+	 * Return where, if ever, two entities will collide.
+	 * Return null if the entities never collide.
 	 * 
 	 * @param 	entity
 	 * 			The other entity
@@ -368,6 +358,16 @@ public abstract class Entity {
 		return new double[] {x, y};
 	}
 
+	public boolean isValidWorld(World world) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public World getWorld() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	/**
 	 * Terminate this entity.
 	 *
