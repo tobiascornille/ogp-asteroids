@@ -266,21 +266,12 @@ public class World {
 	  * @return
 	  * 	  | @see implementation
 	  */
-	 public Set<Entity> queryEntities() {
-		 return entities;
-	 }
-	 
-	 /**
-	  * 
-	  * @return
-	  * 	  | @see implementation
-	  */
-	 public Set<Entity> queryShips() {	 
-		 Set<Entity> ships = new HashSet<Entity>();
+	 public Set<Ship> getWorldShips() {	 
+		 Set<Ship> ships = new HashSet<>();
 		 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
 			    Entity entity = i.next();
 			    if (entity instanceof Ship)
-			    	ships.add(entity);
+			    	ships.add((Ship) entity);
 		 }
 		 
 		 return ships;
@@ -292,12 +283,12 @@ public class World {
 	  *       | @see implementation
 	  * 
 	  */
-	 public Set<Entity> queryBullets() {	 
-		 Set<Entity> bullets = new HashSet<Entity>();
+	 public Set<Bullet> getWorldBullets() {	 
+		 Set<Bullet> bullets = new HashSet<>();
 		 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
 			    Entity entity = i.next();
 			    if (entity instanceof Bullet)
-			    	bullets.add(entity);
+			    	bullets.add((Bullet) entity);
 		 }
 		 
 		 return bullets;
