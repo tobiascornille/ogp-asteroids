@@ -158,7 +158,8 @@ public abstract class Entity {
 	 *     	| 	! isValidPosition(getPosition())
 	 */
 	@Raw
-	private void setPosition(Vector position) throws IllegalArgumentException {
+	//TODO make private!
+	public void setPosition(Vector position) throws IllegalArgumentException {
 		if (!isValidPosition(position)) throw new IllegalArgumentException();
 		this.position = position;
 	}
@@ -341,7 +342,7 @@ public abstract class Entity {
 
 	public World getWorld() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.world;
 	}
 	
 	/**
@@ -366,4 +367,12 @@ public abstract class Entity {
 	  */
 	 private boolean isTerminated = false;
 	 
+	 private World world; 
+	 
+	 public void setWorld(World world) {
+		 //TODO maak deftig
+		 this.world = world;
+	 }
+	 
 }
+

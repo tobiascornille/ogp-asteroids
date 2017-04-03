@@ -34,9 +34,7 @@ public class Part1OwnTests {
 		// Checks if velocity's stay on 0
 		Ship ship = new Ship(new Vector(60000000, 600000000), new Vector(299000, 299000), 520, Math.PI);
 		Vector velocity = ship.getVelocity();
-		assertEquals(0, velocity.getXComponent(), EPSILON);
-		assertEquals(0, velocity.getYComponent(), EPSILON);
-		
+		assertEquals(300000,velocity.getMagnitude(), EPSILON);	
 	}
 	
 	@Test
