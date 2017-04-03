@@ -173,6 +173,51 @@ public class Vector implements Comparable<Vector>{
 	}
 	
 	/**
+	 * Compute the vector difference of this vector and the other vector.
+	 * 
+	 * @param 	other
+	 * 			The other vector to subtract.
+	 * @return	The x component of the resulting vector is equal to the difference 
+	 * 			of the x components of this vector and the other vector.
+	 *			The y component of the resulting vector is equal to the difference
+	 * 			of the y components of this vector and the other vector.
+	 * 		|	result.getXComponent() ==
+	 * 		|		this.getXComponent() - other.getXComponent()
+	 * 		|	result.getYComponent() ==
+	 * 		|		this.getYComponent() - other.getYComponent()
+	 */
+	public Vector subtract(Vector other){
+		return new Vector(this.getXComponent() - other.getXComponent(), 
+				this.getYComponent() - other.getYComponent());
+	}
+	
+	
+	/**
+	 * Normalise this vector, so that the magnitude is 1.
+	 * 
+	 * @return	The normalised vector is equal to this vector 
+	 * 			divided by the magnitude of this vector.
+	 * 		|	result == this.times(1/this.getMagnitude());
+	 */
+	public Vector normalise() {
+		return this.times(1/this.getMagnitude());
+	}
+	
+	/**
+	 * Casts this vector to an array of doubles.
+	 * 
+	 * @return	The first field of the resulting array is equal to
+	 * 			the x component of his vector.
+	 * 			The second field of the resulting array is equal to
+	 * 			the y component of his vector.
+	 * 		|	result[0] == this.getXComponent()
+	 * 		|	result[1] == this.getYComponent()
+	 */
+	public double[] toDouble() throws IllegalArgumentException{
+		return new double[] {this.getXComponent(), this.getYComponent()};
+	}
+	
+	/**
 	 * Compare this vector with the other vector.
 	 * 
 	 * @param	other

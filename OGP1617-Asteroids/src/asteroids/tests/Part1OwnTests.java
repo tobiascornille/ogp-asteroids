@@ -3,111 +3,101 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import asteroids.model.Ship;
-import asteroids.facade.Facade;
-import asteroids.part1.facade.IFacade;
-import asteroids.util.ModelException;
+import asteroids.model.Vector;
 
 public class Part1OwnTests {
 	
 	private static final double EPSILON = 0.0001;
 
-	IFacade facade;
-
-	@Before
-	public void setUp() {
-		facade = new Facade();		
-	}
-		
 	@Test
-	public void testCreateShip() throws ModelException {
+	public void testCreateShip() throws IllegalArgumentException {
 		// Testing the first constructor
-		Ship ship = facade.createShip ();
+		Ship ship = new Ship();
 		double radius = ship.getRadius();
 		assertEquals(11, radius , EPSILON);
-		double[] velocity = ship.getVelocity();
-		assertEquals(0, velocity[0], EPSILON);
-		assertEquals(0, velocity[1], EPSILON);
-		double[] position = ship.getPosition();
-		assertEquals(0, position[0], EPSILON);
-		assertEquals(0, position[1], EPSILON);
+		Vector velocity = ship.getVelocity();
+		assertEquals(0, velocity.getXComponent(), EPSILON);
+		assertEquals(0, velocity.getYComponent(), EPSILON);
+		Vector position = ship.getPosition();
+		assertEquals(0, position.getXComponent(), EPSILON);
+		assertEquals(0, position.getYComponent(), EPSILON);
 		double orientation = ship.getOrientation();
 		assertEquals(0, orientation, EPSILON);			
 	}
 	
 	@Test 
-	public void testCreateShipIllegalVelocity() throws ModelException {
+	public void testCreateShipIllegalVelocity() throws IllegalArgumentException {
 		// Testing for very big values, and illegal velocity (does not throw)
 		// Checks if velocity's stay on 0
-		Ship ship = facade.createShip(60000000, 600000000, 299000, 299000, 520, Math.PI);
-		double[] velocity = ship.getVelocity();
-		assertEquals(0, velocity[0], EPSILON);
-		assertEquals(0, velocity[1], EPSILON);
+		Ship ship = new Ship(new Vector(60000000, 600000000), new Vector(299000, 299000), 520, Math.PI);
+		Vector velocity = ship.getVelocity();
+		assertEquals(0, velocity.getXComponent(), EPSILON);
+		assertEquals(0, velocity.getYComponent(), EPSILON);
 		
 	}
 	
 	@Test
-	public void testGetPosition() throws ModelException {
-		Ship ship = facade.createShip(200, 200, 50, 50, 11, Math.PI);
-		double[] position = ship.getPosition();
-		assertEquals(200, position[0], EPSILON);
-		assertEquals(200, position[1], EPSILON);
+	public void testGetPosition() throws IllegalArgumentException {
+		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 11, Math.PI);
+		Vector position = ship.getPosition();
+		assertEquals(200, position.getXComponent(), EPSILON);
+		assertEquals(200, position.getYComponent(), EPSILON);
 	}
 	
-	@Test(expected = ModelException.class)
-	public void testCreateShipYIsNan() throws ModelException {
-		facade.createShip(200,Double.NaN, 10, -10, 20, -Math.PI);
+	@Test(expected = IllegalArgumentException.class)
+	public void testCreateShipYIsNan() throws IllegalArgumentException {
+		new Ship(new Vector(200, Double.NaN), new Vector(10, -10), 20, -Math.PI);
 	}
 	
 	@Test
-	public void testGetVelocity() throws ModelException {
-		Ship ship = facade.createShip(200, 200, 50, 50, 11, Math.PI);
-		double[] velocity = ship.getVelocity();
-		assertEquals(50, velocity[0], EPSILON);
-		assertEquals(50, velocity[1], EPSILON);
+	public void testGetVelocity() throws IllegalArgumentException {
+		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 11, Math.PI);
+		Vector velocity = ship.getVelocity();
+		assertEquals(50, velocity.getXComponent(), EPSILON);
+		assertEquals(50, velocity.getYComponent(), EPSILON);
 	}
 			
-	@Test  (expected = ModelException.class)
-	public void testCreateShipIllegalRadius() throws ModelException {
+	@Test  (expected = IllegalArgumentException.class)
+	public void testCreateShipIllegalRadius() throws IllegalArgumentException {
 			// Testing for illegal radius
-			facade.createShip(200, 200, 50, 50, 9, Math.PI);	
+			new Ship(new Vector(200, 200), new Vector(50, 50), 9, Math.PI);	
 	}
 	
 	@Test
-	public void testGetRadius() throws ModelException {
-		Ship ship = facade.createShip(200, 200, 50, 50, 20, Math.PI);
+	public void testGetRadius() throws IllegalArgumentException {
+		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 20, Math.PI);
 		assertEquals(20, ship.getRadius(), EPSILON);
 	}
 	
 	@Test
-	public void testGetOrientation() throws ModelException {
-		Ship ship = facade.createShip(200, 200, 50, 50, 20, Math.PI);
+	public void testGetOrientation() throws IllegalArgumentException {
+		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 20, Math.PI);
 		assertEquals(Math.PI, ship.getOrientation(), EPSILON);
 	}
 	
 	@Test
-	public void testGetIllegalOrientation() throws ModelException {
-		Ship ship = facade.createShip(200, 200, 50, 50, 11, 3 * Math.PI);
+	public void testGetIllegalOrientation() throws IllegalArgumentException {
+		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 11, 3 * Math.PI);
 		assertEquals(3 * Math.PI, ship.getOrientation(), EPSILON);
 	}
 	
 	@Test
-	public void testMove() throws ModelException {
-		Ship ship = facade.createShip(100, 100, 50, -50, 20, 0);
-		facade.move(ship, 1);
-		double[] position = facade.getShipPosition(ship);
+	public void testMove() throws IllegalArgumentException {
+		Ship ship = new Ship(new Vector(100, 100), new Vector(50, -50), 20, 0);
+		ship.move(1);
+		Vector position = ship.getPosition();
 		assertNotNull(position);
-		assertEquals(150, position[0], EPSILON);
-		assertEquals(50, position[1], EPSILON);
+		assertEquals(150, position.getXComponent(), EPSILON);
+		assertEquals(50, position.getYComponent(), EPSILON);
 	}
 	
 	@Test
-	public void testTurn() throws ModelException {
+	public void testTurn() throws IllegalArgumentException {
 		// Testing turn
-		Ship ship = facade.createShip(200, 200, 50, 50, 11, Math.PI);
+		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 11, Math.PI);
 		ship.turn(Math.PI);
 		double orientation = ship.getOrientation();
 		assertEquals(2 * Math.PI, orientation, EPSILON);
@@ -116,30 +106,30 @@ public class Part1OwnTests {
 	}
 	
 	@Test 
-	public void testThrust() throws ModelException {
+	public void testThrust() throws IllegalArgumentException {
 		// Testen thrust
-		Ship ship = facade.createShip(200, 200, 50, 50, 11, 0);
+		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 11, 0);
 		ship.thrust(3);
-		double[] velocity = ship.getVelocity();
-		assertEquals(53, velocity[0], EPSILON);
-		assertEquals(50, velocity[1], EPSILON);	
+		Vector velocity = ship.getVelocity();
+		assertEquals(53, velocity.getXComponent(), EPSILON);
+		assertEquals(50, velocity.getYComponent(), EPSILON);	
 	}
 	
 	@Test 
-	public void testThrustIllegal() throws ModelException {
+	public void testThrustIllegal() throws IllegalArgumentException {
 		// Testen thrust
-		Ship ship = facade.createShip(200, 200, 50, 50, 11, 0);
+		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 11, 0);
 		ship.thrust(300000);
-		assertEquals(300000, ship.getVelocity()[0], EPSILON);
-		assertEquals(0, ship.getVelocity()[1], EPSILON);
+		assertEquals(300000, ship.getVelocity().getXComponent(), EPSILON);
+		assertEquals(0, ship.getVelocity().getYComponent(), EPSILON);
 	}
 		
 	@Test
-	public void testDistanceBetweenOverlap() throws ModelException {
+	public void testDistanceBetweenOverlap() throws IllegalArgumentException {
 		// Testing the distance between
 		// First test = overlapping ships
-		Ship ship1 = facade.createShip(0, 0, 50, 50, 11,0);
-		Ship ship2 = facade.createShip(10, 10, 50, 50, 11, 0);
+		Ship ship1 = new Ship(new Vector(0, 0), new Vector(50, 50), 11,0);
+		Ship ship2 = new Ship(new Vector(10, 10), new Vector(50, 50), 11, 0);
 		double distance = ship1.getDistanceBetween(ship2);
 		assertEquals(-7.8578, distance, EPSILON);
 		// Testing overlap
@@ -149,74 +139,74 @@ public class Part1OwnTests {
 	}
 	
 	@Test
-	public void testDistanceBetweenSameShip() throws ModelException {
+	public void testDistanceBetweenSameShip() throws IllegalArgumentException {
 		// Testing to see what method returns when called on same ship
-		Ship ship1 = facade.createShip(0, 0, 50, 50, 11,0);
+		Ship ship1 = new Ship(new Vector(0, 0), new Vector(50, 50), 11,0);
 		double distance2 = ship1.getDistanceBetween(ship1);
 		assertEquals(0, distance2, EPSILON);			
 	}
 		
 	@Test
-	public void testDistanceBetweenValid() throws ModelException {
+	public void testDistanceBetweenValid() throws IllegalArgumentException {
 		// Testing for a positive value
-		Ship ship1 = facade.createShip(0, 0, 50, 50, 11,0);
-		Ship ship2 = facade.createShip(50, 50, 50, 50, 11, 0);
+		Ship ship1 = new Ship(new Vector(0, 0), new Vector(50, 50), 11,0);
+		Ship ship2 = new Ship(new Vector(50, 50), new Vector(50, 50), 11, 0);
 		double distance = ship1.getDistanceBetween(ship2);
 		assertEquals(48.7106, distance, EPSILON);
 	}
 	
 	@Test
-	public void testTimeToCollison() throws ModelException {
-		Ship ship1 = facade.createShip(-100, 0, 0, 0, 100, 0);
-		Ship ship2 = facade.createShip(1100, 0, -100, 0, 100, 0);
+	public void testTimeToCollison() throws IllegalArgumentException {
+		Ship ship1 = new Ship(new Vector(-100, 0), new Vector(0, 0), 100, 0);
+		Ship ship2 = new Ship(new Vector(1100, 0), new Vector(-100, 0), 100, 0);
 		assertEquals(10, ship1.getTimeToCollision(ship2), EPSILON);
 	}
 	
 	@Test
-	public void testTimeToCollisonInfinity() throws ModelException {
-		Ship ship1 = facade.createShip(-100, 0, 0, 0, 100, 0);
-		Ship ship2 = facade.createShip(1100, 0, 100, 0, 100, 0);
+	public void testTimeToCollisonInfinity() throws IllegalArgumentException {
+		Ship ship1 = new Ship(new Vector(-100, 0), new Vector(0, 0), 100, 0);
+		Ship ship2 = new Ship(new Vector(1100, 0), new Vector(100, 0), 100, 0);
 		assertEquals(Double.POSITIVE_INFINITY, ship1.getTimeToCollision(ship2), EPSILON);
 	}
 	
 	@Test
-	public void testGetCollisionPositionRight() throws ModelException {
+	public void testGetCollisionPositionRight() throws IllegalArgumentException {
 		// From rights
-		Ship ship1 = facade.createShip(-100, 0, 0, 0, 100, 0);
-		Ship ship2 = facade.createShip(1100, 0, -100, 0, 100, 0);
-		double[] colPos = ship1.getCollisionPosition(ship2);
-		assertEquals(0, colPos[0], EPSILON);
-		assertEquals(0, colPos[1], EPSILON);
+		Ship ship1 = new Ship(new Vector(-100, 0), new Vector(0, 0), 100, 0);
+		Ship ship2 = new Ship(new Vector(1100, 0), new Vector(-100, 0), 100, 0);
+		Vector colPos = ship1.getCollisionPosition(ship2);
+		assertEquals(0, colPos.getXComponent(), EPSILON);
+		assertEquals(0, colPos.getYComponent(), EPSILON);
 	}
 	
 	@Test
-	public void testGetCollisionPositionUnder() throws ModelException {
+	public void testGetCollisionPositionUnder() throws IllegalArgumentException {
 		// From under
-		Ship ship1 = facade.createShip(0, 100, 0, 0, 100, 0);
-		Ship ship2 = facade.createShip(0, 1100, 0, -100, 100, Math.PI/2);
-		double[] colPos = ship1.getCollisionPosition(ship2);
-		assertEquals(0, colPos[0], EPSILON);
-		assertEquals(0, colPos[1], EPSILON);
+		Ship ship1 = new Ship(new Vector(0, 100), new Vector(0, 0), 100, 0);
+		Ship ship2 = new Ship(new Vector(0, -1100), new Vector(0, 100), 100, 0);
+		Vector colPos = ship1.getCollisionPosition(ship2);
+		assertEquals(0, colPos.getXComponent(), EPSILON);
+		assertEquals(0, colPos.getYComponent(), EPSILON);
 	}
 	
 	@Test
-	public void testGetCollisionPositionLeft() throws ModelException {
+	public void testGetCollisionPositionLeft() throws IllegalArgumentException {
 		// From left
-		Ship ship1 = facade.createShip(100, 0, 0, 0, 100, 0);
-		Ship ship2 = facade.createShip(-1100, 0, 100, 0, 100, 0);
-		double[] colPos = ship1.getCollisionPosition(ship2);
-		assertEquals(0, colPos[0], EPSILON);
-		assertEquals(0, colPos[1], EPSILON);
+		Ship ship1 = new Ship(new Vector(100, 0), new Vector(0, 0), 100, 0);
+		Ship ship2 = new Ship(new Vector(-1100, 0), new Vector(100, 0), 100, 0);
+		Vector colPos = ship1.getCollisionPosition(ship2);
+		assertEquals(0, colPos.getXComponent(), EPSILON);
+		assertEquals(0, colPos.getYComponent(), EPSILON);
 	}
 	
 	@Test
-	public void testGetCollisionPositionAbove() throws ModelException {
+	public void testGetCollisionPositionAbove() throws IllegalArgumentException {
 		// From above
-		Ship ship1 = facade.createShip(0, 100, 0, 0, 100, 0);
-		Ship ship2 = facade.createShip(0, 1100, 0, -100, 100, 3 * Math.PI/2);
-		double[] colPos = ship1.getCollisionPosition(ship2);
-		assertEquals(0, colPos[0], EPSILON);
-		assertEquals(0, colPos[1], EPSILON);
+		Ship ship1 = new Ship(new Vector(0, -100), new Vector(0, 0), 100, 0);
+		Ship ship2 = new Ship(new Vector(0, 1100), new Vector(0, -100), 100, 0);
+		Vector colPos = ship1.getCollisionPosition(ship2);
+		assertEquals(0, colPos.getXComponent(), EPSILON);
+		assertEquals(0, colPos.getYComponent(), EPSILON);
 	}
 	
 	

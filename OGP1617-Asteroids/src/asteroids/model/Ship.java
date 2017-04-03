@@ -31,14 +31,10 @@ public class Ship extends Entity{
 	 * Initialize this new ship with given X coordinate of the position, given Y coordinate of the position, 
 	 * given X component of the velocity, given Y component of the velocity and given orientation.
 	 * 
-	 * @param 	x
-	 * 			The X coordinate of the position of this new ship. 	  
-	 * @param 	y
-	 * 			The Y coordinate of the position of this new ship.
-	 * @param	xVelocity
-	 * 			the X component of the velocity of this new ship.
-	 * @param 	yVelocity
-	 * 			the Y component of the velocity of this new ship.
+	 * @param 	position
+	 * 			The position of this new ship. 	  
+	 * @param	velocity
+	 * 			The velocity of this new ship.
 	 * @param	radius
 	 * 			The radius of this new ship.
 	 * @param 	orientation
@@ -46,15 +42,15 @@ public class Ship extends Entity{
 	 * @pre     The given orientation must be a valid orientation for any
 	 *         	ship.
 	 *      | 	isValidOrientation(orientation)	
-	 * @effect	The position of this new ship is set to the given x, y coordinates.  
-	 * 		|	this.setPosition(x, y)
-	 * @effect  The velocity of this new ship is set to the given xVelocity, yVelocity values.
-	 * 		|   this.setVelocity(xVelocity, yVelocity)
+	 * @effect	The position of this new ship is set to the given position.  
+	 * 		|	this.setPosition(position)
+	 * @effect  The velocity of this new ship is set to the given velocity.
+	 * 		|   this.setVelocity(velocity)
 	 * @effect  The orientation of this new ship is set to the given orientation.
 	 *      |   this.setOrientation(orientation)  
 	 */	
-	public Ship (double x, double y, double xVelocity, double yVelocity, double radius, double orientation) throws IllegalArgumentException {
-		super(x, y, xVelocity, yVelocity, radius);
+	public Ship (Vector position, Vector velocity, double radius, double orientation) throws IllegalArgumentException {
+		super(position, velocity, radius);
 		this.setOrientation(orientation);
 	}
 	
@@ -63,7 +59,8 @@ public class Ship extends Entity{
 	 * 
 	 * @param 	amount
 	 * 		  	The given amount.
-	 * @post	The new velocity of the ship is derived by adding the amount times the cosinus or sinus of the current orientation
+	 * @post	UPDATE NEEDED
+	 * 			The new velocity of the ship is derived by adding the amount times the cosinus or sinus of the current orientation
 	 * 		 	to the old xVelocity and yVelocity, respectively.
 	 * 	   	| 	new.getVelocity()[0] == this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()))
 	 * 	   	| 	new.getVelocity()[1] == this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()))
@@ -73,15 +70,15 @@ public class Ship extends Entity{
 	 */
 	public void thrust(double amount) {
 		if (amount < 0) amount = 0;
-		double newXVelocity = this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()));
-		double newYVelocity = this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()));
-		 
-		if (! isValidVelocity(newXVelocity, newYVelocity)) {
-			newXVelocity = C * Math.cos(this.getOrientation());
-			newYVelocity = C * Math.sin(this.getOrientation());
+		
+		Vector vectorAmount = new Vector(amount * Math.cos(this.getOrientation()), amount * Math.sin(this.getOrientation()));
+		Vector newVelocity = this.getVelocity().add(vectorAmount);
+		
+		if (! isValidVelocity(newVelocity)) {
+			newVelocity = newVelocity.normalise().times(C);
 		}
 					
-		this.setVelocity(newXVelocity, newYVelocity);	
+		this.setVelocity(newVelocity);	
 	}
 	
 	/**

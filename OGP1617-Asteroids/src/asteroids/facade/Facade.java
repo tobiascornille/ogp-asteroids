@@ -5,6 +5,7 @@ import java.util.Set;
 
 import asteroids.model.Bullet;
 import asteroids.model.Ship;
+import asteroids.model.Vector;
 import asteroids.model.World;
 import asteroids.part2.CollisionListener;
 import asteroids.util.ModelException;
@@ -20,7 +21,7 @@ public class Facade implements asteroids.part2.facade.IFacade {
 	public Ship createShip(double x, double y, double xVelocity, double yVelocity, double radius, double orientation)
 			throws ModelException {
 		try {
-			return new Ship(x, y, xVelocity, yVelocity, radius, orientation);
+			return new Ship(new Vector(x, y), new Vector(xVelocity, yVelocity), radius, orientation);
 		} catch (IllegalArgumentException e) {
 			throw new ModelException(e);
 		}
@@ -28,12 +29,12 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public double[] getShipPosition(Ship ship) throws ModelException {
-		return ship.getPosition();
+		return ship.getPosition().toDouble();
 	}
 
 	@Override
 	public double[] getShipVelocity(Ship ship) throws ModelException {
-		return ship.getVelocity();
+		return ship.getVelocity().toDouble();
 	}
 
 	@Override
@@ -98,7 +99,10 @@ public class Facade implements asteroids.part2.facade.IFacade {
 	@Override
 	public double[] getCollisionPosition(Ship ship1, Ship ship2) throws ModelException {
 		try {
-			return ship1.getCollisionPosition(ship2);
+			Vector collisionPosition = ship1.getCollisionPosition(ship2);
+			if (collisionPosition != null)
+				return collisionPosition.toDouble();
+			else return null;
 		} catch (IllegalArgumentException e) {
 			throw new ModelException(e);
 		}

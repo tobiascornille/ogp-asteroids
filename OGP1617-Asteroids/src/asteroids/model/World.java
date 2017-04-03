@@ -62,12 +62,12 @@ public class World {
 	/**
 	 * Check whether this world can have the given size as its size.
 	 *  
-	 * @param  width
-	 *         The width of the size to check.
-	 * @param  height
-	 *         The height of the size to check.
+	 * @param  	width
+	 *         	The width of the size to check.
+	 * @param  	height
+	 *         	The height of the size to check.
 	 * @return 
-	 *       | @see implementation
+	 *   	|	@see implementation
 	 */
 	@Raw
 	private boolean canHaveAsSize(double width, double height) {
@@ -281,7 +281,6 @@ public class World {
 	 /**
 	  * @return 
 	  *       | @see implementation
-	  * 
 	  */
 	 public Set<Bullet> getWorldBullets() {	 
 		 Set<Bullet> bullets = new HashSet<>();
