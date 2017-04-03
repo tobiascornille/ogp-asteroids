@@ -1,7 +1,10 @@
 package asteroids.model;
 import be.kuleuven.cs.som.annotate.*;
+
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -87,7 +90,7 @@ public class World {
 	 */
 	@Basic
 	public Set<Entity> getEntities() {
-		return this.entities;
+		return  (Set<Entity>) this.entities.values();
 	}
 	
 	/**
@@ -100,7 +103,7 @@ public class World {
 	@Basic
 	@Raw
 	public boolean hasAsEntity(@Raw Entity entity) {
-		return entities.contains(entity);
+		return entities.containsValue(entity);
 	}
 
 	/**
@@ -133,7 +136,7 @@ public class World {
 	 *       |          (entity.getWorld() == this)
 	 */
 	public boolean hasProperEntities() {
-		for (Entity entity : entities) {
+		for (Entity entity : entities.values()) {
 			if (!canHaveAsEntity(entity))
 				return false;
 			if (entity.getWorld() != this)
@@ -158,16 +161,16 @@ public class World {
 	 * 
 	 * @param  entity
 	 *         The entity to be added.
-	 * @pre    The given entity is effective and already references
-	 *         this world.
-	 *       | (entity != null) && (entity.getWorld() == this)
+	 * @throws IllegalArgumentException
+	 * 		 | entity == null
+	 * @throws IllegalArgumentException
+	 * 		 | entity.getWorld() != this
 	 * @post   This world has the given entity as one of its entities.
 	 *       | new.hasAsEntity(entity)
 	 */
 	public void addEntity(@Raw Entity entity) {
-		// TODO work out defensively?
-		assert (entity != null) && (entity.getWorld() == this);
-		entities.add(entity);
+		if ( entity == null || entity.getWorld() != this) throw new IllegalArgumentException();
+		entities.put(entity.getPosition(), entity);
 	}
 
 	/**
@@ -175,19 +178,17 @@ public class World {
 	 * 
 	 * @param  entity
 	 *         The entity to be removed.
-	 * @pre    This world has the given entity as one of
-	 *         its entities, and the given entity does not
-	 *         reference any world.
-	 *       | this.hasAsEntity(entity) &&
-	 *       | (entity.getWorld() == null)
+	 * @throws IllegalArgumentException
+	 *       | ! this.hasAsEntity(entity)
+	 * @throws IllegalArgumentException
+	 *       | entity.getWorld() != null
 	 * @post   This world no longer has the given entity as
 	 *         one of its entities.
 	 *       | ! new.hasAsEntity(entity)
 	 */
 	@Raw
 	public void removeEntity(Entity entity) {
-		// TODO defensively?
-		assert this.hasAsEntity(entity) && (entity.getWorld() == null);
+		if (! this.hasAsEntity(entity) || entity.getWorld() != null) throw new IllegalArgumentException();
 		entities.remove(entity);
 	}
 
@@ -203,7 +204,7 @@ public class World {
 	 *       |   ( (entity != null) &&
 	 *       |     (! entity.isTerminated()) )
 	 */
-	private final Set<Entity> entities = new HashSet<Entity>();
+	private final Map<Vector, Entity> entities = new HashMap<>();
 	
 	/**
 	 * Terminate this world.
@@ -219,7 +220,7 @@ public class World {
 	 public void terminate() {
 		 if (!isTerminated()) {
 			// We avoid ConcurrentModificationException by using an iterator
-			 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+			 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
 			    Entity entity = i.next();
 			    removeEntity(entity);
 			    entity.terminate();
@@ -251,14 +252,7 @@ public class World {
 	  * 	  | @see implemantation
 	  */
 	 public Entity returnEntityGivenPosition(Vector position) {
-		 // TODO Make hashmap with key = reference to position, and value is the entity!
-		 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
-			    Entity entity = i.next();
-			    if (entity.getPosition() == position)
-			    	return entity;	    
-		 }
-		 
-		 return null;
+		 return entities.get(position);
 	 }
 	 
 	 /**
@@ -268,7 +262,7 @@ public class World {
 	  */
 	 public Set<Ship> getWorldShips() {	 
 		 Set<Ship> ships = new HashSet<>();
-		 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
 			    Entity entity = i.next();
 			    if (entity instanceof Ship)
 			    	ships.add((Ship) entity);
@@ -284,7 +278,7 @@ public class World {
 	  */
 	 public Set<Bullet> getWorldBullets() {	 
 		 Set<Bullet> bullets = new HashSet<>();
-		 for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
 			    Entity entity = i.next();
 			    if (entity instanceof Bullet)
 			    	bullets.add((Bullet) entity);
@@ -302,5 +296,7 @@ public class World {
 		 //TODO implementation
 		 
 	 }
+	 
+	 
 	 
 }
