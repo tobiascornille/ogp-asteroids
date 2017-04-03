@@ -203,12 +203,17 @@ public abstract class Entity {
 	 *         	velocity.
 	 *     	| 	if (isValidVelocity(velocity))
 	 *      |   	then new.getVelocity() == velocity
+	 * @post   	If the given velocity is not a valid velocity for any entity,
+	 *         	the velocity of this new entity is equal to the maximum
+	 *			velocity, while retaining the correct velocity angle.
+	 *     	| 	if (! isValidVelocity(velocity))
+	 *      |   	then new.getVelocity() == velocity.normalise().times(C)
 	 */
 	@Raw
 	protected void setVelocity(Vector velocity) {
-		// If the velocity is not valid, then the velocity is left unchanged.
-		if (isValidVelocity(velocity))	
-			this.velocity = velocity;
+		if (! isValidVelocity(velocity))	
+			velocity = velocity.normalise().times(C);
+		this.velocity = velocity;
 	}
 	
 	/**

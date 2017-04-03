@@ -72,12 +72,7 @@ public class Ship extends Entity{
 		if (amount < 0) amount = 0;
 		
 		Vector vectorAmount = new Vector(amount * Math.cos(this.getOrientation()), amount * Math.sin(this.getOrientation()));
-		Vector newVelocity = this.getVelocity().add(vectorAmount);
-		
-		if (! isValidVelocity(newVelocity)) {
-			newVelocity = newVelocity.normalise().times(C);
-		}
-					
+		Vector newVelocity = this.getVelocity().add(vectorAmount);					
 		this.setVelocity(newVelocity);	
 	}
 	
