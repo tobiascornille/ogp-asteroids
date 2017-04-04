@@ -149,7 +149,7 @@ public class Ship extends Entity{
 	private double orientation = 0;
 	
 	/**
-	 * Check whether this entity can have the given radius as its radius.
+	 * Check whether this ship can have the given radius as its radius.
 	 *  
 	 * @param  	radius
 	 *         	The radius to check.
@@ -187,7 +187,7 @@ public class Ship extends Entity{
 	 */
 	@Raw
 	public boolean canHaveAsBullet(Bullet bullet) {
-		return (bullet != null) && (Bullet.isValidShip(this));
+		return (bullet != null) && (bullet.isValidShip(this));
 	}
 
 	/**
@@ -274,20 +274,12 @@ public class Ship extends Entity{
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
 	
 	
-	private void setDensity(double density) {
-		this.density = density;
-	}
-	
-	private void setMass(double mass) {
-		this.mass = mass;
-	}
-
 	public double getDensity() {
 		return this.density;
 	}
 	
 	private double density = 1.42 * Math.pow(10, 12);
-	private double mass = this.getMass();
+	private double mass;
 	
 	@Override
 	public void terminate() {
