@@ -118,11 +118,11 @@ public class Ship extends Entity{
 	 *  
 	 * @param  	orientation
 	 *         	The orientation to check.
-	 * @return	Returns true if the orientation is not NaN and if the orientation is between 0 and 2 pi.
-	 *     	| 	result == (! Double.isNaN(orientation)) && (orientation >= 0) && (orientation <= 2 * Math.PI)
+	 * @return	True if the orientation is between 0 and 2 pi.
+	 *     	| 	result == (orientation >= 0) && (orientation <= 2 * Math.PI)
 	 */
 	private static boolean isValidOrientation(double orientation) {
-		return (! Double.isNaN(orientation)) && (orientation >= 0) && (orientation <= 2 * Math.PI);
+		return (orientation >= 0) && (orientation <= 2 * Math.PI);
 	}
 	
 	/**
@@ -153,11 +153,11 @@ public class Ship extends Entity{
 	 *  
 	 * @param  	radius
 	 *         	The radius to check.
-	 * @return	Returns true if the radius is not NaN and if the radius is larger than 10.
-	 *     	| 	result == (! Double.isNaN(radius)) && (radius > 10)
+	 * @return	True if the radius is larger than 10.
+	 *     	| 	result == (radius > 10)
 	 */
 	public boolean canHaveAsRadius(double radius) {
-		return (! Double.isNaN(radius)) && (radius > 10);
+		return radius > 10;
 	}
 
 	/**

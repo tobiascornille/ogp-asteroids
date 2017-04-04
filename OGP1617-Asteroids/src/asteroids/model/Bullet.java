@@ -29,12 +29,12 @@ public class Bullet extends Entity{
 	 *  
 	 * @param  	radius
 	 *         	The radius to check.
-	 * @return	Returns true if the radius is not NaN and if the radius is larger than 1.
-	 *     	| 	result == (! Double.isNaN(radius)) && (radius > 1)
+	 * @return	True if the radius is larger than 1.
+	 *     	| 	result == radius > 1
 	 */
 	@Override
 	public boolean canHaveAsRadius(double radius) {
-		return (! Double.isNaN(radius)) && (radius > 1);
+		return radius > 1;
 	}
 	
 	/**

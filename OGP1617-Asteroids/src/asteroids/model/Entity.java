@@ -93,8 +93,8 @@ public abstract class Entity {
 	 *		|	new.getPosition().equals 
 	 *		|		this.getPosition().add(this.getVelocity().times(dt))        
 	 * throws	IllegalArgumentException
-	 * 			If the time dt is less than 0 or NaN.
-	 * 		|	(dt &lt; 0) || (Double.isNaN(dt))
+	 * 			If the time dt is less than 0.
+	 * 		|	dt &lt; 0
 	 */
 	public void move(double dt) throws IllegalArgumentException {
 		if (dt < 0) throw new IllegalArgumentException();
