@@ -387,4 +387,15 @@ public class Ship extends Entity{
 		 }
 		
 	}
+	
+	public boolean checkOverlap() {
+		Set<Entity> entities = this.getWorld().getEntities();
+	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    if (this.overlap(entity) && entity != this)
+			    	return false;
+	    }
+		return true;
+	}
+
 }

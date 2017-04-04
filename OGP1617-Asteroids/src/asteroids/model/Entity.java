@@ -81,7 +81,6 @@ public abstract class Entity {
 	 * @return 	True.
 	 *     	| 	result == true
 	 */
-	 //TODO Split this checker??
 	public boolean isValidPosition(Vector position) {
 		
 		// TODO 1) Make sure that if the entity is in a world it lays fully within that world.
@@ -90,18 +89,23 @@ public abstract class Entity {
 		
 		if (this.world != null) {
 			 
-			Set<Entity> entities = this.getWorld().getEntities();
-		    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
-				    Entity entity = i.next();
-				    if (this.overlap(entity) && entity != this)
-				    	return false;
-		    }
+			if (this.liesWithinBounds() && this.checkOverlap()) 
+				return true;
+			else
+				return false;
 			
 		}
 		return true;
 		
 	}
 	
+	public boolean liesWithinBounds() {
+		return true;
+	}
+	
+	// TODO change the overlap method, assingement changed!
+	protected abstract boolean checkOverlap(); 
+
 	/**
 	 * Change the position of the entity based on the current position, velocity and time duration dt.
 	 *

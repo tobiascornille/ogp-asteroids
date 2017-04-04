@@ -1,6 +1,7 @@
 package asteroids.model;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import be.kuleuven.cs.som.annotate.*;
 
@@ -92,6 +93,19 @@ public class Bullet extends Entity{
 	
 	public Ship getShip() {
 		return this.ship;
+	}
+	
+	public boolean checkOverlap() {
+		Set<Entity> entities = this.getWorld().getEntities();
+	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    if (this.overlap(entity) && entity != this && entity != this.getShip())
+			    	if (entity instanceof Bullet && ((Bullet) entity).getShip() == this.getShip())
+			    		continue;
+			    	else	
+			    		return false;
+	    }
+		return true;
 	}
 
 }
