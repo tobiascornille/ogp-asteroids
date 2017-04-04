@@ -1,5 +1,7 @@
 package asteroids.model;
 
+import java.util.Iterator;
+
 public class Bullet extends Entity{
 
 	
@@ -37,6 +39,20 @@ public class Bullet extends Entity{
 	
 	@Override
 	public void terminate() {
+		if (!isTerminated()) {  
+			// Remove the bullet from its ship
+			 this.setShip(null); 
+			 if (this.getShip().hasAsBullet(this))
+				 this.getShip().removeBullet(this);
+			 // Remove the bullet from its world
+			 this.setWorld(null); 
+			 this.getWorld().removeEntity(this);
+			 
+			 this.isTerminated = true;
+		}
+	}
+
+	private void setShip(Object object) {
 		// TODO Auto-generated method stub
 		
 	}
