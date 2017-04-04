@@ -72,28 +72,6 @@ public class Ship extends Entity{
 	}
 	
 	/**
-	 * Change the velocity of the ship based on the current velocity, the current orientation, and on a given amount.
-	 * 
-	 * @param 	amount
-	 * 		  	The given amount.
-	 * @post	UPDATE NEEDED
-	 * 			The new velocity of the ship is derived by adding the amount times the cosinus or sinus of the current orientation
-	 * 		 	to the old xVelocity and yVelocity, respectively.
-	 * 	   	| 	new.getVelocity()[0] == this.getVelocity()[0] + (amount * Math.cos(this.getOrientation()))
-	 * 	   	| 	new.getVelocity()[1] == this.getVelocity()[1] + (amount * Math.sin(this.getOrientation()))
-	 * 	   	| 	if (! isValidVelocity(newXVelocity, newYVelocity))
-	 * 	   	|		then newXVelocity = C * Math.cos(this.getOrientation())
-	 *	   	|		     newYVelocity = C * Math.sin(this.getOrientation())
-	 */
-	public void thrust(double amount) {
-		if (amount < 0) amount = 0;
-		
-		Vector vectorAmount = new Vector(amount * Math.cos(this.getOrientation()), amount * Math.sin(this.getOrientation()));
-		Vector newVelocity = this.getVelocity().add(vectorAmount);					
-		this.setVelocity(newVelocity);	
-	}
-	
-	/**
 	 * Return the orientation of this ship.
 	 * 
 	 * @return	Returns the orientation of this ship.
@@ -340,11 +318,60 @@ public class Ship extends Entity{
 	}
 	
 	/**
+	 * Change the velocity of this ship based on the velocity, 
+	 * the orientation, the acceleration and the given time.
+	 * 
+	 * @param 	dt
+	 * 		  	The given time.
+	 * @post	The new velocity of the ship is derived by adding the acceleration 
+	 * 			times the cosinus or sinus of the current orientation times the time
+	 * 		 	to the old velocity respectively.
+	 * 	   	| 	new.getVelocity().getXComponent() 
+	 * 		|		== this.getVelocity().getXComponent() + (this.getAcceleration() * Math.cos(this.getOrientation()))
+	 * 	   	| 	new.getVelocity().getYComponent()
+	 * 		|		== this.getVelocity().getYComponent() + (this.getAcceleration() * Math.sin(this.getOrientation()))
+	 */
+	public void thrust(double dt) {
+		Vector vectorAmount = new Vector(this.getAcceleration() * Math.cos(this.getOrientation()), this.getAcceleration() * Math.sin(this.getOrientation()));
+		Vector newVelocity = this.getVelocity().add(vectorAmount.times(dt));					
+		this.setVelocity(newVelocity);	
+	}
+	
+	/**
+	 * Enable the thruster
+	 */
+	public void thrustOn() {
+		this.thruster = new Thruster(this.thruster.getForce(), true);
+	}
+	
+	/**
+	 * disable the thruster
+	 */
+	public void thrustOff() {
+		this.thruster = new Thruster(this.thruster.getForce(), false);
+	}
+	
+	/**
+	 * Calculate the acceleration of this ship.
+	 * @return 	The force of the thruster divided by the mass of this ship,
+	 * 			if the thruster is enabled.
+	 * @return 	0 if the thruster is disabled.
+	 */
+	public double getAcceleration() {
+		if (thruster.getState())
+			return thruster.getForce() / this.getMass();
+		return 0;
+	}
+	
+	/**
+	 * Variable registering the thruster of this ship.
+	 */
+	private Thruster thruster = Thruster.DEFAULT;
+	
+	/**
 	 * Variable registering the mass of this ship.
 	 */
 	private double mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
-
-	
 	
 	@Override
 	public void terminate() {

@@ -224,7 +224,7 @@ public class Vector implements Comparable<Vector>{
 	 * 			The other vector to compare with.
 	 * @return	The result is equal to the difference of the magnitude
 	 * 			of this vector and the magnitude of the other vector.
-	 * 			| result == this.getMagnitude() - other.getMagnitude()
+	 * 		| 	result == this.getMagnitude() - other.getMagnitude()
 	 */
 	@Override
 	public int compareTo(Vector other) {
