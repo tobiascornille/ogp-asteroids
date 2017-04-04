@@ -56,7 +56,7 @@ public class Bullet extends Entity{
 	/**
 	 * Variable registering the mass of this bullet.
 	 */
-	private final double mass = calculateMass();
+	private final double mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
 
 	/**
 	 * Variable registering the density of this bullet.

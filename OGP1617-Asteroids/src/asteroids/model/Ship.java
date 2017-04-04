@@ -19,6 +19,13 @@ import java.util.Set;
  * 		|	isValidOrientation(getOrientation())
  * @invar   Each ship must have proper bullets.
  *        | hasProperBullets()
+ * @invar  The mass of each ship must be a valid mass for any
+ *         ship.
+ *       | isValidMass(getMass())
+ * @invar  The density of each ship must be a valid density for any
+ *         ship.
+ *       | isValidDensity(getDensity())
+ *
  */
 public class Ship extends Entity{
 	
@@ -273,13 +280,93 @@ public class Ship extends Entity{
 	 */
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
 	
-	
+	/**
+	 * Return the density of this ship.
+	 */
+	@Basic @Raw
 	public double getDensity() {
 		return this.density;
 	}
 	
+	/**
+	 * Check whether the given density is a valid density for
+	 * any ship.
+	 *  
+	 * @param  density
+	 *         The density to check.
+	 * @return 
+	 *       | result == (density >= 1.42 * Math.pow(10, 12))
+	*/
+	public static boolean isValidDensity(double density) {
+		return (density >= 1.42 * Math.pow(10, 12) );
+	}
+	
+	/**
+	 * Set the density of this ship to the given density.
+	 * 
+	 * @param  density
+	 *         The new density for this ship.
+	 * @post   If the given density is a valid density for any ship,
+	 *         the density of this new ship is equal to the given
+	 *         density.
+	 *       | if (isValidDensity(density))
+	 *       |   then new.getDensity() == density
+	 */
+	@Raw
+	public void setDensity(double density) {
+		if (isValidDensity(density))
+			this.density = density;
+	}
+	
+	/**
+	 * Variable registering the density of this ship.
+	 */	
 	private double density = 1.42 * Math.pow(10, 12);
-	private double mass;
+		
+	/**
+	 * Return the mass of this ship.
+	 */
+	@Basic @Raw
+	public double getMass() {
+		return this.mass;
+	}
+	
+	/**
+	 * Check whether the given mass is a valid mass for
+	 * any ship.
+	 *  
+	 * @param  mass
+	 *         The mass to check.
+	 * @return 
+	 *       | result == (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity())
+	*/
+	public boolean isValidMass(double mass) {
+		return (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity());
+	}
+	
+	/**
+	 * Set the mass of this ship to the given mass.
+	 * 
+	 * @param  mass
+	 *         The new mass for this ship.
+	 * @post   If the given mass is a valid mass for any ship,
+	 *         the mass of this new ship is equal to the given
+	 *         mass.
+	 *       | if (isValidMass(mass))
+	 *       |   then new.getMass() == mass
+	 */
+	@Raw
+	public void setMass(double mass) {
+		if (isValidMass(mass))
+			this.mass = mass;
+	}
+	
+	/**
+	 * Variable registering the mass of this ship.
+	 */
+	private double mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
+
+	
 	
 	@Override
 	public void terminate() {
