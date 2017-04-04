@@ -365,6 +365,13 @@ public abstract class Entity {
 		 this.world = world;
 	 }
 	 
+	 public double getMass() {
+		 return 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
+	 }
+	  
+	 protected abstract double getDensity();
+	  
 	 public abstract void terminate();
+	 
 }
 

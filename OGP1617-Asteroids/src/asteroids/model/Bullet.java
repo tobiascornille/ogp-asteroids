@@ -2,16 +2,38 @@ package asteroids.model;
 
 public class Bullet extends Entity{
 
-	public Bullet(double radius) {
-		super(radius);
-		// TODO Auto-generated constructor stub
+	
+	/**
+	 * 
+	 */
+	public Bullet() {
+		super(2);
+	}
+	
+	/**
+	 * 
+	 * @param position
+	 * @param velocity
+	 * @param radius
+	 * @throws IllegalArgumentException
+	 */
+	public Bullet (Vector position, Vector velocity, double radius) throws IllegalArgumentException {
+		super(position, velocity, radius);	
 	}
 
 	@Override
 	public boolean canHaveAsRadius(double radius) {
-		// TODO Auto-generated method stub
-		return false;
+		return (! Double.isNaN(radius)) && (radius > 1);
 	}
+	
+	public double getDensity() {
+		return this.density;
+	}
+	
+	private final double density = 7.8 * Math.pow(10, 12);
+	 
+	private final double mass = this.getMass();
+	
 	
 	@Override
 	public void terminate() {
@@ -25,7 +47,7 @@ public class Bullet extends Entity{
 	}
 
 	public Ship getShip() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

@@ -277,7 +277,23 @@ public class Ship extends Entity{
 	 *       |     (! bullet.isTerminated()) )
 	 */
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
+	
+	
+	private void setDensity(double density) {
+		this.density = density;
+	}
+	
+	private void setMass(double mass) {
+		this.mass = mass;
+	}
 
+	public double getDensity() {
+		return this.density;
+	}
+	
+	private double density = 1.42 * Math.pow(10, 12);
+	private double mass = this.getMass();
+	
 	@Override
 	public void terminate() {
 		
