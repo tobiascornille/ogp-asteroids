@@ -42,7 +42,7 @@ public class Bullet extends Entity{
 	 */
 	@Basic @Raw @Immutable
 	public double getDensity() {
-		return this.density;
+		return density;
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class Bullet extends Entity{
 	/**
 	 * Variable registering the density of this bullet.
 	 */
-	private final double density = 7.8 * Math.pow(10, 12);
+	private static final double density = 7.8 * Math.pow(10, 12);
 	
 	@Override
 	public void terminate() {

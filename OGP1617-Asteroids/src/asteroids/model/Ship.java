@@ -285,7 +285,7 @@ public class Ship extends Entity{
 	 */
 	@Basic @Raw
 	public double getDensity() {
-		return this.density;
+		return ((3/4 * this.getMass())/ (Math.PI * Math.pow(this.getRadius(), 3)));
 	}
 	
 	/**
@@ -298,31 +298,9 @@ public class Ship extends Entity{
 	 *       | result == (density >= 1.42 * Math.pow(10, 12))
 	*/
 	public static boolean isValidDensity(double density) {
-		return (density >= 1.42 * Math.pow(10, 12) );
+		return (density >= 1.42 * Math.pow(10, 12));
 	}
 	
-	/**
-	 * Set the density of this ship to the given density.
-	 * 
-	 * @param  density
-	 *         The new density for this ship.
-	 * @post   If the given density is a valid density for any ship,
-	 *         the density of this new ship is equal to the given
-	 *         density.
-	 *       | if (isValidDensity(density))
-	 *       |   then new.getDensity() == density
-	 */
-	@Raw
-	public void setDensity(double density) {
-		if (isValidDensity(density))
-			this.density = density;
-	}
-	
-	/**
-	 * Variable registering the density of this ship.
-	 */	
-	private double density = 1.42 * Math.pow(10, 12);
-		
 	/**
 	 * Return the mass of this ship.
 	 */
@@ -338,10 +316,10 @@ public class Ship extends Entity{
 	 * @param  mass
 	 *         The mass to check.
 	 * @return 
-	 *       | result == (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity())
+	 *       | result == (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE)
 	*/
 	public boolean isValidMass(double mass) {
-		return (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity());
+		return (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE);
 	}
 	
 	/**
