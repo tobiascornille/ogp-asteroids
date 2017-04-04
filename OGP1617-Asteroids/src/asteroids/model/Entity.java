@@ -1,5 +1,8 @@
 package asteroids.model;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import be.kuleuven.cs.som.annotate.*;
 /**
  * A class of entities involving a position, velocity, radius and mass.
@@ -78,9 +81,25 @@ public abstract class Entity {
 	 * @return 	True.
 	 *     	| 	result == true
 	 */
-	public static boolean isValidPosition(Vector position) {
-		//	TODO: check new assignment
+	 //TODO Split this checker??
+	public boolean isValidPosition(Vector position) {
+		
+		// TODO 1) Make sure that if the entity is in a world it lays fully within that world.
+	    //		2) 2 DIFFRENT Entities cannot overlap, ONLY a BULLET loaded into a SHIP AND diffrent BULLETS loaded in the same SHIP
+		//      3) make sure that bullet that is loaded in a ship, lies fully within the bounds of that ship! 
+		
+		if (this.world != null) {
+			 
+			Set<Entity> entities = this.getWorld().getEntities();
+		    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+				    Entity entity = i.next();
+				    if (this.overlap(entity) && entity != this)
+				    	return false;
+		    }
+			
+		}
 		return true;
+		
 	}
 	
 	/**
@@ -365,7 +384,6 @@ public abstract class Entity {
 		 this.world = world;
 	 }
 	 
-	  
 	 public abstract void terminate();
 	 
 }
