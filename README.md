@@ -2,7 +2,7 @@
 # To Do
 - [ ] evolve
 - [ ] position requirements check
-- [ ] thruster
+- [X] thruster
 - [ ] interaction w bullets
 - [ ] collision w boundaries
 - [ ] collision resolution
