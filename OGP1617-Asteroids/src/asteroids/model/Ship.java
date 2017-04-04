@@ -3,6 +3,7 @@ package asteroids.model;
 import be.kuleuven.cs.som.annotate.*;
 import java.lang.Math;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -16,11 +17,14 @@ import java.util.Set;
  * @invar 	The orientation of each ship must be a valid orientation for any 
  * 			ship.
  * 		|	isValidOrientation(getOrientation())
+ * @invar   Each ship must have proper bullets.
+ *        | hasProperBullets()
  */
 public class Ship extends Entity{
 	
 	/**
-	 * Initialize this new ship with default values.
+	 * Initialize this new ship as a non terminated ship
+	 * with default values and no bullets yet.
 	 * 
 	 * @effect	The radius of this new ship is set to 11.
 	 * 		|	this.radius = 11
@@ -30,8 +34,10 @@ public class Ship extends Entity{
 	}
 	
 	/**
-	 * Initialize this new ship with given X coordinate of the position, given Y coordinate of the position, 
-	 * given X component of the velocity, given Y component of the velocity and given orientation.
+	 * Initialize this new ship as a non terminated ship with given 
+	 * X coordinate of the position, given Y coordinate of the position, 
+	 * given X component of the velocity, given Y component of the 
+	 * velocity and given orientation, and with no bullets yet.
 	 * 
 	 * @param 	position
 	 * 			The position of this new ship. 	  
@@ -44,6 +50,8 @@ public class Ship extends Entity{
 	 * @pre     The given orientation must be a valid orientation for any
 	 *         	ship.
 	 *      | 	isValidOrientation(orientation)	
+	 * @post   	This new ship has no bullets yet.
+	 *      | 	new.getNbBullets() == 0
 	 * @effect	The position of this new ship is set to the given position.  
 	 * 		|	this.setPosition(position)
 	 * @effect  The velocity of this new ship is set to the given velocity.
@@ -152,19 +160,6 @@ public class Ship extends Entity{
 		return (! Double.isNaN(radius)) && (radius > 10);
 	}
 
-	/** TO BE ADDED TO THE CLASS INVARIANTS
-	 * @invar   Each ship must have proper bullets.
-	 *        | hasProperBullets()
-	 */
-
-	/**
-	 * Initialize this new ship as a non-terminated ship with 
-	 * no bullets yet.
-	 * 
-	 * @post   This new ship has no bullets yet.
-	 *       | new.getNbBullets() == 0
-	 */
-
 	/**
 	 * Check whether this ship has the given bullet as one of its
 	 * bullets.
@@ -233,14 +228,15 @@ public class Ship extends Entity{
 	 * 
 	 * @param  bullet
 	 *         The bullet to be added.
-	 * @pre    The given bullet is effective and already references
-	 *         this ship.
-	 *       | (bullet != null) && (bullet.getShip() == this)
+	 * @throws IllegalArgumentException
+	 * 		 | bullet == null
+	 * @throws IllegalArgumentException
+	 * 		 | bullet.getShip() != this
 	 * @post   This ship has the given bullet as one of its bullets.
 	 *       | new.hasAsBullet(bullet)
 	 */
-	public void addBullet(@Raw Bullet bullet) {
-		assert (bullet != null) && (bullet.getShip() == this);
+	public void addBullet(@Raw Bullet bullet) throws IllegalArgumentException {
+		if (bullet == null || bullet.getShip() != this) throw new IllegalArgumentException();
 		bullets.add(bullet);
 	}
 
@@ -249,18 +245,17 @@ public class Ship extends Entity{
 	 * 
 	 * @param  bullet
 	 *         The bullet to be removed.
-	 * @pre    This ship has the given bullet as one of
-	 *         its bullets, and the given bullet does not
-	 *         reference any ship.
-	 *       | this.hasAsBullet(bullet) &&
-	 *       | (bullet.getShip() == null)
+	 * @throws IllegalArgumentException
+	 *       | ! this.hasAsBullet(bullet)
+	 * @throws IllegalArgumentException
+	 *       | bullet.getShip() != null
 	 * @post   This ship no longer has the given bullet as
 	 *         one of its bullets.
 	 *       | ! new.hasAsBullet(bullet)
 	 */
 	@Raw
-	public void removeBullet(Bullet bullet) {
-		assert this.hasAsBullet(bullet) && (bullet.getShip() == null);
+	public void removeBullet(Bullet bullet) throws IllegalArgumentException {
+		if (! this.hasAsBullet(bullet) || bullet.getShip() != null) throw new IllegalArgumentException();
 		bullets.remove(bullet);
 	}
 
@@ -280,7 +275,16 @@ public class Ship extends Entity{
 
 	@Override
 	public void terminate() {
-		
+		if (!isTerminated()) {
+			// We avoid ConcurrentModificationException by using an iterator
+			 for (Iterator<Bullet> i = bullets.iterator(); i.hasNext();) {
+			    Bullet bullet = i.next();
+			    bullet.terminate();    
+			 }
+			 this.setWorld(null); 
+			 this.getWorld().removeEntity(this);
+			 this.isTerminated = true;
+		 }
 		
 	}
 }
