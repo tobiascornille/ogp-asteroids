@@ -222,8 +222,8 @@ public class World {
 			// We avoid ConcurrentModificationException by using an iterator
 			 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
 			    Entity entity = i.next();
-			 // Ship termination also terminates all its bullets +  ship.setWorld(null); + removeEntity(ship);
-			    entity.terminate();    
+			    entity.setWorld(null); 
+				this.removeEntity(entity);  
 			 }
 			 this.isTerminated = true;
 		 }
