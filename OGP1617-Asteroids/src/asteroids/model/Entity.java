@@ -158,8 +158,7 @@ public abstract class Entity {
 	 *     	| 	! isValidPosition(getPosition())
 	 */
 	@Raw
-	//TODO make private!
-	public void setPosition(Vector position) throws IllegalArgumentException {
+	private void setPosition(Vector position) throws IllegalArgumentException {
 		if (!isValidPosition(position)) throw new IllegalArgumentException();
 		this.position = position;
 	}
@@ -345,14 +344,6 @@ public abstract class Entity {
 		return this.world;
 	}
 	
-	/**
-	 * Terminate this entity.
-	 *
-	 * @post   This entity  is terminated.
-	 *       | new.isTerminated()
-	 */
-	 public abstract void terminate();
-	 
 	 /**
 	  * Return a boolean indicating whether or not this entity
 	  * is terminated.
@@ -374,5 +365,6 @@ public abstract class Entity {
 		 this.world = world;
 	 }
 	 
+	 public abstract void terminate();
 }
 

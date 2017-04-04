@@ -189,7 +189,7 @@ public class World {
 	@Raw
 	public void removeEntity(Entity entity) {
 		if (! this.hasAsEntity(entity) || entity.getWorld() != null) throw new IllegalArgumentException();
-		entities.remove(entity);
+		entities.values().remove(entity);
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class World {
 	 *
 	 * @post   This world  is terminated.
 	 *       | new.isTerminated()
-	 * @post   All entities belonging to this ship
+	 * @post   All entities belonging to this world
 	 *         upon entry, have been terminated.
 	 *       | for each entity in Entity:
 	 *       |   if (this.hasAsEntity(entity))
@@ -222,8 +222,8 @@ public class World {
 			// We avoid ConcurrentModificationException by using an iterator
 			 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
 			    Entity entity = i.next();
-			    removeEntity(entity);
-			    entity.terminate();
+			 // Ship termination also terminates all its bullets +  ship.setWorld(null); + removeEntity(ship);
+			    entity.terminate();    
 			 }
 			 this.isTerminated = true;
 		 }

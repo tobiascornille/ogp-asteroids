@@ -1,2 +1,2 @@
--isValid... private?
--Total programming paradigm -> okay to leave values unchanged if values are invalid or mod calculation?
+- Is it okay to iterate over the whole .values() set to remove an entity?
+- Is it okay to update the hashmap each time the evolve method is called?

@@ -2,6 +2,8 @@
 package asteroids.model;
 import be.kuleuven.cs.som.annotate.*;
 import java.lang.Math;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A class of ships involving a position, velocity, radius and orientation.
@@ -146,13 +148,139 @@ public class Ship extends Entity{
 	 * @return	Returns true if the radius is not NaN and if the radius is larger than 10.
 	 *     	| 	result == (! Double.isNaN(radius)) && (radius > 10)
 	 */
-	protected boolean canHaveAsRadius(double radius) {
+	public boolean canHaveAsRadius(double radius) {
 		return (! Double.isNaN(radius)) && (radius > 10);
 	}
 
+	/** TO BE ADDED TO THE CLASS INVARIANTS
+	 * @invar   Each ship must have proper bullets.
+	 *        | hasProperBullets()
+	 */
+
+	/**
+	 * Initialize this new ship as a non-terminated ship with 
+	 * no bullets yet.
+	 * 
+	 * @post   This new ship has no bullets yet.
+	 *       | new.getNbBullets() == 0
+	 */
+
+	/**
+	 * Check whether this ship has the given bullet as one of its
+	 * bullets.
+	 * 
+	 * @param  bullet
+	 *         The bullet to check.
+	 */
+	@Basic
+	@Raw
+	public boolean hasAsBullet(@Raw Bullet bullet) {
+		return bullets.contains(bullet);
+	}
+
+	/**
+	 * Check whether this ship can have the given bullet
+	 * as one of its bullets.
+	 * 
+	 * @param  bullet
+	 *         The bullet to check.
+	 * @return True if and only if the given bullet is effective
+	 *         and that bullet is a valid bullet for a ship.
+	 *       | result ==
+	 *       |   (bullet != null) &&
+	 *       |   Bullet.isValidShip(this)
+	 */
+	@Raw
+	public boolean canHaveAsBullet(Bullet bullet) {
+		return (bullet != null) && (Bullet.isValidShip(this));
+	}
+
+	/**
+	 * Check whether this ship has proper bullets attached to it.
+	 * 
+	 * @return True if and only if this ship can have each of the
+	 *         bullets attached to it as one of its bullets,
+	 *         and if each of these bullets references this ship as
+	 *         the ship to which they are attached.
+	 *       | for each bullet in Bullet:
+	 *       |   if (hasAsBullet(bullet))
+	 *       |     then canHaveAsBullet(bullet) &&
+	 *       |          (bullet.getShip() == this)
+	 */
+	public boolean hasProperBullets() {
+		for (Bullet bullet : bullets) {
+			if (!canHaveAsBullet(bullet))
+				return false;
+			if (bullet.getShip() != this)
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Return the number of bullets associated with this ship.
+	 *
+	 * @return  The total number of bullets collected in this ship.
+	 *        | result ==
+	 *        |   card({bullet:Bullet | hasAsBullet({bullet)})
+	 */
+	public int getNbBullets() {
+		return bullets.size();
+	}
+
+	/**
+	 * Add the given bullet to the set of bullets of this ship.
+	 * 
+	 * @param  bullet
+	 *         The bullet to be added.
+	 * @pre    The given bullet is effective and already references
+	 *         this ship.
+	 *       | (bullet != null) && (bullet.getShip() == this)
+	 * @post   This ship has the given bullet as one of its bullets.
+	 *       | new.hasAsBullet(bullet)
+	 */
+	public void addBullet(@Raw Bullet bullet) {
+		assert (bullet != null) && (bullet.getShip() == this);
+		bullets.add(bullet);
+	}
+
+	/**
+	 * Remove the given bullet from the set of bullets of this ship.
+	 * 
+	 * @param  bullet
+	 *         The bullet to be removed.
+	 * @pre    This ship has the given bullet as one of
+	 *         its bullets, and the given bullet does not
+	 *         reference any ship.
+	 *       | this.hasAsBullet(bullet) &&
+	 *       | (bullet.getShip() == null)
+	 * @post   This ship no longer has the given bullet as
+	 *         one of its bullets.
+	 *       | ! new.hasAsBullet(bullet)
+	 */
+	@Raw
+	public void removeBullet(Bullet bullet) {
+		assert this.hasAsBullet(bullet) && (bullet.getShip() == null);
+		bullets.remove(bullet);
+	}
+
+	/**
+	 * Variable referencing a set collecting all the bullets
+	 * of this ship.
+	 * 
+	 * @invar  The referenced set is effective.
+	 *       | bullets != null
+	 * @invar  Each bullet registered in the referenced list is
+	 *         effective and not yet terminated.
+	 *       | for each bullet in bullets:
+	 *       |   ( (bullet != null) &&
+	 *       |     (! bullet.isTerminated()) )
+	 */
+	private final Set<Bullet> bullets = new HashSet<Bullet>();
+
 	@Override
 	public void terminate() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

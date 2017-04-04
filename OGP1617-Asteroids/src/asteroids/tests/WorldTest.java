@@ -24,9 +24,7 @@ public class WorldTest {
 		ship.setWorld(world);
 		world.addEntity(ship);
 		assertTrue(ship.equals(world.returnEntityGivenPosition(new Vector(0,0))));
-		ship.setPosition(new Vector(10,10));
-		ship.setPosition(new Vector(0,0));
-		assertTrue(ship.equals(world.returnEntityGivenPosition(new Vector(0,0))));
+		assertTrue(ship.equals(world.returnEntityGivenPosition(new Vector(10,10))));
 	}
 
 }
