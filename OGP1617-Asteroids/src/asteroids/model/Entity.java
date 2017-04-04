@@ -354,7 +354,7 @@ public abstract class Entity {
 	 }
 	 
 	 /**
-	  * Variable registering whether this person is terminated.
+	  * Variable registering whether this entity is terminated.
 	  */
 	 protected boolean isTerminated = false;
 	 
