@@ -389,6 +389,6 @@ public abstract class Entity {
 	 }
 	 
 	 public abstract void terminate();
-	 
+	 //  Test 2
 }
 
