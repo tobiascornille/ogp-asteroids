@@ -81,15 +81,15 @@ public class Bullet extends Entity{
 
 
 	public boolean isValidShip(Ship ship) {
-		//return this.liesInShip(ship) && (this.getShip() == ship);
+		// TODO add capacity later on
+		return (this.getShip() != ship);
 	}
     
     private void setShip(Ship ship) {
-		 if (! isValidShip)
 		 this.ship = ship;
 	 }
 	 
-	private Ship ship = null; 
+	private Ship ship; 
 	
 	public Ship getShip() {
 		return this.ship;
@@ -107,4 +107,7 @@ public class Bullet extends Entity{
 	    }
 		return true;
 	}
+	
+	// Testing git client ubuntu
+
 }
