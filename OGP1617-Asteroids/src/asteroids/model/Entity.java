@@ -82,29 +82,29 @@ public abstract class Entity {
 	 *     	| 	result == true
 	 */
 	public boolean isValidPosition(Vector position) {
-		
 		// TODO 1) Make sure that if the entity is in a world it lays fully within that world.
 	    //		2) 2 DIFFRENT Entities cannot overlap, ONLY a BULLET loaded into a SHIP AND diffrent BULLETS loaded in the same SHIP
 		//      3) make sure that bullet that is loaded in a ship, lies fully within the bounds of that ship! 
 		
-		if (this.world != null) {
-			 
-			if (this.liesWithinBounds() && this.checkOverlap()) 
+		
+		if (this.world != null) { 
+			if (this.liesWithinBounds(position) && this.checkOverlap(position)) 
 				return true;
 			else
-				return false;
-			
+				return false;			
 		}
+		
+		// Because this method has a vector as argument, it cannot be a NaN.
 		return true;
 		
 	}
 	
-	public boolean liesWithinBounds() {
+	public boolean liesWithinBounds(Vector position) {	
 		return true;
 	}
 	
 	// TODO change the overlap method, assingement changed!
-	protected abstract boolean checkOverlap(); 
+	protected abstract boolean checkOverlap(Vector position); 
 
 	/**
 	 * Change the position of the entity based on the current position, velocity and time duration dt.
@@ -389,6 +389,6 @@ public abstract class Entity {
 	 }
 	 
 	 public abstract void terminate();
-	 //  Test 2 test test
+	
 }
 

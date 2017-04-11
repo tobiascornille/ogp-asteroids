@@ -388,12 +388,16 @@ public class Ship extends Entity{
 		
 	}
 	
-	public boolean checkOverlap() {
+	public boolean checkOverlap(Vector position) {
 		Set<Entity> entities = this.getWorld().getEntities();
+		//TODO maybe this is not allowed.
+		Ship test = new Ship(position, this.getVelocity(), this.getRadius(), this.getOrientation());
 	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+	    	
 			    Entity entity = i.next();
-			    if (this.overlap(entity) && entity != this)
-			    	return false;
+			    
+			    if (test.overlap(entity))
+			    	return false;		    
 	    }
 		return true;
 	}
