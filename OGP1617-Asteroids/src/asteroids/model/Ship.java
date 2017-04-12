@@ -2,8 +2,12 @@
 package asteroids.model;
 import be.kuleuven.cs.som.annotate.*;
 import java.lang.Math;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -146,6 +150,17 @@ public class Ship extends Entity{
 	}
 
 	/**
+	 * Return the set collecting all the bullets
+	 * of this ship.
+	 * @return
+	 * 		|	@see implementation
+	 */
+	@Basic
+	public Deque<Bullet> getBullets() {
+		return this.bullets;
+	}	
+	
+	/**
 	 * Check whether this ship has the given bullet as one of its
 	 * bullets.
 	 * 
@@ -209,10 +224,10 @@ public class Ship extends Entity{
 	}
 
 	/**
-	 * Add the given bullet to the set of bullets of this ship.
+	 * Load the given bullet to this ship.
 	 * 
 	 * @param  bullet
-	 *         The bullet to be added.
+	 *         The bullet to be loaded.
 	 * @throws IllegalArgumentException
 	 * 		 | bullet == null
 	 * @throws IllegalArgumentException
@@ -220,9 +235,24 @@ public class Ship extends Entity{
 	 * @post   This ship has the given bullet as one of its bullets.
 	 *       | new.hasAsBullet(bullet)
 	 */
-	public void addBullet(@Raw Bullet bullet) throws IllegalArgumentException {
-		if (bullet == null || bullet.getShip() != this) throw new IllegalArgumentException();
+	public void loadBullet(@Raw Bullet bullet) throws IllegalArgumentException {
+		if (bullet == null || bullet.getShip() != this) 
+			throw new IllegalArgumentException();
 		bullets.add(bullet);
+	}
+	
+	/**
+	 * Load the given set of bullets to this ship.
+	 * 
+	 * @param  bullets
+	 *         The set of bullets to be loaded.
+	 * @post   This ship has each of the given bullet as one of its bullets.
+	 *       | @see implementation
+	 */
+	public void loadBullets(Set<Bullet> bullets) {
+		for (Bullet bullet: bullets) {
+			loadBullet(bullet);
+		}
 	}
 
 	/**
@@ -243,7 +273,32 @@ public class Ship extends Entity{
 		if (! this.hasAsBullet(bullet) || bullet.getShip() != null) throw new IllegalArgumentException();
 		bullets.remove(bullet);
 	}
-
+	
+	public void fireBullet() throws IllegalStateException {
+		if ((this.getNbBullets() > 0) && (this.getWorld() != null)){
+			Bullet bullet = this.getBullets().peek();
+			// Remove the bullet from this ship
+			bullet.setShip(null);
+			this.removeBullet(bullet);
+			
+			double newX = this.getPosition().getXComponent() + (Math.cos(this.getOrientation()) * (this.getRadius() + bullet.getRadius()));
+			double newY = this.getPosition().getYComponent() + (Math.sin(this.getOrientation()) * (this.getRadius() + bullet.getRadius()));
+			Vector newPosition = new Vector(newX, newY);
+			
+			if (! bullet.liesWithinBoundsWorld(newPosition)) {
+				bullet.terminate();
+			}
+			else if (! this.checkOverlap(newPosition)) {
+				//resolve collision
+			}
+			else {
+				bullet.setVelocity(this.getVelocity().normalise().times(250));
+				bullet.setWorld(this.getWorld());
+				this.getWorld().addEntity(bullet);
+			}
+		}
+	}
+	
 	/**
 	 * Variable referencing a set collecting all the bullets
 	 * of this ship.
@@ -256,7 +311,7 @@ public class Ship extends Entity{
 	 *       |   ( (bullet != null) &&
 	 *       |     (! bullet.isTerminated()) )
 	 */
-	private final Set<Bullet> bullets = new HashSet<Bullet>();
+	private final Deque<Bullet> bullets = new ArrayDeque<>();
 	
 	/**
 	 * Return the density of this ship.
@@ -337,6 +392,10 @@ public class Ship extends Entity{
 		this.setVelocity(newVelocity);	
 	}
 	
+	public boolean getThrusterState(){
+		return this.thruster.getState();
+	}
+	
 	/**
 	 * Enable the thruster
 	 */
@@ -345,7 +404,7 @@ public class Ship extends Entity{
 	}
 	
 	/**
-	 * disable the thruster
+	 * Disable the thruster
 	 */
 	public void thrustOff() {
 		this.thruster = new Thruster(this.thruster.getForce(), false);
@@ -358,7 +417,7 @@ public class Ship extends Entity{
 	 * @return 	0 if the thruster is disabled.
 	 */
 	public double getAcceleration() {
-		if (thruster.getState())
+		if (this.getThrusterState())
 			return thruster.getForce() / this.getMass();
 		return 0;
 	}
@@ -402,5 +461,4 @@ public class Ship extends Entity{
 	    }
 		return true;
 	}
-
 }
