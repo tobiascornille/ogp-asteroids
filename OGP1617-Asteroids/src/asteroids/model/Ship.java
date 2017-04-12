@@ -66,9 +66,10 @@ public class Ship extends Entity{
 	 * @effect  The orientation of this new ship is set to the given orientation.
 	 *      |   this.setOrientation(orientation)  
 	 */	
-	public Ship (Vector position, Vector velocity, double radius, double orientation) throws IllegalArgumentException {
+	public Ship (Vector position, Vector velocity, double radius, double orientation, double mass) throws IllegalArgumentException {
 		super(position, velocity, radius);
 		this.setOrientation(orientation);
+		this.setMass(mass);
 	}
 	
 	/**
@@ -259,13 +260,30 @@ public class Ship extends Entity{
 	private final Set<Bullet> bullets = new HashSet<Bullet>();
 	
 	/**
+	 * Set the density of this ship to the given density.
+	 * 
+	 * @param  density
+	 *         The new density for this ship.
+	 * @post   If the given density is a valid density for any ship,
+	 *         the density of this new ship is equal to the given
+	 *         density.
+	 *       | if (isValidDensity(density))
+	 *       |   then new.getDensity() == density
+	 */
+	@Raw
+	public void setDensity(double density) {
+		if (isValidDensity(density))
+			this.density = density;
+	}
+	
+	/**
 	 * Return the density of this ship.
 	 */
 	@Basic @Raw
 	public double getDensity() {
-		return ((3/4 * this.getMass())/ (Math.PI * Math.pow(this.getRadius(), 3)));
+		return this.getDensity();
 	}
-	
+		
 	/**
 	 * Check whether the given density is a valid density for
 	 * any ship.
@@ -278,6 +296,8 @@ public class Ship extends Entity{
 	public static boolean isValidDensity(double density) {
 		return (density >= 1.42 * Math.pow(10, 12));
 	}
+	
+	private double density = 1.42 * Math.pow(10, 12);
 	
 	/**
 	 * Return the mass of this ship.
@@ -315,8 +335,15 @@ public class Ship extends Entity{
 	public void setMass(double mass) {
 		if (isValidMass(mass))
 			this.mass = mass;
+		else
+			this.mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
 	}
 	
+	/**
+	 * Variable registering the mass of this ship.
+	 */
+	private double mass = 0;
+		
 	/**
 	 * Change the velocity of this ship based on the velocity, 
 	 * the orientation, the acceleration and the given time.
@@ -368,10 +395,7 @@ public class Ship extends Entity{
 	 */
 	private Thruster thruster = Thruster.DEFAULT;
 	
-	/**
-	 * Variable registering the mass of this ship.
-	 */
-	private double mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
+
 	
 	@Override
 	public void terminate() {
@@ -392,7 +416,7 @@ public class Ship extends Entity{
 	public boolean checkOverlap(Vector position) {
 		Set<Entity> entities = this.getWorld().getEntities();
 		//TODO maybe this is not allowed.
-		Ship test = new Ship(position, this.getVelocity(), this.getRadius(), this.getOrientation());
+		Ship test = new Ship(position, this.getVelocity(), this.getRadius(), this.getOrientation(), this.getMass());
 	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
 	    	
 			    Entity entity = i.next();
