@@ -55,10 +55,11 @@ public abstract class Entity {
 	 * 		|	this.setRadius(radius) 
 	 */	
 	public Entity (Vector position, Vector velocity, double radius) throws IllegalArgumentException {
-		this.setPosition(position);
-		this.setVelocity(velocity);
 		if (! canHaveAsRadius(radius)) throw new IllegalArgumentException();
 		this.radius = radius;
+		this.setPosition(position);
+		this.setVelocity(velocity);
+		
 	}
 	
 	/**
@@ -69,41 +70,61 @@ public abstract class Entity {
 	 */
 	@Basic @Raw
 	public Vector getPosition() {
-		return this.position;
+		return this.position;		
 	}
 	
+
 	/**
 	 * Check whether the given position is a valid position for
 	 * any entity.
 	 *  
 	 * @param	position
 	 *         	The position to check.
-	 * @return 	True.
-	 *     	| 	result == true
+	 *         
+	 * @return 	If this entity doesn't have a world it's postition will always be correct.
+	 * 			Finally a bullet loaded in a ship must lie fully within the bounds of it's ship.
+	 * 			Only a bullet loaded in it ship, and diffrent bullets loaded in the same ship can overlap.
+	 * 
+	 *     	 | 	result == true
+	 * @return If this entity has a world, there will be multiple tests.
+	 * 		   Make sure that the entity lays fully within its world.
+	 * 		   
+	 * 		   
+	 * 		 | @see implementation
 	 */
 	public boolean isValidPosition(Vector position) {
-		// TODO 1) Make sure that if the entity is in a world it lays fully within that world.
-	    //		2) 2 DIFFRENT Entities cannot overlap, ONLY a BULLET loaded into a SHIP AND diffrent BULLETS loaded in the same SHIP
-		//      3) make sure that bullet that is loaded in a ship, lies fully within the bounds of that ship! 
-		
 		
 		if (this.world != null) { 
-			if (this.liesWithinBounds(position) && this.checkOverlap(position)) 
+			if (this.liesWithinBoundsWorld(position) && this.checkOverlap(position)) 
 				return true;
 			else
 				return false;			
 		}
 		
-		// Because this method has a vector as argument, it cannot be a NaN.
+		// Because this method has a vector as argument, it cannot be a NaN, so we can safely return true everytime.
 		return true;
 		
 	}
-	
-	public boolean liesWithinBounds(Vector position) {	
-		return true;
+	/**
+	 * Checks whether the given entity with argument position would lie
+	 * fully within the bounds of it's world.
+	 * 
+	 * @param position
+	 * 		  The position to check.
+	 * 
+	 * @return 
+	 * 		 | @see implementation
+	 */
+	public boolean liesWithinBoundsWorld(Vector position) {
+		
+		double[] sizeWorld = this.getWorld().getSize();
+		if (sizeWorld[0] - 0.99 * this.getRadius() >= position.getXComponent() && 0.99 * this.getRadius() <= position.getXComponent())
+			if (sizeWorld[1] - 0.99 * this.getRadius() >= position.getYComponent() && 0.99 * this.getRadius() <= position.getYComponent())
+				return true;
+		
+		return false;	
 	}
 	
-	// TODO change the overlap method, assingement changed!
 	protected abstract boolean checkOverlap(Vector position); 
 
 	/**
@@ -147,7 +168,8 @@ public abstract class Entity {
 		if (this == other) return 0;
 		Vector differenceVector = other.getPosition().subtract(this.getPosition());
 				
-		return (Math.sqrt(differenceVector.dot(differenceVector)) - this.getRadius() - other.getRadius()); 		
+		return (Math.sqrt(differenceVector.dot(differenceVector)) - this.getRadius() - other.getRadius()); 	
+		
 	}
 	
 	/**
@@ -164,7 +186,9 @@ public abstract class Entity {
 	 */
 	public boolean overlap (Entity other) throws IllegalArgumentException {
 		if (other == null) throw new IllegalArgumentException();
-		return (this.getDistanceBetween(other) <= 0);
+		//TODO is it okay to add this if?
+		if (this == other) return true;
+		return (this.getDistanceBetween(other)  <= -0.01 * (this.getRadius() + other.getRadius()));
 	}
 	
 	/**

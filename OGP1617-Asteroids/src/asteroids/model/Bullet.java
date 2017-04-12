@@ -18,6 +18,7 @@ public class Bullet extends Entity{
 	 */
 	public Bullet() {
 		super(2);
+		this.mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
 	}
 	
 	/**
@@ -27,7 +28,8 @@ public class Bullet extends Entity{
 	 * @param radius
 	 */
 	public Bullet (Vector position, Vector velocity, double radius) throws IllegalArgumentException {
-		super(position, velocity, radius);	
+		super(position, velocity, radius);
+		this.mass =  4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
 	}
 	
 	/**
@@ -62,7 +64,7 @@ public class Bullet extends Entity{
 	/**
 	 * Variable registering the mass of this bullet.
 	 */
-	private final double mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
+	private final double mass;
 
 	/**
 	 * Variable registering the density of this bullet.
