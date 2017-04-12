@@ -381,8 +381,9 @@ public class Ship extends Entity{
 			    Bullet bullet = i.next();
 			    bullet.terminate();    
 			 }
+			 World world = this.getWorld();
 			 this.setWorld(null); 
-			 this.getWorld().removeEntity(this);
+			 world.removeEntity(this);
 			 this.isTerminated = true;
 		 }
 		

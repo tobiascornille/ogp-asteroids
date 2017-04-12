@@ -9,7 +9,12 @@ public class Bullet extends Entity{
 
 	
 	/**
-	 * 
+	 * @invar  The ship of each bullet must be a valid ship for any
+	 *         bullet.
+	 *       | isValidShip(getShip())
+	 * @invar  The source ship of each bullet must be a valid source ship for any
+	 *         bullet.
+	 *       | isValidSourceShip(getSourceShip())
 	 */
 	public Bullet() {
 		super(2);
@@ -66,35 +71,133 @@ public class Bullet extends Entity{
 	
 	@Override
 	public void terminate() {
-		if (!isTerminated()) {  
-			// Remove the bullet from its ship
-			 this.setShip(null); 
-			 if (this.getShip().hasAsBullet(this))
-				 this.getShip().removeBullet(this);
-			 // Remove the bullet from its world
-			 this.setWorld(null); 
-			 this.getWorld().removeEntity(this);
-			 
-			 this.isTerminated = true;
+		if (!isTerminated()) {
+			if (this.getShip() != null) {
+				Ship ship = this.getShip();
+				this.setShip(null);
+				ship.removeBullet(this);
+			}
+			if (this.getSourceShip() != null) {
+				this.setSourceShip(null);
+				World world = this.getWorld();
+			 	this.setWorld(null); 
+			 	world.removeEntity(this);
+			}
+			
+			this.isTerminated = true;
 		}
 	}
-
-
-	public boolean isValidShip(Ship ship) {
-		// TODO add capacity later on
-		return (this.getShip() != ship);
-	}
-    
-    private void setShip(Ship ship) {
-		 this.ship = ship;
-	 }
-	 
-	private Ship ship; 
 	
+	/**
+	 * Return the ship of this bullet.
+	 */
+	@Basic @Raw
 	public Ship getShip() {
 		return this.ship;
 	}
 	
+	/**
+	 * Check whether the given ship is a valid ship for
+	 * this bullet.
+	 *  
+	 * @param  ship
+	 *         The ship to check.
+	 * @return 
+	 *       | result == (this.getShip() == null) && (this.inShip(ship))
+	 */
+	public boolean isValidShip(Ship ship) {
+		return (this.getShip() == null) && (this.isInShip(ship));
+	}
+	
+	/**
+	 * Set the ship of this bullet to the given ship.
+	 * 
+	 * @param  ship
+	 *         The new ship for this bullet.
+	 * @post   The ship of this new bullet is equal to
+	 *         the given ship.
+	 *       | new.getShip() == ship
+	 * @throws IllegalArgumentException
+	 *         The given ship is not a valid ship for any
+	 *         bullet.
+	 *       | ! isValidShip(getShip())
+	 */
+	@Raw
+	public void setShip(Ship ship) throws IllegalArgumentException {
+		if (! this.isValidShip(ship)) throw new IllegalArgumentException();
+		this.ship = ship;
+	}
+	
+	/**
+	 * Variable registering the ship of this bullet.
+	 */
+	private Ship ship;
+	
+	/**
+	 * Return the source ship of this bullet.
+	 */
+	@Basic @Raw
+	public Ship getSourceShip() {
+		return this.sourceShip;
+	}
+	
+	/**
+	 * Check whether the given source ship is a valid source ship for
+	 * this bullet.
+	 *  
+	 * @param  source ship
+	 *         The source ship to check.
+	 * @return 
+	 *       | result == (this.getShip() == null)
+	*/
+	public boolean isValidSourceShip(Ship sourceShip) {
+		return this.getShip() == null;
+	}
+	
+	/**
+	 * Set the source ship of this bullet to the given source ship.
+	 * 
+	 * @param  sourceShip
+	 *         The new source ship for this bullet.
+	 * @post   The source ship of this new bullet is equal to
+	 *         the given source ship.
+	 *       | new.getSourceShip() == sourceShip
+	 * @throws IllegalArgumentException
+	 *         The given source ship is not a valid source ship for any
+	 *         bullet.
+	 *       | ! isValidSourceShip(getSourceShip())
+	 */
+	@Raw
+	public void setSourceShip(Ship sourceShip) throws IllegalArgumentException {
+		if (! isValidSourceShip(sourceShip))
+			throw new IllegalArgumentException();
+		this.sourceShip = sourceShip;
+	}
+	
+	/**
+	 * Variable registering the source ship of this bullet.
+	 */
+	private Ship sourceShip;
+	
+	/**
+	 * Check whether this bullet lies fully in the given ship.
+	 *  
+	 * @param  ship
+	 *         The ship wherein the bullet could be.
+	 * @return 
+	 *       | @see implementation
+	 */
+	public boolean isInShip(Ship ship) {
+		double a = this.getPosition().getXComponent() - ship.getPosition().getXComponent();
+		double b = this.getPosition().getYComponent() - ship.getPosition().getYComponent();
+		double c = ship.getRadius() - this.getRadius();
+		
+		// calculation using the Pythagorean theorem
+		return Math.pow(a, 2) + Math.pow(b, 2) <= Math.pow(c, 2);
+	}
+	
+	
+	// TODO: Als een bullet in een schip zit, zijn er veel checks overbodig!
 	public boolean checkOverlap(Vector position) {
 		Set<Entity> entities = this.getWorld().getEntities();
 		// TODO maybe this is not allowed
@@ -111,12 +214,8 @@ public class Bullet extends Entity{
 			    	//TODO check here if test lays fully within the bounds of it's ship.
 			    	return true;
 			    	
-			    }
-				   
+			    }	   
 	    }
 		return true;
 	}
-	
-	// Testing git client ubuntu
-
 }
