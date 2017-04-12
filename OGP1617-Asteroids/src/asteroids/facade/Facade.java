@@ -18,16 +18,6 @@ public class Facade implements asteroids.part2.facade.IFacade {
 	}
 
 	@Override
-	public Ship createShip(double x, double y, double xVelocity, double yVelocity, double radius, double orientation)
-			throws ModelException {
-		try {
-			return new Ship(new Vector(x, y), new Vector(xVelocity, yVelocity), radius, orientation);
-		} catch (IllegalArgumentException e) {
-			throw new ModelException(e);
-		}
-	}
-
-	@Override
 	public double[] getShipPosition(Ship ship) throws ModelException {
 		return ship.getPosition().toDouble();
 	}
@@ -111,8 +101,11 @@ public class Facade implements asteroids.part2.facade.IFacade {
 	@Override
 	public Ship createShip(double x, double y, double xVelocity, double yVelocity, double radius, double direction,
 			double mass) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return new Ship(new Vector(x, y), new Vector(xVelocity, yVelocity), radius, direction, mass);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 	}
 
 	@Override
@@ -129,39 +122,39 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public double getShipMass(Ship ship) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		return ship.getMass();
 	}
 
 	@Override
 	public World getShipWorld(Ship ship) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		return ship.getWorld();
 	}
 
 	@Override
 	public boolean isShipThrusterActive(Ship ship) throws ModelException {
-		// TODO Auto-generated method stub
-		return false;
+		return ship.getTrusterState();
 	}
 
 	@Override
 	public void setThrusterActive(Ship ship, boolean active) throws ModelException {
-		// TODO Auto-generated method stub
+		ship.thrustOn();
 		
 	}
 
 	@Override
 	public double getShipAcceleration(Ship ship) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		return ship.getAcceleration();
 	}
 
 	@Override
 	public Bullet createBullet(double x, double y, double xVelocity, double yVelocity, double radius)
 			throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			return new Bullet(new Vector(x, y), new Vector(xVelocity, yVelocity), radius);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
+		
 	}
 
 	@Override
@@ -178,49 +171,42 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public double[] getBulletPosition(Bullet bullet) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		return bullet.getPosition().toDouble();
 	}
 
 	@Override
 	public double[] getBulletVelocity(Bullet bullet) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		return bullet.getVelocity().toDouble();
 	}
 
 	@Override
 	public double getBulletRadius(Bullet bullet) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		return bullet.getRadius();
 	}
 
 	@Override
 	public double getBulletMass(Bullet bullet) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		return bullet.getMass();
 	}
 
 	@Override
 	public World getBulletWorld(Bullet bullet) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		return bullet.getWorld();
 	}
 
 	@Override
 	public Ship getBulletShip(Bullet bullet) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		return bullet.getShip();
 	}
 
 	@Override
 	public Ship getBulletSource(Bullet bullet) throws ModelException {
 		// TODO Auto-generated method stub
-		return null;
+		return bullet.getSource();
 	}
 
 	@Override
 	public World createWorld(double width, double height) throws ModelException {
-		// TODO Auto-generated method stub
 		return new World(width, height);
 	}
 
