@@ -117,11 +117,11 @@ public abstract class Entity {
 	 * @return 
 	 * 		 | @see implementation
 	 */
-	public boolean liesWithinBoundsWorld(Vector position) throws NullPointerException {
+	public boolean liesWithinBoundsWorld(World world) throws NullPointerException {
 		
 		if (this.getWorld() == null) throw new NullPointerException();
-		double[] sizeWorld = this.getWorld().getSize();
-		if (sizeWorld[0] - 0.99 * this.getRadius() >= position.getXComponent() && 0.99 * this.getRadius() <= position.getXComponent())
+		double[] sizeWorld = world.getSize();
+		if (sizeWorld[0] - 0.99 * this.getRadius() >= this.getPosition().getXComponent() && 0.99 * this.getRadius() <= position.getXComponent())
 			if (sizeWorld[1] - 0.99 * this.getRadius() >= position.getYComponent() && 0.99 * this.getRadius() <= position.getYComponent())
 				return true;
 		
