@@ -376,7 +376,7 @@ public abstract class Entity {
 		return collisionPosition;
 		
 	}
-	@Raw
+	
 	public Vector getCollisionBoundaryPosition() {
 		if (this.getVelocity().equals(Vector.NULL_VECTOR))
 			return null;
@@ -385,7 +385,7 @@ public abstract class Entity {
 		double y;
 		if (this.getVelocity().getXComponent() > 0){
 			x = this.getWorld().getSize().getXComponent();
-			y = ((this.getVelocity().getXComponent() / this.getVelocity().getYComponent()) 
+			y = ((this.getVelocity().getYComponent() / this.getVelocity().getXComponent()) 
 					* (x - this.getPosition().getXComponent())) + this.getPosition().getYComponent();
 		}
 		else if (this.getVelocity().getXComponent() < 0){
@@ -398,10 +398,14 @@ public abstract class Entity {
 		Vector collisionPosition1 = new Vector(x,y);
 		
 		if (this.getVelocity().getYComponent() > 0){
-			//NOT FINISHED
+			y = this.getWorld().getSize().getYComponent();
+			x = ((this.getVelocity().getXComponent() / this.getVelocity().getYComponent()) 
+					* (y - this.getPosition().getYComponent())) + this.getPosition().getXComponent();
 		}
 		else if (this.getVelocity().getYComponent() < 0){
-			
+			y = 0;
+			x = ((this.getVelocity().getXComponent() / this.getVelocity().getYComponent()) 
+					* (y - this.getPosition().getYComponent())) + this.getPosition().getXComponent();
 		}
 		else
 			x = y = Double.POSITIVE_INFINITY;
@@ -410,6 +414,12 @@ public abstract class Entity {
 		if (this.getPosition().getDistanceBetween(collisionPosition1) < this.getPosition().getDistanceBetween(collisionPosition2))
 			return collisionPosition1;
 		return collisionPosition2;
+	}
+	
+	public double getTimeToCollisionBoundary() {
+		Vector collisionPosition = this.getCollisionBoundaryPosition();
+		CollisionPoint collisionPoint = new CollisionPoint(collisionPosition);
+		return this.getTimeToCollision(collisionPoint);
 	}
 
 	/**
