@@ -378,7 +378,7 @@ public abstract class Entity {
 	}
 	
 	public Vector getCollisionBoundaryPosition() {
-		if (this.getVelocity().equals(Vector.NULL_VECTOR))
+		if ((this.getWorld() == null) || (this.getVelocity().equals(Vector.NULL_VECTOR)))
 			return null;
 		
 		double x;
@@ -390,7 +390,7 @@ public abstract class Entity {
 		}
 		else if (this.getVelocity().getXComponent() < 0){
 			x = 0;
-			y = ((this.getVelocity().getXComponent() / this.getVelocity().getYComponent()) 
+			y = ((this.getVelocity().getYComponent() / this.getVelocity().getXComponent()) 
 				* (x - this.getPosition().getXComponent())) + this.getPosition().getYComponent();
 		}
 		else

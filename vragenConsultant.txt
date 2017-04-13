@@ -3,3 +3,4 @@
 - Is it okay to use a deque for bullets
 - Is it okay to set the world etc in facade?
 - Is it okay to do nothing when a ship in an unbounded space fires a bullet?
+- How do we implement the 99-101 rule in getTimeToCollision?
