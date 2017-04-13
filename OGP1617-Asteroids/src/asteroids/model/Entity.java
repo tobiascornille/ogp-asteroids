@@ -101,12 +101,31 @@ public abstract class Entity {
 		return false;			
 
 	}
+<<<<<<< HEAD
 	
 	public boolean liesWithinBoundsWorld(World world) {
 		if(	this.getPosition().getXComponent() >= 0.99 * this.getRadius() &&
 			this.getPosition().getXComponent() <= world.getSize().getXComponent() - (0.99 * this.getRadius()) &&
 			this.getPosition().getYComponent() >= 0.99 * this.getRadius() &&
 			this.getPosition().getYComponent() <= world.getSize().getYComponent() - (0.99 * this.getRadius()) )
+=======
+	/**
+	 * Checks whether the given entity with argument position would lie
+	 * fully within the bounds of it's world.
+	 * 
+	 * @param position
+	 * 		  The position to check.
+	 * 
+	 * @return 
+	 * 		 | @see implementation
+	 */
+	public boolean liesWithinBoundsWorld(World world) throws NullPointerException {
+		
+		if (this.getWorld() == null) throw new NullPointerException();
+		double[] sizeWorld = world.getSize();
+		if (sizeWorld[0] - 0.99 * this.getRadius() >= this.getPosition().getXComponent() && 0.99 * this.getRadius() <= position.getXComponent())
+			if (sizeWorld[1] - 0.99 * this.getRadius() >= position.getYComponent() && 0.99 * this.getRadius() <= position.getYComponent())
+>>>>>>> origin/master
 				return true;
 		
 		return false;
