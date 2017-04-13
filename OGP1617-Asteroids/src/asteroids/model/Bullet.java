@@ -108,6 +108,8 @@ public class Bullet extends Entity{
 	 *       | result == (this.getShip() == null) && (this.inShip(ship))
 	 */
 	public boolean isValidShip(Ship ship) {
+		if (ship == null)
+			return true;
 		return (this.getShip() == null) && (this.isInShip(ship));
 	}
 	

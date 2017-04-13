@@ -1,3 +1,4 @@
 - Is it okay to iterate over the whole .values() set to remove an entity?
 - Is it okay to update the hashmap each time the evolve method is called?
-- Is our implementation for density in the ship class correct? What happens if the mass of the ship changes?
+- Is it okay to use a deque for bullets
+- Is it okay to set the world etc in facade?
