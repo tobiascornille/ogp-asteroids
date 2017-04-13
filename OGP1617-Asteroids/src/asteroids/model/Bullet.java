@@ -12,7 +12,7 @@ public class Bullet extends Entity{
 	 * @invar  The ship of each bullet must be a valid ship for any
 	 *         bullet.
 	 *       | isValidShip(getShip())
-	 * @invar  The source ship of each bullet must be a valid source ship for any
+	 * @invar  The source ship of each bullet must be a valid source ship for this
 	 *         bullet.
 	 *       | isValidSourceShip(getSourceShip())
 	 */
@@ -102,10 +102,13 @@ public class Bullet extends Entity{
 	 * Check whether the given ship is a valid ship for
 	 * this bullet.
 	 *  
-	 * @param  ship
-	 *         The ship to check.
-	 * @return 
-	 *       | result == (this.getShip() == null) && (this.inShip(ship))
+	 * @param  	ship
+	 *         	The ship to check.
+	 * @return
+	 * 		|	if (ship == null)
+	 * 		|		result == true
+	 * @return 	
+	 *      | 	result == (this.getShip() == null) && (this.inShip(ship))
 	 */
 	public boolean isValidShip(Ship ship) {
 		if (ship == null)

@@ -285,18 +285,16 @@ public class Ship extends Entity{
 			double newX = this.getPosition().getXComponent() + (Math.cos(this.getOrientation()) * (this.getRadius() + bullet.getRadius()));
 			double newY = this.getPosition().getYComponent() + (Math.sin(this.getOrientation()) * (this.getRadius() + bullet.getRadius()));
 			Vector newPosition = new Vector(newX, newY);
+	
+			bullet.setVelocity(this.getVelocity().normalise().times(250));
+			bullet.setWorld(this.getWorld());
+			this.getWorld().addEntity(bullet);
 			
-			if (! bullet.liesWithinBoundsWorld(newPosition)) {
-				bullet.terminate();
-			}
-			else if (! this.checkOverlap(newPosition)) {
+			if (! bullet.checkOverlap(newPosition)) {
 				//resolve collision
 			}
-			else {
-				bullet.setVelocity(this.getVelocity().normalise().times(250));
-				bullet.setWorld(this.getWorld());
-				this.getWorld().addEntity(bullet);
-			}
+			if (! bullet.liesWithinBoundsWorld(newPosition))
+				bullet.terminate();
 		}
 	}
 	

@@ -15,7 +15,9 @@ import be.kuleuven.cs.som.annotate.*;
  * 		|	isValidVelocity(this.getVelocity())
  * @invar	Each entity can have its radius as radius.
  * 		|	canHaveAsRadius(this.getRadius())
- * 
+ * @invar  	The world of each entity must be a valid world for this
+ *         	entity.
+ *      | 	isValidWorld(getWorld())
  * @version 1.2
  * @author 	Simon Merckx and Tobias Cornille.
  *         	We both study informatics (1ba).
@@ -381,15 +383,54 @@ public abstract class Entity {
 		
 	}
 
-	public boolean isValidWorld(World world) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	/**
+	 * Return the world of this entity.
+	 */
+	@Basic @Raw
 	public World getWorld() {
-		// TODO Auto-generated method stub
 		return this.world;
 	}
+	
+	/**
+	 * Check whether the given world is a valid world for
+	 * this entity.
+	 * 
+	 * @return
+	 * 		|	if (world == null)
+	 * 		|		result == true
+	 * @return 	
+	 *      | 	result == (this.getWorld() == null) && (this.inWorld(world))
+	 */
+	public boolean isValidWorld(World world) {
+		if (world == null)
+			return true;
+		return (this.getWorld() == null) && (this.liesWithinBoundsWorld(this.getPosition()));
+	}
+	
+	/**
+	 * Set the world of this entity to the given world.
+	 * 
+	 * @param  world
+	 *         The new world for this entity.
+	 * @post   The world of this new entity is equal to
+	 *         the given world.
+	 *       | new.getWorld() == world
+	 * @throws IllegalArgumentException
+	 *         The given world is not a valid world for any
+	 *         entity.
+	 *       | ! isValidWorld(getWorld())
+	 */
+	@Raw
+	public void setWorld(World world) throws IllegalArgumentException {
+		if (! isValidWorld(world))
+			throw new IllegalArgumentException();
+		this.world = world;
+	}
+	
+	/**
+	 * Variable registering the world of this entity.
+	 */
+	private World world;
 	
 	 /**
 	  * Return a boolean indicating whether or not this entity
@@ -404,14 +445,7 @@ public abstract class Entity {
 	  * Variable registering whether this entity is terminated.
 	  */
 	 protected boolean isTerminated = false;
-	 
-	 private World world; 
-	 
-	 public void setWorld(World world) {
-		 //TODO maak deftig
-		 this.world = world;
-	 }
-	 
+
 	 public abstract void terminate();
 	
 }
