@@ -117,6 +117,20 @@ public class Vector implements Comparable<Vector>{
 	}
 	
 	/**
+	 * Calculates the distance between this vector and the other vector.
+	 * 
+	 * @param 	other
+	 * 			The other vector.
+	 * @return	
+	 * 		|	result == Math.sqrt( Math.pow(getXComponent() - other.getXComponent(), 2) 
+	 * 		|					   + Math.pow(getYComponent() - other.getYComponent(), 2) )
+	 */
+	public double getDistanceBetween(Vector other) {
+		return Math.sqrt( Math.pow(getXComponent() - other.getXComponent(), 2) 
+				+ Math.pow(getYComponent() - other.getYComponent(), 2));
+	}
+	
+	/**
 	 * Compute the dot product of this vector and the other vector.
 	 * 
 	 * @param 	other

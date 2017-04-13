@@ -1,5 +1,8 @@
 package asteroids.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 import be.kuleuven.cs.som.annotate.Raw;
@@ -372,6 +375,41 @@ public abstract class Entity {
 		
 		return collisionPosition;
 		
+	}
+	@Raw
+	public Vector getCollisionBoundaryPosition() {
+		if (this.getVelocity().equals(Vector.NULL_VECTOR))
+			return null;
+		
+		double x;
+		double y;
+		if (this.getVelocity().getXComponent() > 0){
+			x = this.getWorld().getSize().getXComponent();
+			y = ((this.getVelocity().getXComponent() / this.getVelocity().getYComponent()) 
+					* (x - this.getPosition().getXComponent())) + this.getPosition().getYComponent();
+		}
+		else if (this.getVelocity().getXComponent() < 0){
+			x = 0;
+			y = ((this.getVelocity().getXComponent() / this.getVelocity().getYComponent()) 
+				* (x - this.getPosition().getXComponent())) + this.getPosition().getYComponent();
+		}
+		else
+			x = y = Double.POSITIVE_INFINITY;
+		Vector collisionPosition1 = new Vector(x,y);
+		
+		if (this.getVelocity().getYComponent() > 0){
+			//NOT FINISHED
+		}
+		else if (this.getVelocity().getYComponent() < 0){
+			
+		}
+		else
+			x = y = Double.POSITIVE_INFINITY;
+		Vector collisionPosition2 = new Vector(x,y);
+		
+		if (this.getPosition().getDistanceBetween(collisionPosition1) < this.getPosition().getDistanceBetween(collisionPosition2))
+			return collisionPosition1;
+		return collisionPosition2;
 	}
 
 	/**
