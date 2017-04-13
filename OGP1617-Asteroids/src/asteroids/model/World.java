@@ -1,6 +1,7 @@
 package asteroids.model;
 import be.kuleuven.cs.som.annotate.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -190,6 +191,7 @@ public class World {
 	@Raw
 	public void removeEntity(Entity entity) throws IllegalArgumentException {
 		if (! this.hasAsEntity(entity) || entity.getWorld() != null) throw new IllegalArgumentException();
+		entity.setWorld(null);
 		entities.values().remove(entity);
 	}
 
@@ -223,7 +225,6 @@ public class World {
 			// We avoid ConcurrentModificationException by using an iterator
 			 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
 			    Entity entity = i.next();
-			    entity.setWorld(null); 
 				this.removeEntity(entity);  
 			 }
 			 this.isTerminated = true;
@@ -293,11 +294,119 @@ public class World {
 	  * 
 	  * @param dt
 	  */
-	 public void Evolve(Double dt) {
-		 //TODO implementation
+	 private void advance(double dt) {
+		 
+		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    entity.move(dt);
+			    
+			    if (entity instanceof Ship && ((Ship) entity).getThrusterState()) {
+			    	((Ship) entity).thrust(dt);
+			    }
+			    
+			    // Update position here
+		 }
+		 
+		 
 		 
 	 }
 	 
-	 
+	 /**
+	  * 
+	  * @param dt
+	  * 
+	  */
+	 public void evolve(double dt) {
+		 
+		  double tC = 0;
+		  
+		  while (true) {
+			  
+			  Map<Double, Entity[]> collisions = new HashMap<>();
+			  double time;
+			  
+			  for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
+				    Entity entity = i.next();
+				    
+				    for (Iterator<Entity> j = entities.values().iterator(); j.hasNext();) { 
+				    	
+				    	 Entity otherEntity = j.next();
+				    	 time = entity.getTimeToCollision(otherEntity);
+				    	 if	(time != Double.POSITIVE_INFINITY && collisions.get(time) == null)
+				    		 collisions.put(time, new Entity[] {entity, otherEntity});
+				    	 
+				     time = entity.getTimeToCollisionBoundary();	 
+				     if	(time != Double.POSITIVE_INFINITY && collisions.get(time) == null)
+				    	 collisions.put(time, new Entity[] {entity, null});		     	 			    	 
+				    }    	
+			  }
+			  
+			  tC = Collections.min(collisions.keySet());
+			
+			  if (tC < dt) {
+				  advance(tC);
+				  // Resolve C here
+				  dt = dt - tC;
+			  }
+			  
+			  else {
+				  advance(dt);
+				  break;
+			  }
+		 	
+		  }
+		 		 
+	 }
+
+	 /**
+	  * 
+	  * @param entity
+	  * @param otherEntity
+	  */
+	 private void resolveCollision(Entity entity, Entity otherEntity) {
+		 
+		 if (entity instanceof Ship && otherEntity instanceof Ship) {
+			 
+			  Vector newVelocityEntity;
+			  Vector newVelocityOtherEntity;
+			  Vector dv = otherEntity.getVelocity().subtract(entity.getVelocity());
+			  double sigma = entity.getRadius() + otherEntity.getRadius();
+			  Vector dr = otherEntity.getPosition().subtract(entity.getPosition());
+			  double massEntity = entity.getMass();
+			  double massOtherEntity = otherEntity.getMass();
+			  			  
+			  double j = ((2 * massEntity * massOtherEntity  * dv.dot(dr) ) / sigma * (massEntity+ massOtherEntity));
+			  double jX = ((j * otherEntity.getPosition().getXComponent() - entity.getPosition().getXComponent()) / sigma );
+			  double jY = ((j * otherEntity.getPosition().getYComponent() - entity.getPosition().getYComponent()) / sigma );
+			  
+			  newVelocityEntity = new Vector (entity.getVelocity().getXComponent() + (jX / entity.getMass()), entity.getVelocity().getYComponent() + (jY/entity.getMass()));
+			  newVelocityOtherEntity = new Vector (otherEntity.getVelocity().getXComponent() + (jX / otherEntity.getMass()), otherEntity.getVelocity().getYComponent() + (jY/otherEntity.getMass()));
+			  
+			  entity.setVelocity( newVelocityEntity);
+			  otherEntity.setVelocity( newVelocityOtherEntity);
+			  
+		 }
+		 
+		 else if (entity instanceof Bullet && (otherEntity != ((Bullet) entity).getShip() || otherEntity instanceof Bullet )) {
+			entity.terminate();
+			otherEntity.terminate();		
+	     }
+		 
+		 else if (entity instanceof Bullet && otherEntity instanceof Ship) {
+			 Bullet bullet = (Bullet)entity;
+			 Ship ship = (Ship) otherEntity;
+			 
+			 if (otherEntity == bullet.getShip()) {
+				 
+				 this.removeEntity(bullet);
+				 bullet.setPosition(ship.getPosition());
+				 ship.loadBullet(bullet);	 
+			 }
+			 
+		 }
+		 
+		 
+		 
+	 }
 	 
 }

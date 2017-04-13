@@ -4,3 +4,4 @@
 - Is it okay to set the world etc in facade?
 - Is it okay to do nothing when a ship in an unbounded space fires a bullet?
 - How do we implement the 99-101 rule in getTimeToCollision?
+- Can 2 collisions occur at exactly the same time?

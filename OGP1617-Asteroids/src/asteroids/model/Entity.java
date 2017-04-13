@@ -105,6 +105,7 @@ public abstract class Entity {
 				if (((Bullet) this).isInShip(((Bullet) this).getShip()))
 					return true;
 		}
+		
 		else if (this.liesWithinBoundsWorld(world) && (! this.checkOverlapInWorld(world))) 
 				return true;
 		
@@ -122,6 +123,7 @@ public abstract class Entity {
 	}
 	
 	protected abstract boolean checkOverlapInWorld(World world); 
+	protected abstract double getMass(); 
 
 	/**
 	 * Change the position of the entity based on the current position, velocity and time duration dt.

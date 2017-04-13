@@ -203,8 +203,9 @@ public class Bullet extends Entity{
 		return Math.pow(a, 2) + Math.pow(b, 2) <= Math.pow(c, 2);
 	}
 	
-	
-	// TODO: Als een bullet in een schip zit, zijn er veel checks overbodig!
+	/**
+	 * 
+	 */
 	public boolean checkOverlapInWorld(World world) {	
 		
 		Set<Entity> entities = world.getEntities();
