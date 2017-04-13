@@ -165,7 +165,7 @@ public class World {
 	 * @post   This world has the given entity as one of its entities.
 	 *       | new.hasAsEntity(entity)
 	 */
-	public void addEntity(@Raw Entity entity) {
+	public void addEntity(@Raw Entity entity) throws IllegalArgumentException {
 		if (entity == null || entity.getWorld() != null) 
 			throw new IllegalArgumentException();
 		if (! entity.hasValidPositionInWorld(this))
@@ -188,7 +188,7 @@ public class World {
 	 *       | ! new.hasAsEntity(entity)
 	 */
 	@Raw
-	public void removeEntity(Entity entity) {
+	public void removeEntity(Entity entity) throws IllegalArgumentException {
 		if (! this.hasAsEntity(entity) || entity.getWorld() != null) throw new IllegalArgumentException();
 		entities.values().remove(entity);
 	}

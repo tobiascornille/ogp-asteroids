@@ -291,7 +291,7 @@ public class Ship extends Entity{
 			bullet.setVelocity(this.getVelocity().normalise().times(250));
 			this.getWorld().addEntity(bullet);
 			
-			if (! bullet.checkOverlap(newPosition)) {
+			if (! bullet.checkOverlapInWorld(this.getWorld())) {
 				//resolve collision
 			}
 			if (! bullet.liesWithinBoundsWorld(bullet.getWorld()))
@@ -475,12 +475,11 @@ public class Ship extends Entity{
 	 * 
 	 * 
 	 */
-	public boolean checkOverlap(Vector position) {
-		Set<Entity> entities = this.getWorld().getEntities();
-		Ship testingPosition = new Ship(position, new Vector(0,0), 11, 0, 0);
+	public boolean checkOverlapInWorld(World world) {
+		Set<Entity> entities = world.getEntities();
 	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {  
 			    Entity entity = i.next();	    
-			    if (testingPosition.overlap(entity))
+			    if (this.overlap(entity))
 			    	return true;		    
 	    }
 	    

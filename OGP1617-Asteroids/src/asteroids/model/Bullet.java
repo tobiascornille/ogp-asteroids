@@ -205,14 +205,12 @@ public class Bullet extends Entity{
 	
 	
 	// TODO: Als een bullet in een schip zit, zijn er veel checks overbodig!
-	public boolean checkOverlap(Vector position) {	
+	public boolean checkOverlapInWorld(World world) {	
 		
-		Set<Entity> entities = this.getWorld().getEntities();
-	    Bullet testPosition = new Bullet(position, new Vector(0,0), this.getRadius());
+		Set<Entity> entities = world.getEntities();
 	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
-			    Entity entity = i.next();
-			    
-			    if (testPosition.overlap(entity) && this.getWorld() != null) 
+			    Entity entity = i.next();   
+			    if (this.overlap(entity)) 
 			    	return true;	        		   
 	    }
 		return false;

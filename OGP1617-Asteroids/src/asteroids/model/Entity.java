@@ -89,7 +89,7 @@ public abstract class Entity {
 	}
 	
 	public boolean hasValidPositionInWorld(World world) {
-		if (this.getWorld() == null) {
+		if (world == null) {
 			if (this instanceof Ship)
 				//True if ship is in unbounded space
 				return true;
@@ -102,11 +102,10 @@ public abstract class Entity {
 				if (((Bullet) this).isInShip(((Bullet) this).getShip()))
 					return true;
 		}
-		else
-			if (this.liesWithinBoundsWorld(world) && (! this.checkOverlap(this.getPosition()))) 
+		else if (this.liesWithinBoundsWorld(world) && (! this.checkOverlapInWorld(world))) 
 				return true;
 		
-		return false;	
+		return false;
 	}
 	
 	public boolean liesWithinBoundsWorld(World world) {
@@ -119,7 +118,7 @@ public abstract class Entity {
 	
 	}
 	
-	protected abstract boolean checkOverlap(Vector position); 
+	protected abstract boolean checkOverlapInWorld(World world); 
 
 	/**
 	 * Change the position of the entity based on the current position, velocity and time duration dt.
@@ -413,7 +412,7 @@ public abstract class Entity {
 	 *       | ! isValidWorld(getWorld())
 	 */
 	@Raw
-	public void setWorld(World world) throws IllegalArgumentException {
+	protected void setWorld(World world) throws IllegalArgumentException {
 		if (! isValidWorld(world))
 			throw new IllegalArgumentException();
 		this.world = world;
