@@ -92,10 +92,11 @@ public abstract class Entity {
 	 * 		 | 	@see implementation
 	 */
 	public boolean isValidPosition(Vector position) {
-		if (this.getWorld() == null)
+
+		if (this.getWorld() == null && this instanceof Ship)
 			return true;
 		
-		if (this.liesWithinBoundsWorld(this.getWorld()) && this.checkOverlap(position)) 
+		if (this.liesWithinBoundsWorld(this.getWorld()) && (!(this.checkOverlap(position)))) 
 			return true;
 		
 		return false;			
@@ -389,7 +390,7 @@ public abstract class Entity {
 	 */
 	public boolean isValidWorld(World world) {
 		if (world == null)
-			return true;
+			return true;		
 		return (this.getWorld() == null) && (this.liesWithinBoundsWorld(world));
 	}
 	
@@ -416,7 +417,7 @@ public abstract class Entity {
 	/**
 	 * Variable registering the world of this entity.
 	 */
-	private World world;
+	private World world = null;
 	
 	 /**
 	  * Return a boolean indicating whether or not this entity

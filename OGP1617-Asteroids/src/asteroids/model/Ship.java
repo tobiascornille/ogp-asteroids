@@ -468,18 +468,20 @@ public class Ship extends Entity{
 		 }
 		
 	}
-	
+	/**
+	 * Checks whether a ship overlaps with any entities in it's world.
+	 * 
+	 * 
+	 */
 	public boolean checkOverlap(Vector position) {
 		Set<Entity> entities = this.getWorld().getEntities();
-		//TODO maybe this is not allowed.
-		Ship test = new Ship(position, this.getVelocity(), this.getRadius(), this.getOrientation(), this.getMass());
-	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
-	    	
-			    Entity entity = i.next();
-			    
-			    if (test.overlap(entity))
-			    	return false;		    
+		Ship testingPosition = new Ship(position, new Vector(0,0), 11, 0, 0);
+	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {  
+			    Entity entity = i.next();	    
+			    if (testingPosition.overlap(entity))
+			    	return true;		    
 	    }
-		return true;
+	    
+		return false;
 	}
 }
