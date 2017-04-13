@@ -239,30 +239,40 @@ public class Facade implements asteroids.part2.facade.IFacade {
 	@Override
 	public void addShipToWorld(World world, Ship ship) throws ModelException {
 		try {
-			ship.setWorld(world);
+			world.addEntity(ship);
 		} catch (IllegalArgumentException e) {
 			throw new ModelException(e);
 		}
-		world.addEntity(ship);
 		
 	}
 
 	@Override
 	public void removeShipFromWorld(World world, Ship ship) throws ModelException {
-		world.removeEntity(ship);
+		try {
+			world.removeEntity(ship);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 		
 	}
 
 	@Override
 	public void addBulletToWorld(World world, Bullet bullet) throws ModelException {
-		bullet.setWorld(world);
-		world.addEntity(bullet);
+		try {
+			world.addEntity(bullet);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 		
 	}
 
 	@Override
 	public void removeBulletFromWorld(World world, Bullet bullet) throws ModelException {
-		world.removeEntity(bullet);
+		try {
+			world.removeEntity(bullet);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 		
 	}
 
@@ -278,20 +288,31 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public void loadBulletOnShip(Ship ship, Bullet bullet) throws ModelException {
-		bullet.setShip(ship);
-		ship.loadBullet(bullet);
+		try {
+			ship.loadBullet(bullet);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 		
 	}
 
 	@Override
 	public void loadBulletsOnShip(Ship ship, Collection<Bullet> bullets) throws ModelException {
-		ship.loadBullets((Set<Bullet>) bullets);
+		try {
+			ship.loadBullets((Set<Bullet>) bullets);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 		
 	}
 
 	@Override
 	public void removeBulletFromShip(Ship ship, Bullet bullet) throws ModelException {
-		ship.removeBullet(bullet);
+		try {
+			ship.removeBullet(bullet);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 		
 	}
 
@@ -315,12 +336,20 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public double getTimeCollisionEntity(Object entity1, Object entity2) throws ModelException {
-		return ((Entity)entity1).getTimeToCollision((Entity) entity2);
+		try {
+			return ((Entity)entity1).getTimeToCollision((Entity) entity2);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 	}
 
 	@Override
 	public double[] getPositionCollisionEntity(Object entity1, Object entity2) throws ModelException {
-		return ((Entity)entity1).getCollisionPosition((Entity) entity2).toDouble();
+		try {
+			return ((Entity)entity1).getCollisionPosition((Entity) entity2).toDouble();
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 	}
 
 	@Override

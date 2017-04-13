@@ -230,13 +230,14 @@ public class Ship extends Entity{
 	 * @throws IllegalArgumentException
 	 * 		 | bullet == null
 	 * @throws IllegalArgumentException
-	 * 		 | bullet.getShip() != this
+	 * 		 | bullet.getShip() != null
 	 * @post   This ship has the given bullet as one of its bullets.
 	 *       | new.hasAsBullet(bullet)
 	 */
 	public void loadBullet(@Raw Bullet bullet) throws IllegalArgumentException {
-		if (bullet == null || bullet.getShip() != this) 
+		if (bullet == null || bullet.getShip() != null) 
 			throw new IllegalArgumentException();
+		bullet.setShip(this);
 		bullets.add(bullet);
 	}
 	
@@ -262,22 +263,24 @@ public class Ship extends Entity{
 	 * @throws IllegalArgumentException
 	 *       | ! this.hasAsBullet(bullet)
 	 * @throws IllegalArgumentException
-	 *       | bullet.getShip() != null
+	 *       | bullet.getShip() != this
 	 * @post   This ship no longer has the given bullet as
 	 *         one of its bullets.
 	 *       | ! new.hasAsBullet(bullet)
 	 */
 	@Raw
 	public void removeBullet(Bullet bullet) throws IllegalArgumentException {
-		if (! this.hasAsBullet(bullet) || bullet.getShip() != null) throw new IllegalArgumentException();
+		if (! this.hasAsBullet(bullet) || bullet.getShip() != this) 
+			throw new IllegalArgumentException();
+		bullet.setShip(null);
 		bullets.remove(bullet);
 	}
 	
-	public void fireBullet() throws IllegalStateException {
+	public void fireBullet() {
+		// if there are no bullets left, or if the ship is not in a world, no bullets are fired
 		if ((this.getNbBullets() > 0) && (this.getWorld() != null)){
 			Bullet bullet = this.getBullets().peek();
 			// Remove the bullet from this ship
-			bullet.setShip(null);
 			this.removeBullet(bullet);
 			
 			double newX = this.getPosition().getXComponent() + (Math.cos(this.getOrientation()) * (this.getRadius() + bullet.getRadius()));
@@ -286,7 +289,6 @@ public class Ship extends Entity{
 			
 			bullet.setPosition(newPosition);
 			bullet.setVelocity(this.getVelocity().normalise().times(250));
-			bullet.setWorld(this.getWorld());
 			this.getWorld().addEntity(bullet);
 			
 			if (! bullet.checkOverlap(newPosition)) {

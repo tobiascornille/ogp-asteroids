@@ -2,3 +2,4 @@
 - Is it okay to update the hashmap each time the evolve method is called?
 - Is it okay to use a deque for bullets
 - Is it okay to set the world etc in facade?
+- Is it okay to do nothing when a ship in an unbounded space fires a bullet?

@@ -80,29 +80,34 @@ public abstract class Entity {
 	 * any entity.
 	 *  
 	 * @param	position
-	 *         	The position to check.
-	 *         
-	 * @return 	If this entity doesn't have a world it's postition will always be correct.
-	 * 			Finally a bullet loaded in a ship must lie fully within the bounds of it's ship.
-	 * 			Only a bullet loaded in it ship, and diffrent bullets loaded in the same ship can overlap.
-	 * 
+	 *         	The position to check.  
+	 * @return 	If this entity doesn't have a world it's position will always be correct.
 	 *     	 | 	result == true
-	 * @return 	If this entity has a world, there will be multiple tests.
-	 * 		   	Make sure that the entity lays fully within its world.
-	 * 		 | 	@see implementation
 	 */
-	public boolean isValidPosition(Vector position) {
-
-		if (this.getWorld() == null && this instanceof Ship)
-			return true;
-		
-		if (this.liesWithinBoundsWorld(this.getWorld()) && (!(this.checkOverlap(position)))) 
-			return true;
-		
-		return false;			
-
+	public static boolean isValidPosition(Vector position) {
+		return true;
 	}
-
+	
+	public boolean hasValidPositionInWorld(World world) {
+		if (this.getWorld() == null) {
+			if (this instanceof Ship)
+				//True if ship is in unbounded space
+				return true;
+			if (this instanceof Bullet)
+				//True if bullet is in unbounded space
+				if (((Bullet) this).getShip() == null)
+					return true;
+			
+				//True if bullet is in ship
+				if (((Bullet) this).isInShip(((Bullet) this).getShip()))
+					return true;
+		}
+		else
+			if (this.liesWithinBoundsWorld(world) && (! this.checkOverlap(this.getPosition()))) 
+				return true;
+		
+		return false;	
+	}
 	
 	public boolean liesWithinBoundsWorld(World world) {
 		if(	this.getPosition().getXComponent() >= 0.99 * this.getRadius() &&
@@ -391,7 +396,7 @@ public abstract class Entity {
 	public boolean isValidWorld(World world) {
 		if (world == null)
 			return true;		
-		return (this.getWorld() == null) && (this.liesWithinBoundsWorld(world));
+		return (this.getWorld() == null) && (this.hasValidPositionInWorld(world));
 	}
 	
 	/**

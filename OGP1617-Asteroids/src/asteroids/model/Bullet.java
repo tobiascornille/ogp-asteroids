@@ -197,7 +197,7 @@ public class Bullet extends Entity{
 	public boolean isInShip(Ship ship) {
 		double a = this.getPosition().getXComponent() - ship.getPosition().getXComponent();
 		double b = this.getPosition().getYComponent() - ship.getPosition().getYComponent();
-		double c = ship.getRadius() - this.getRadius();
+		double c = ship.getRadius() - (0.99 * this.getRadius());
 		
 		// calculation using the Pythagorean theorem
 		return Math.pow(a, 2) + Math.pow(b, 2) <= Math.pow(c, 2);
@@ -213,12 +213,7 @@ public class Bullet extends Entity{
 			    Entity entity = i.next();
 			    
 			    if (testPosition.overlap(entity) && this.getWorld() != null) 
-			    	return true;
-			    
-			    else if (testPosition.isInShip(this.getShip()))
-			    	return false;
-			    
-			    		   
+			    	return true;	        		   
 	    }
 		return false;
 	}

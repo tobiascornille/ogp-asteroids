@@ -85,7 +85,7 @@ public class World {
 	 */
 	@Basic
 	public Set<Entity> getEntities() {
-		return  (Set<Entity>) this.entities.values();
+		return new HashSet<Entity>(this.entities.values());
 	}
 	
 	/**
@@ -160,11 +160,17 @@ public class World {
 	 * 		 | entity == null
 	 * @throws IllegalArgumentException
 	 * 		 | entity.getWorld() != this
+	 * @throws IllegalArgumentException
+	 * 		 | ! entity.hasValidPositionInWorld(this)
 	 * @post   This world has the given entity as one of its entities.
 	 *       | new.hasAsEntity(entity)
 	 */
 	public void addEntity(@Raw Entity entity) {
-		if ( entity == null || entity.getWorld() != this) throw new IllegalArgumentException();
+		if (entity == null || entity.getWorld() != null) 
+			throw new IllegalArgumentException();
+		if (! entity.hasValidPositionInWorld(this))
+			throw new IllegalArgumentException();
+		entity.setWorld(this);
 		entities.put(entity.getPosition(), entity);
 	}
 
