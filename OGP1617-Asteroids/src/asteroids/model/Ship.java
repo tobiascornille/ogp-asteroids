@@ -1,14 +1,12 @@
 
 package asteroids.model;
-import be.kuleuven.cs.som.annotate.*;
-import java.lang.Math;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
+
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Raw;
 
 /**
  * A class of ships involving a position, velocity, radius and orientation.
@@ -285,7 +283,8 @@ public class Ship extends Entity{
 			double newX = this.getPosition().getXComponent() + (Math.cos(this.getOrientation()) * (this.getRadius() + bullet.getRadius()));
 			double newY = this.getPosition().getYComponent() + (Math.sin(this.getOrientation()) * (this.getRadius() + bullet.getRadius()));
 			Vector newPosition = new Vector(newX, newY);
-	
+			
+			bullet.setPosition(newPosition);
 			bullet.setVelocity(this.getVelocity().normalise().times(250));
 			bullet.setWorld(this.getWorld());
 			this.getWorld().addEntity(bullet);
@@ -293,7 +292,7 @@ public class Ship extends Entity{
 			if (! bullet.checkOverlap(newPosition)) {
 				//resolve collision
 			}
-			if (! bullet.liesWithinBoundsWorld(newPosition))
+			if (! bullet.liesWithinBoundsWorld(bullet.getWorld()))
 				bullet.terminate();
 		}
 	}

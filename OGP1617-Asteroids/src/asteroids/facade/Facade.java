@@ -7,6 +7,7 @@ import java.util.Set;
 import asteroids.model.Bullet;
 import asteroids.model.Entity;
 import asteroids.model.Ship;
+import asteroids.model.Size;
 import asteroids.model.Vector;
 import asteroids.model.World;
 import asteroids.part2.CollisionListener;
@@ -206,7 +207,7 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public World createWorld(double width, double height) throws ModelException {
-		return new World(width, height);
+		return new World(new Size(width, height));
 	}
 
 	@Override
@@ -222,7 +223,7 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public double[] getWorldSize(World world) throws ModelException {
-		return world.getSize();
+		return world.getSize().toDouble();
 	}
 
 	@Override
@@ -237,7 +238,11 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public void addShipToWorld(World world, Ship ship) throws ModelException {
-		ship.setWorld(world);
+		try {
+			ship.setWorld(world);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 		world.addEntity(ship);
 		
 	}

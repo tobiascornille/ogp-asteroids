@@ -1,9 +1,8 @@
 package asteroids.model;
 
-import java.util.Iterator;
-import java.util.Set;
-
-import be.kuleuven.cs.som.annotate.*;
+import be.kuleuven.cs.som.annotate.Basic;
+import be.kuleuven.cs.som.annotate.Immutable;
+import be.kuleuven.cs.som.annotate.Raw;
 /**
  * A class of entities involving a position, velocity, radius and mass.
  * 
@@ -88,45 +87,32 @@ public abstract class Entity {
 	 * 			Only a bullet loaded in it ship, and diffrent bullets loaded in the same ship can overlap.
 	 * 
 	 *     	 | 	result == true
-	 * @return If this entity has a world, there will be multiple tests.
-	 * 		   Make sure that the entity lays fully within its world.
-	 * 		   
-	 * 		   
-	 * 		 | @see implementation
+	 * @return 	If this entity has a world, there will be multiple tests.
+	 * 		   	Make sure that the entity lays fully within its world.
+	 * 		 | 	@see implementation
 	 */
 	public boolean isValidPosition(Vector position) {
+		if (this.getWorld() == null)
+			return true;
 		
-		if (this.world != null) { 
-			if (this.liesWithinBoundsWorld(position) && this.checkOverlap(position)) 
-				return true;
-			else
-				return false;			
-		}
+		if (this.liesWithinBoundsWorld(this.getWorld()) && this.checkOverlap(position)) 
+			return true;
 		
-		// Because this method has a vector as argument, it cannot be a NaN, so we can safely return true everytime.
-		return true;
-		
-	}
-	/**
-	 * Checks whether the given entity with argument position would lie
-	 * fully within the bounds of it's world.
-	 * 
-	 * @param position
-	 * 		  The position to check.
-	 * 
-	 * @return 
-	 * 		 | @see implementation
-	 */
-	public boolean liesWithinBoundsWorld(Vector position) {
-		
-		double[] sizeWorld = this.getWorld().getSize();
-		if (sizeWorld[0] - 0.99 * this.getRadius() >= position.getXComponent() && 0.99 * this.getRadius() <= position.getXComponent())
-			if (sizeWorld[1] - 0.99 * this.getRadius() >= position.getYComponent() && 0.99 * this.getRadius() <= position.getYComponent())
-				return true;
-		
-		return false;	
+		return false;			
+
 	}
 	
+	public boolean liesWithinBoundsWorld(World world) {
+		if(	this.getPosition().getXComponent() >= 0.99 * this.getRadius() &&
+			this.getPosition().getXComponent() <= world.getSize().getXComponent() - (0.99 * this.getRadius()) &&
+			this.getPosition().getYComponent() >= 0.99 * this.getRadius() &&
+			this.getPosition().getYComponent() <= world.getSize().getYComponent() - (0.99 * this.getRadius()) )
+				return true;
+		
+		return false;
+		
+	}
+		
 	protected abstract boolean checkOverlap(Vector position); 
 
 	/**
@@ -207,7 +193,7 @@ public abstract class Entity {
 	 *     	| 	! isValidPosition(getPosition())
 	 */
 	@Raw
-	private void setPosition(Vector position) throws IllegalArgumentException {
+	public void setPosition(Vector position) throws IllegalArgumentException {
 		if (!isValidPosition(position)) throw new IllegalArgumentException();
 		this.position = position;
 	}
@@ -404,7 +390,7 @@ public abstract class Entity {
 	public boolean isValidWorld(World world) {
 		if (world == null)
 			return true;
-		return (this.getWorld() == null) && (this.liesWithinBoundsWorld(this.getPosition()));
+		return (this.getWorld() == null) && (this.liesWithinBoundsWorld(world));
 	}
 	
 	/**

@@ -12,7 +12,7 @@ import java.util.Set;
  * @author Simon Merckx and Tobias Cornille
  * 
  * @invar  Each world can have its size as size .
- *       | canHaveAsSize(this.getSize()[0], this.getSize()[1])
+ *       | canHaveAsSize(this.getSize)
  * @invar   Each world must have proper entities.
  *        | hasProperEntities()
  * 
@@ -22,24 +22,21 @@ public class World {
 	 * Initialize this new world as a non-terminated world
 	 * with given width and height and with no entities yet.
 	 * 
-	 * @param width
-	 * 		  The width for this new world.
-	 * 
-	 * @param height
-	 * 		  The height of this new world.
-	 * 			
+	 * @param 	size
+	 * 		  	The size for this new world.		
 	 * @post  
-	 *       | if (canHaveAsSize(width, height))
-	 *       |   then new.getSize() == new double[] {width, height}
-	 *       |   else new.getWidth() == new double[] {Double.MAX_VALUE, Double.MAX_VALUE}  
+	 *   	| 	if (canHaveAsSize(new Size(width, height))
+	 *      |   	then new.getSize() == new Size(width, height)
+	 *      | 	else 
+	 *      |		new.getWidth() == new Size(Double.MAX_VALUE, Double.MAX_VALUE)  
 	 * @post   This new world has no entities yet.
 	 *       | new.getNbEntities() == 0
 	 */
-	public World (double width, double height) {
-		if (canHaveAsSize(width, height)) 
-			this.size = new double[] {width, height};
+	public World (Size size) {
+		if (canHaveAsSize(size)) 
+			this.size = size;
 		else
-			this.size = new double[] {Double.MAX_VALUE, Double.MAX_VALUE};
+			this.size = Size.MAX_SIZE;
 	}
 
 	/**
@@ -51,36 +48,34 @@ public class World {
 	 */
 	@Raw
 	public World() {
-		this.size = new double[] {1000, 1000};
+		this.size = Size.DEFAULT_SIZE;
 	}	
 	
 	/**
 	 * Return the size of this world.
 	 */
 	@Basic @Raw @Immutable
-	public double[] getSize() {
+	public Size getSize() {
 		return this.size;
 	}
 	
 	/**
 	 * Check whether this world can have the given size as its size.
 	 *  
-	 * @param  	width
-	 *         	The width of the size to check.
-	 * @param  	height
-	 *         	The height of the size to check.
+	 * @param  	size
+	 *         	The size to check.
 	 * @return 
 	 *   	|	@see implementation
 	 */
 	@Raw
-	private boolean canHaveAsSize(double width, double height) {
-		return ((0 <= width && width <= Double.MAX_VALUE) && (0 <= height && height <= Double.MAX_VALUE));
+	private boolean canHaveAsSize(Size size) {
+		return (Size.MIN_SIZE.compareTo(size) <= 0) && (size.compareTo(Size.MAX_SIZE) <= 0);
 	}
 	
 	/**
 	 * Variable registering the size of this world.
 	 */
-	private final double[] size;
+	private final Size size;
 	
 	/**
 	 * Return the set collecting all the entities
