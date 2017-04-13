@@ -336,7 +336,7 @@ public class Ship extends Entity{
 	 */
 	@Basic @Raw
 	public double getDensity() {
-		return this.getDensity();
+		return this.density;
 	}
 		
 	/**
