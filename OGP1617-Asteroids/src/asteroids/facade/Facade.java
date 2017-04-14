@@ -43,12 +43,7 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public void move(Ship ship, double dt) throws ModelException {
-		try {
-			ship.move(dt);
-		} catch (IllegalArgumentException e) {
-			throw new ModelException(e);
-		}
-		
+		return;		
 	}
 
 	@Override
@@ -139,7 +134,10 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public void setThrusterActive(Ship ship, boolean active) throws ModelException {
-		ship.thrustOn();
+		if (active)
+			ship.thrustOn();
+		else
+			ship.thrustOff();
 		
 	}
 
@@ -346,7 +344,10 @@ public class Facade implements asteroids.part2.facade.IFacade {
 	@Override
 	public double[] getPositionCollisionEntity(Object entity1, Object entity2) throws ModelException {
 		try {
-			return ((Entity)entity1).getCollisionPosition((Entity) entity2).toDouble();
+			Vector collisionPosition = ((Entity) entity1).getCollisionPosition((Entity) entity2);
+			if (collisionPosition == null)
+				return null;
+			return collisionPosition.toDouble();
 		} catch (IllegalArgumentException e) {
 			throw new ModelException(e);
 		}

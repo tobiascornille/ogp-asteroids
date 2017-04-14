@@ -136,7 +136,7 @@ public abstract class Entity {
 	 * 			If the time dt is less than 0.
 	 * 		|	dt &lt; 0
 	 */
-	public void move(double dt) throws IllegalArgumentException {
+	 void move(double dt) throws IllegalArgumentException {
 		if (dt < 0) throw new IllegalArgumentException();
 		Vector newPosition = this.getPosition().add(this.getVelocity().times(dt)); 
 		this.setPosition(newPosition);         			

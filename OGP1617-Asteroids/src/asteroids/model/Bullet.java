@@ -79,14 +79,11 @@ public class Bullet extends Entity{
 	public void terminate() {
 		if (!isTerminated()) {
 			if (this.getShip() != null) {
-				Ship ship = this.getShip();
-				ship.removeBullet(this);
+				this.getShip().removeBullet(this);
 			}
-			if (this.getSourceShip() != null) {
+			if (this.getWorld() != null) {
 				this.setSourceShip(null);
-				World world = this.getWorld();
-			 	this.setWorld(null); 
-			 	world.removeEntity(this);
+				this.getWorld().removeEntity(this);
 			}
 			
 			this.isTerminated = true;

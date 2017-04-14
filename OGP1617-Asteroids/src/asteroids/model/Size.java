@@ -16,6 +16,11 @@ import be.kuleuven.cs.som.annotate.*;
 @Value
 public class Size implements Comparable<Size>{
 
+	@Override
+	public String toString() {
+		return "Size [xComponent=" + xComponent + ", yComponent=" + yComponent + "]";
+	}
+
 	/**
 	 * Initialize this new size with given x component and y component.
 	 * 

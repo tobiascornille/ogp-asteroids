@@ -421,8 +421,8 @@ public class Ship extends Entity{
 	 * 		|		== this.getVelocity().getYComponent() + (this.getAcceleration() * Math.sin(this.getOrientation()))
 	 */
 	public void thrust(double dt) {
-		Vector vectorAmount = new Vector(this.getAcceleration() * Math.cos(this.getOrientation()), this.getAcceleration() * Math.sin(this.getOrientation()));
-		Vector newVelocity = this.getVelocity().add(vectorAmount.times(dt));					
+		Vector vectorAngle = new Vector(Math.cos(this.getOrientation()), Math.sin(this.getOrientation()));
+		Vector newVelocity = this.getVelocity().add(vectorAngle.times(this.getAcceleration()).times(dt));					
 		this.setVelocity(newVelocity);	
 	}
 	

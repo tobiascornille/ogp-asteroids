@@ -332,11 +332,8 @@ public class World {
 				  
 				  if (otherEntity == null) {
 					  Vector collisionPosition = entity.getCollisionBoundaryPosition();
-					  System.out.println(dt);
-					  System.out.println(tC);
-					  System.out.println(collisionPosition.toString());
 					  listener.boundaryCollision(entity, collisionPosition.getXComponent(), collisionPosition.getYComponent());
-					  this.boundaryCollision(entity);
+					  this.boundaryCollision(entity, collisionPosition);
 				  }
 				  
 				  else {
@@ -345,14 +342,13 @@ public class World {
 					  objectCollision(entity, otherEntity);
 				  }
 				  
-				  dt = dt - tC;
+				  dt = dt - tC;  
 			  }
-			  
 			  else {
 				  advance(dt);
-				  break;
+				  return;
 			  }
-		  }	 
+		  }
 	 }
 
 	 private Map<Double, Entity[]> getCollisions() { 
@@ -419,19 +415,41 @@ public class World {
 			 if (otherEntity instanceof Ship) {
 				 Vector newVelocityEntity;
 				 Vector newVelocityOtherEntity;
+				 
 				 Vector dv = otherEntity.getVelocity().subtract(entity.getVelocity());
-				 double sigma = entity.getRadius() + otherEntity.getRadius();
 				 Vector dr = otherEntity.getPosition().subtract(entity.getPosition());
+				 
+				 double sigma = entity.getRadius() + otherEntity.getRadius();
+				 
 				 double massEntity = entity.getMass();
 				 double massOtherEntity = otherEntity.getMass();
-				  			  
-				 double j = ((2 * massEntity * massOtherEntity  * dv.dot(dr) ) / sigma * (massEntity+ massOtherEntity));
-				 double jX = ((j * otherEntity.getPosition().getXComponent() - entity.getPosition().getXComponent()) / sigma );
-				 double jY = ((j * otherEntity.getPosition().getYComponent() - entity.getPosition().getYComponent()) / sigma );
 				 
-				 newVelocityEntity = new Vector (entity.getVelocity().getXComponent() + (jX / entity.getMass()), entity.getVelocity().getYComponent() + (jY/entity.getMass()));
-				 newVelocityOtherEntity = new Vector (otherEntity.getVelocity().getXComponent() + (jX / otherEntity.getMass()), otherEntity.getVelocity().getYComponent() + (jY/otherEntity.getMass()));
-				  
+				 double xi = entity.getPosition().getXComponent();
+				 double yi = entity.getPosition().getYComponent();
+				 
+				 double xj = otherEntity.getPosition().getXComponent(); 		
+				 double yj = otherEntity.getPosition().getYComponent();
+				 
+				 double vxi = entity.getVelocity().getXComponent();
+				 double vyi = entity.getVelocity().getYComponent();
+				 
+				 double vxj = otherEntity.getVelocity().getXComponent();
+				 double vyj = otherEntity.getVelocity().getYComponent();
+				 
+				 double J = (2 * massEntity * massOtherEntity  * dv.dot(dr)) / (sigma * (massEntity + massOtherEntity));
+				 
+				 double JX = (J * (xj - xi)) / sigma;
+				 double JY = (J * (yj - yi)) / sigma;
+				 
+				 newVelocityEntity = new Vector (vxi + (JX / massEntity), vyi + (JY / massEntity));
+				 newVelocityOtherEntity = new Vector (vxj - (JX / massOtherEntity), vyj - (JY / massOtherEntity));
+				 
+				 System.out.println(entity.getVelocity().toString());
+				 System.out.println(newVelocityEntity.toString());
+				 System.out.println(otherEntity.getVelocity().toString());
+				 System.out.println(newVelocityOtherEntity.toString());
+				 System.out.println();
+				 
 				 entity.setVelocity(newVelocityEntity);
 				 otherEntity.setVelocity(newVelocityOtherEntity);
 			 }
@@ -470,9 +488,9 @@ public class World {
 	     }
 	}
 	
-	void boundaryCollision(Entity entity) {
+	void boundaryCollision(Entity entity, Vector collisionPosition) {
 		 if (entity instanceof Bullet) {
-			 if (((Bullet)entity).getCollisionCounter() >=2) {
+			 if (((Bullet)entity).getCollisionCounter() >= 2) {
 				 entity.terminate();
 		 		 return;
 			 }
@@ -480,24 +498,21 @@ public class World {
 			((Bullet)entity).incrementCollisionCounter();
 		 }
 		 
-		 bounceOffBoundary(entity);
+		 bounceOffBoundary(entity, collisionPosition);
 	}	 
 	
-	private void bounceOffBoundary(Entity entity) {
-		
-		if (entity.getPosition().getXComponent() == 0)
+	private void bounceOffBoundary(Entity entity, Vector collisionPosition) {
+		if (collisionPosition.getXComponent() == 0){
+			entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));
+		}
+		 else if (collisionPosition.getXComponent() == (entity.getWorld().getSize().getXComponent())){
 			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));
-		 
-		
-		 else if (entity.getPosition().getXComponent() == (this.getSize().getXComponent()))
-			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));
-		 
-		 if (entity.getPosition().getYComponent() == 0)
+		 }
+		 if (collisionPosition.getYComponent() == 0){
 			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent(), entity.getVelocity().getYComponent() * -1));
-
-		 else if (entity.getPosition().getYComponent() == (this.getSize().getXComponent()))
+		 }
+		 else if (collisionPosition.getYComponent() == (entity.getWorld().getSize().getYComponent())){
 			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent(), entity.getVelocity().getYComponent() * -1));
-		 
-		 System.out.println();
+		 }
 	}
 }
