@@ -15,6 +15,10 @@ public class Bullet extends Entity{
 	 * @invar  The source ship of each bullet must be a valid source ship for this
 	 *         bullet.
 	 *       | isValidSourceShip(getSourceShip())
+	 *       
+	 * @invar  The collision counter of each bullet must be a valid collision counter for any
+	 *         bullet.
+	 *       | isValidCollisionCounter(getCollisionCounter())	
 	 */
 	public Bullet() {
 		super(2);
@@ -229,4 +233,56 @@ public class Bullet extends Entity{
 	    }
 		return null;
 	}
-}
+	
+	/**
+	 * Return the collision counter of this bullet.
+	 */
+	@Basic @Raw
+	public double getCollisionCounter() {
+		return this.collisionCounter;
+	}
+	
+	/**
+	 * Check whether the given collision counter is a valid collision counter for
+	 * any bullet.
+	 *  
+	 * @param  collision counter
+	 *         The collision counter to check.
+	 * @return 
+	 *       | result == (collisionCounter <= 3)
+	*/
+	public static boolean isValidCollisionCounter(double collisionCounter) {
+		return (collisionCounter <= 3);
+	}
+	
+	/**
+	 * Set the collision counter of this bullet to the given collision counter.
+	 * 
+	 * @param  collisionCounter
+	 *         The new collision counter for this bullet.
+	 * @post   The collision counter of this new bullet is equal to
+	 *         the given collision counter.
+	 *       | new.getCollisionCounter() == collisionCounter
+	 * @throws IllegalArgumentException
+	 *         The given collision counter is not a valid collision counter for any
+	 *         bullet.
+	 *       | ! isValidCollisionCounter(getCollisionCounter())
+	 */
+	@Raw
+	public void setCollisionCounter(double collisionCounter) 
+			throws IllegalArgumentException {
+		if (! isValidCollisionCounter(collisionCounter))
+			throw new IllegalArgumentException();
+		this.collisionCounter = collisionCounter;
+	}
+	
+	public void incrementCollisionCounter() {
+		setCollisionCounter(this.getCollisionCounter() + 1);
+	}
+	
+	/**
+	 * Variable registering the collision counter of this bullet.
+	 */
+	private double collisionCounter = 0;
+		
+	}

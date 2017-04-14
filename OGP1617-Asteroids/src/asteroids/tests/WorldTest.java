@@ -11,6 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import asteroids.model.Ship;
+import asteroids.model.Size;
 import asteroids.model.Vector;
 import asteroids.model.World;
 
@@ -18,13 +19,16 @@ import asteroids.model.World;
 public class WorldTest {
 
 	@Test
-	public void test() {
-		World world = new World(100, 100);
-		Ship ship = new Ship();
-		ship.setWorld(world);
+	public void testReturnEntityGivenPosition() {
+		World world = new World(new Size(100,100));
+		Ship ship = new Ship(new Vector(50,50), new Vector(1,1), 11, 0, 0);
 		world.addEntity(ship);
-		assertTrue(ship.equals(world.returnEntityGivenPosition(new Vector(0,0))));
-		assertTrue(ship.equals(world.returnEntityGivenPosition(new Vector(10,10))));
+		assertTrue(ship.equals(world.returnEntityGivenPosition(new Vector(50,50))));
+		world.evolve(1);
+		assertTrue(ship.equals(world.returnEntityGivenPosition(new Vector(51,51))));
 	}
+	
+	
+	
 
 }

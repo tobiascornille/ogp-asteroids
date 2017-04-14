@@ -110,6 +110,7 @@ public abstract class Entity {
 	}
 	
 	public boolean liesWithinBoundsWorld(World world) {
+		
 		if(	this.getPosition().getXComponent() >= 0.99 * this.getRadius() &&
 			this.getPosition().getXComponent() <= world.getSize().getXComponent() - (0.99 * this.getRadius()) &&
 			this.getPosition().getYComponent() >= 0.99 * this.getRadius() &&

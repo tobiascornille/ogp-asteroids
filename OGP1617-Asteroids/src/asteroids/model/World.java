@@ -207,7 +207,7 @@ public class World {
 	 *       |   ( (entity != null) &&
 	 *       |     (! entity.isTerminated()) )
 	 */
-	private final Map<Vector, Entity> entities = new HashMap<>();
+	private Map<Vector, Entity> entities = new HashMap<>();
 	
 	/**
 	 * Terminate this world.
@@ -296,6 +296,7 @@ public class World {
 	  */
 	 private void advance(double dt) {
 		 
+		 Map<Vector, Entity> newEntities  = new HashMap<>();
 		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
 			    Entity entity = i.next();
 			    entity.move(dt);
@@ -304,9 +305,12 @@ public class World {
 			    	((Ship) entity).thrust(dt);
 			    }
 			    
-			    this.removeEntity(entity);
-			    this.addEntity(entity);;	    
-		 } 
+			    newEntities.put(entity.getPosition(), entity);
+			   	    
+		 }
+		 
+		 this.entities = newEntities;
+		 
 	 }
 	 
 	 /**
@@ -323,8 +327,11 @@ public class World {
 				  advance(tC);
 				  Entity entity = collisions.get(tC)[0];
 				  Entity otherEntity = collisions.get(tC)[1];
-				  if (otherEntity == null)
+				  if (otherEntity == null) {
 					  this.boundaryCollision(entity);
+				  	  System.out.print("lol");
+				  }
+				  
 				  else
 					  objectCollision(entity, otherEntity);
 				  
@@ -397,6 +404,7 @@ public class World {
 	  * @param otherEntity
 	  */
 	 void objectCollision(Entity entity, Entity otherEntity) {
+		 
 		 if (entity instanceof Ship){
 			 if (otherEntity instanceof Ship) {
 				 Vector newVelocityEntity;
@@ -418,7 +426,7 @@ public class World {
 				 otherEntity.setVelocity( newVelocityOtherEntity);
 			 }
 			 
-			 else if (entity == ((Bullet) otherEntity).getShip()) {
+			 else if (entity == ((Bullet) otherEntity).getSourceShip()) {
 				 	Bullet bullet = (Bullet) otherEntity;
 			 		Ship ship = (Ship) entity;
 						 
@@ -436,7 +444,7 @@ public class World {
 		 else if (entity instanceof Bullet) {
 			 Bullet bullet = (Bullet)entity;
 		 	 
-			 if (otherEntity instanceof Ship && otherEntity == bullet.getShip()) {
+			 if (otherEntity instanceof Ship && otherEntity == bullet.getSourceShip()) {
 
 			 		Ship ship = (Ship) otherEntity;
 						 
@@ -455,10 +463,12 @@ public class World {
 	void boundaryCollision(Entity entity) {
 		 bounceOffBoundary(entity);
 	}	 
+	
 	private void bounceOffBoundary(Entity entity) {
 		if (entity.getPosition().getXComponent() == 0)
 			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));
 		 
+		
 		 else if (entity.getPosition().getXComponent() == (this.getSize().getXComponent()))
 			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));
 		 
