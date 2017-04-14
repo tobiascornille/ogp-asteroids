@@ -27,6 +27,9 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @invar  The density of each ship must be a valid density for any
  *         ship.
  *       | isValidDensity(getDensity())
+ * @invar  The total mass of each ship must be a valid total mass for that
+ *         ship.
+ *       | isValidTotalMass(getTotalMass())
  *
  */
 public class Ship extends Entity{
@@ -72,6 +75,7 @@ public class Ship extends Entity{
 		super(position, velocity, radius);
 		this.setOrientation(orientation);
 		this.setMass(mass);
+		this.setTotalMass(mass);
 	}
 	
 	/**
@@ -135,6 +139,50 @@ public class Ship extends Entity{
 	 * Variable registering the orientation of this ship.
 	 */
 	private double orientation = 0;
+	
+	/**
+	 * Return the total mass of this ship.
+	 */
+	@Basic @Raw
+	public double getTotalMass() {
+		return this.totalMass;
+	}
+	
+	/**
+	 * Check whether the given total mass is a valid total mass for
+	 * this ship.
+	 *  
+	 * @param  totalMass
+	 *         The total mass to check.
+	 * @return 
+	 *       | result >= this.getMass()
+	*/
+	public boolean isValidTotalMass(double totalMass) {
+		return totalMass >= this.getMass();
+	}
+	
+	/**
+	 * Set the total mass of this ship to the given total mass.
+	 * 
+	 * @param  totalMass
+	 *         The new total mass for this ship.
+	 * @post   If the given total mass is a valid total mass for any ship,
+	 *         the total mass of this new ship is equal to the given
+	 *         total mass.
+	 *       | if (isValidTotalMass(totalMass))
+	 *       |   then new.getTotalMass() == totalMass
+	 */
+	@Raw
+	public void setTotalMass(double totalMass) {
+		if (isValidTotalMass(totalMass))
+			this.totalMass = totalMass;
+	}
+	
+	/**
+	 * Variable registering the total mass of this ship.
+	 */
+	private double totalMass = 0;
+
 	
 	/**
 	 * Check whether this ship can have the given radius as its radius.
@@ -239,6 +287,7 @@ public class Ship extends Entity{
 			throw new IllegalArgumentException();
 		bullet.setShip(this);
 		bullets.add(bullet);
+		this.setTotalMass(this.getTotalMass() + bullet.getMass());
 	}
 	
 	/**
@@ -274,6 +323,7 @@ public class Ship extends Entity{
 			throw new IllegalArgumentException();
 		bullet.setShip(null);
 		bullets.remove(bullet);
+		this.setTotalMass(this.getTotalMass() - bullet.getMass());
 	}
 	
 	public void fireBullet() {
@@ -300,10 +350,7 @@ public class Ship extends Entity{
 				
 				else
 					bullet.terminate();
-			}
-			
-			
-			
+			}	
 		}
 	}
 	
@@ -452,7 +499,7 @@ public class Ship extends Entity{
 	 */
 	public double getAcceleration() {
 		if (this.getThrusterState())
-			return thruster.getForce() / this.getMass();
+			return thruster.getForce() / this.getTotalMass();
 		return 0;
 	}
 	

@@ -421,8 +421,8 @@ public class World {
 				 
 				 double sigma = entity.getRadius() + otherEntity.getRadius();
 				 
-				 double massEntity = entity.getMass();
-				 double massOtherEntity = otherEntity.getMass();
+				 double massEntity = ((Ship) entity).getTotalMass();
+				 double massOtherEntity = ((Ship) otherEntity).getTotalMass();
 				 
 				 double xi = entity.getPosition().getXComponent();
 				 double yi = entity.getPosition().getYComponent();
@@ -436,20 +436,14 @@ public class World {
 				 double vxj = otherEntity.getVelocity().getXComponent();
 				 double vyj = otherEntity.getVelocity().getYComponent();
 				 
-				 double J = (2 * massEntity * massOtherEntity  * dv.dot(dr)) / (sigma * (massEntity + massOtherEntity));
+				 double J = (2 * massEntity * massOtherEntity  * (dv.dot(dr))) / (sigma * (massEntity + massOtherEntity));
 				 
 				 double JX = (J * (xj - xi)) / sigma;
 				 double JY = (J * (yj - yi)) / sigma;
 				 
 				 newVelocityEntity = new Vector (vxi + (JX / massEntity), vyi + (JY / massEntity));
 				 newVelocityOtherEntity = new Vector (vxj - (JX / massOtherEntity), vyj - (JY / massOtherEntity));
-				 
-				 System.out.println(entity.getVelocity().toString());
-				 System.out.println(newVelocityEntity.toString());
-				 System.out.println(otherEntity.getVelocity().toString());
-				 System.out.println(newVelocityOtherEntity.toString());
-				 System.out.println();
-				 
+			
 				 entity.setVelocity(newVelocityEntity);
 				 otherEntity.setVelocity(newVelocityOtherEntity);
 			 }
