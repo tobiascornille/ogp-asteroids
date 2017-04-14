@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import asteroids.part2.CollisionListener;
+
 /**
  * 
  * @author Simon Merckx and Tobias Cornille
@@ -318,7 +320,7 @@ public class World {
 	  * @param dt
 	  * 
 	  */
-	 public void evolve(double dt) { 
+	 public void evolve(double dt, CollisionListener listener) { 
 		  while (dt > 0) {
 			  Map<Double, Entity[]> collisions = this.getCollisions();
 			  double tC = Collections.min(collisions.keySet());
@@ -327,13 +329,19 @@ public class World {
 				  advance(tC);
 				  Entity entity = collisions.get(tC)[0];
 				  Entity otherEntity = collisions.get(tC)[1];
+				  
 				  if (otherEntity == null) {
+					  Vector collisionPosition = entity.getCollisionBoundaryPosition();
+					  listener.boundaryCollision(entity, collisionPosition.getXComponent(), collisionPosition.getYComponent());
 					  this.boundaryCollision(entity);
 				  	  System.out.print("lol");
 				  }
 				  
-				  else
+				  else {
+					  Vector collisionPosition = entity.getCollisionPosition(otherEntity);
+					  listener.objectCollision(entity, otherEntity, collisionPosition.getXComponent(), collisionPosition.getYComponent());
 					  objectCollision(entity, otherEntity);
+				  }
 				  
 				  dt = dt - tC;
 			  }
@@ -461,10 +469,20 @@ public class World {
 	}
 	
 	void boundaryCollision(Entity entity) {
+		 if (entity instanceof Bullet) {
+			 if (((Bullet)entity).getCollisionCounter() >=2) {
+				 entity.terminate();
+		 		 return;
+			 }
+			
+			((Bullet)entity).incrementCollisionCounter();
+		 }
+		 
 		 bounceOffBoundary(entity);
 	}	 
 	
 	private void bounceOffBoundary(Entity entity) {
+		
 		if (entity.getPosition().getXComponent() == 0)
 			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));
 		 

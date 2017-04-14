@@ -182,7 +182,6 @@ public abstract class Entity {
 	 */
 	public boolean overlap (Entity other) throws IllegalArgumentException {
 		if (other == null) throw new IllegalArgumentException();
-		//TODO is it okay to add this if?
 		if (this == other) return true;
 		return (this.getDistanceBetween(other)  <= -0.01 * (this.getRadius() + other.getRadius()));
 	}
