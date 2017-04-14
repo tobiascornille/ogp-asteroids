@@ -354,19 +354,21 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public double getTimeNextCollision(World world) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+		return world.getTimeNextCollision();
 	}
 
 	@Override
 	public double[] getPositionNextCollision(World world) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+		return world.getPositionNextCollision().toDouble();
 	}
 
 	@Override
 	public void evolve(World world, double dt, CollisionListener collisionListener) throws ModelException {
-		// TODO Auto-generated method stub
+		try {
+			world.evolve(dt);
+		} catch (IllegalArgumentException e) {
+			//throw new ModelException(e);
+		}
 		
 	}
 

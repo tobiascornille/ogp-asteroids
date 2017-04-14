@@ -183,14 +183,14 @@ public class World {
 	 * @throws IllegalArgumentException
 	 *       | ! this.hasAsEntity(entity)
 	 * @throws IllegalArgumentException
-	 *       | entity.getWorld() != null
+	 *       | entity.getWorld() != this
 	 * @post   This world no longer has the given entity as
 	 *         one of its entities.
 	 *       | ! new.hasAsEntity(entity)
 	 */
 	@Raw
 	public void removeEntity(Entity entity) throws IllegalArgumentException {
-		if (! this.hasAsEntity(entity) || entity.getWorld() != null) throw new IllegalArgumentException();
+		if (! this.hasAsEntity(entity) || entity.getWorld() != this) throw new IllegalArgumentException();
 		entity.setWorld(null);
 		entities.values().remove(entity);
 	}
@@ -304,11 +304,9 @@ public class World {
 			    	((Ship) entity).thrust(dt);
 			    }
 			    
-			    // Update position here
-		 }
-		 
-		 
-		 
+			    this.removeEntity(entity);
+			    this.addEntity(entity);;	    
+		 } 
 	 }
 	 
 	 /**
@@ -316,36 +314,20 @@ public class World {
 	  * @param dt
 	  * 
 	  */
-	 public void evolve(double dt) {
-		 
-		  double tC = 0;
-		  
-		  while (true) {
+	 public void evolve(double dt) { 
+		  while (dt > 0) {
+			  Map<Double, Entity[]> collisions = this.getCollisions();
+			  double tC = Collections.min(collisions.keySet());
 			  
-			  Map<Double, Entity[]> collisions = new HashMap<>();
-			  double time;
-			  
-			  for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
-				    Entity entity = i.next();
-				    
-				    for (Iterator<Entity> j = entities.values().iterator(); j.hasNext();) { 
-				    	
-				    	 Entity otherEntity = j.next();
-				    	 time = entity.getTimeToCollision(otherEntity);
-				    	 if	(time != Double.POSITIVE_INFINITY && collisions.get(time) == null)
-				    		 collisions.put(time, new Entity[] {entity, otherEntity});
-				    	 
-				     time = entity.getTimeToCollisionBoundary();	 
-				     if	(time != Double.POSITIVE_INFINITY && collisions.get(time) == null)
-				    	 collisions.put(time, new Entity[] {entity, null});		     	 			    	 
-				    }    	
-			  }
-			  
-			  tC = Collections.min(collisions.keySet());
-			
 			  if (tC < dt) {
 				  advance(tC);
-				  // Resolve C here
+				  Entity entity = collisions.get(tC)[0];
+				  Entity otherEntity = collisions.get(tC)[1];
+				  if (otherEntity == null)
+					  this.boundaryCollision(entity);
+				  else
+					  objectCollision(entity, otherEntity);
+				  
 				  dt = dt - tC;
 			  }
 			  
@@ -353,60 +335,137 @@ public class World {
 				  advance(dt);
 				  break;
 			  }
-		 	
-		  }
-		 		 
+		  }	 
 	 }
 
+	 private Map<Double, Entity[]> getCollisions() { 
+		  Map<Double, Entity[]> collisions = new HashMap<>();
+		  double time;
+		  
+		  for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    
+			    for (Iterator<Entity> j = entities.values().iterator(); j.hasNext();) { 
+			    	Entity otherEntity = j.next();
+			    	
+			    	if ((otherEntity != null) && !(entity.overlap(otherEntity)))
+			    		time = entity.getTimeToCollision(otherEntity);
+			    	else
+			    		time = Double.POSITIVE_INFINITY;
+					
+			    	if	(time != Double.POSITIVE_INFINITY && collisions.get(time) == null)
+			    		collisions.put(time, new Entity[] {entity, otherEntity});
+			    	 
+			     time = entity.getTimeToCollisionBoundary();	 
+			     if	(time != Double.POSITIVE_INFINITY && collisions.get(time) == null)
+			    	 collisions.put(time, new Entity[] {entity, null});		     	 			    	 
+			    }    	
+		  }
+		  return collisions; 
+	 }
+	 
+	 public double getTimeNextCollision() {
+		 Map<Double, Entity[]> collisions = this.getCollisions();
+		 return Collections.min(collisions.keySet());  
+	 }
+	 
+	 public Vector getPositionNextCollision() { 
+		  Set<Vector> collisionPositions = new HashSet<>();
+		  Vector collisionPosition;
+		  
+		  for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    
+			    for (Iterator<Entity> j = entities.values().iterator(); j.hasNext();) { 
+			    	 Entity otherEntity = j.next();
+			    	 collisionPosition = entity.getCollisionPosition(otherEntity);
+			    	 
+			    	 if	(collisionPosition != null)
+			    		 collisionPositions.add(collisionPosition);
+			    	 
+			     collisionPosition = entity.getCollisionBoundaryPosition();	 
+			     if	(collisionPosition != null)
+			    	 collisionPositions.add(collisionPosition);		     	 			    	 
+			    }    	
+		  }
+		  return Collections.min(collisionPositions);  
+	 }
+	 
 	 /**
 	  * 
 	  * @param entity
 	  * @param otherEntity
 	  */
-	 private void resolveCollision(Entity entity, Entity otherEntity) {
-		 
-		 if (entity instanceof Ship && otherEntity instanceof Ship) {
-			 
-			  Vector newVelocityEntity;
-			  Vector newVelocityOtherEntity;
-			  Vector dv = otherEntity.getVelocity().subtract(entity.getVelocity());
-			  double sigma = entity.getRadius() + otherEntity.getRadius();
-			  Vector dr = otherEntity.getPosition().subtract(entity.getPosition());
-			  double massEntity = entity.getMass();
-			  double massOtherEntity = otherEntity.getMass();
-			  			  
-			  double j = ((2 * massEntity * massOtherEntity  * dv.dot(dr) ) / sigma * (massEntity+ massOtherEntity));
-			  double jX = ((j * otherEntity.getPosition().getXComponent() - entity.getPosition().getXComponent()) / sigma );
-			  double jY = ((j * otherEntity.getPosition().getYComponent() - entity.getPosition().getYComponent()) / sigma );
-			  
-			  newVelocityEntity = new Vector (entity.getVelocity().getXComponent() + (jX / entity.getMass()), entity.getVelocity().getYComponent() + (jY/entity.getMass()));
-			  newVelocityOtherEntity = new Vector (otherEntity.getVelocity().getXComponent() + (jX / otherEntity.getMass()), otherEntity.getVelocity().getYComponent() + (jY/otherEntity.getMass()));
-			  
-			  entity.setVelocity( newVelocityEntity);
-			  otherEntity.setVelocity( newVelocityOtherEntity);
-			  
-		 }
-		 
-		 else if (entity instanceof Bullet && (otherEntity != ((Bullet) entity).getShip() || otherEntity instanceof Bullet )) {
-			entity.terminate();
-			otherEntity.terminate();		
-	     }
-		 
-		 else if (entity instanceof Bullet && otherEntity instanceof Ship) {
-			 Bullet bullet = (Bullet)entity;
-			 Ship ship = (Ship) otherEntity;
-			 
-			 if (otherEntity == bullet.getShip()) {
+	 void objectCollision(Entity entity, Entity otherEntity) {
+		 if (entity instanceof Ship){
+			 if (otherEntity instanceof Ship) {
+				 Vector newVelocityEntity;
+				 Vector newVelocityOtherEntity;
+				 Vector dv = otherEntity.getVelocity().subtract(entity.getVelocity());
+				 double sigma = entity.getRadius() + otherEntity.getRadius();
+				 Vector dr = otherEntity.getPosition().subtract(entity.getPosition());
+				 double massEntity = entity.getMass();
+				 double massOtherEntity = otherEntity.getMass();
+				  			  
+				 double j = ((2 * massEntity * massOtherEntity  * dv.dot(dr) ) / sigma * (massEntity+ massOtherEntity));
+				 double jX = ((j * otherEntity.getPosition().getXComponent() - entity.getPosition().getXComponent()) / sigma );
+				 double jY = ((j * otherEntity.getPosition().getYComponent() - entity.getPosition().getYComponent()) / sigma );
 				 
-				 this.removeEntity(bullet);
-				 bullet.setPosition(ship.getPosition());
-				 ship.loadBullet(bullet);	 
+				 newVelocityEntity = new Vector (entity.getVelocity().getXComponent() + (jX / entity.getMass()), entity.getVelocity().getYComponent() + (jY/entity.getMass()));
+				 newVelocityOtherEntity = new Vector (otherEntity.getVelocity().getXComponent() + (jX / otherEntity.getMass()), otherEntity.getVelocity().getYComponent() + (jY/otherEntity.getMass()));
+				  
+				 entity.setVelocity( newVelocityEntity);
+				 otherEntity.setVelocity( newVelocityOtherEntity);
 			 }
 			 
+			 else if (entity == ((Bullet) otherEntity).getShip()) {
+				 	Bullet bullet = (Bullet) otherEntity;
+			 		Ship ship = (Ship) entity;
+						 
+					this.removeEntity(bullet);
+					bullet.setPosition(ship.getPosition());
+					ship.loadBullet(bullet);	 
+			 }
+			 
+			 else {
+				 entity.terminate();
+				 otherEntity.terminate();
+			 }
 		 }
 		 
+		 else if (entity instanceof Bullet) {
+			 Bullet bullet = (Bullet)entity;
+		 	 
+			 if (otherEntity instanceof Ship && otherEntity == bullet.getShip()) {
+
+			 		Ship ship = (Ship) otherEntity;
+						 
+					this.removeEntity(bullet);
+					bullet.setPosition(ship.getPosition());
+					ship.loadBullet(bullet);	 
+			 }
+			 
+			 else {
+				 bullet.terminate();
+				 otherEntity.terminate();
+			 }
+	     }
+	}
+	
+	void boundaryCollision(Entity entity) {
+		 bounceOffBoundary(entity);
+	}	 
+	private void bounceOffBoundary(Entity entity) {
+		if (entity.getPosition().getXComponent() == 0)
+			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));
 		 
+		 else if (entity.getPosition().getXComponent() == (this.getSize().getXComponent()))
+			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));
 		 
-	 }
-	 
+		 if (entity.getPosition().getYComponent() == 0)
+			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent(), entity.getVelocity().getYComponent() * -1));
+
+		 else if (entity.getPosition().getYComponent() == (this.getSize().getXComponent()))
+			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent(), entity.getVelocity().getYComponent() * -1));
+	}
 }

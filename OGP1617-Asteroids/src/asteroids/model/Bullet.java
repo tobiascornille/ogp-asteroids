@@ -76,7 +76,6 @@ public class Bullet extends Entity{
 		if (!isTerminated()) {
 			if (this.getShip() != null) {
 				Ship ship = this.getShip();
-				this.setShip(null);
 				ship.removeBullet(this);
 			}
 			if (this.getSourceShip() != null) {
@@ -215,5 +214,19 @@ public class Bullet extends Entity{
 			    	return true;	        		   
 	    }
 		return false;
+	}
+	
+	/**
+	 * 
+	 */
+	public Entity getOverlappingEntityInWorld(World world) {	
+		
+		Set<Entity> entities = world.getEntities();
+	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+			    Entity entity = i.next();   
+			    if (this.overlap(entity)) 
+			    	return entity;	        		   
+	    }
+		return null;
 	}
 }

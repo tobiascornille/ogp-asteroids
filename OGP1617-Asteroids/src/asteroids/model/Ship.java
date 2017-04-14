@@ -288,11 +288,11 @@ public class Ship extends Entity{
 			Vector newPosition = new Vector(newX, newY);
 			
 			bullet.setPosition(newPosition);
-			bullet.setVelocity(this.getVelocity().normalise().times(250));
+			bullet.setVelocity(new Vector(250 * Math.cos(this.getOrientation()), 250 * Math.sin(this.getOrientation())));
 			this.getWorld().addEntity(bullet);
 			
-			if (! bullet.checkOverlapInWorld(this.getWorld())) {
-				//resolve collision
+			if (bullet.checkOverlapInWorld(this.getWorld())) {
+				this.getWorld().objectCollision(this, bullet.getOverlappingEntityInWorld(this.getWorld()));
 			}
 			if (! bullet.liesWithinBoundsWorld(bullet.getWorld()))
 				bullet.terminate();
@@ -471,7 +471,7 @@ public class Ship extends Entity{
 		
 	}
 	/**
-	 * Checks whether a ship overlaps with any entities in it's world.
+	 * Checks whether a ship overlaps with any entities in its world.
 	 * 
 	 * 
 	 */
@@ -486,3 +486,4 @@ public class Ship extends Entity{
 		return false;
 	}
 }
+

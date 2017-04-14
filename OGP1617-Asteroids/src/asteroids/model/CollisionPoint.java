@@ -21,4 +21,9 @@ public class CollisionPoint extends Entity{
 		
 	}
 
+	@Override
+	protected double getMass() {
+		return 0;
+	}
+
 }

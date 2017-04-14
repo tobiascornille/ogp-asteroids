@@ -1,8 +1,5 @@
 package asteroids.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 import be.kuleuven.cs.som.annotate.Raw;
