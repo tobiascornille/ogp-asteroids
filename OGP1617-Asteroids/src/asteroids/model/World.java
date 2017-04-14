@@ -332,9 +332,11 @@ public class World {
 				  
 				  if (otherEntity == null) {
 					  Vector collisionPosition = entity.getCollisionBoundaryPosition();
+					  System.out.println(dt);
+					  System.out.println(tC);
+					  System.out.println(collisionPosition.toString());
 					  listener.boundaryCollision(entity, collisionPosition.getXComponent(), collisionPosition.getYComponent());
 					  this.boundaryCollision(entity);
-				  	  System.out.print("lol");
 				  }
 				  
 				  else {
@@ -430,8 +432,8 @@ public class World {
 				 newVelocityEntity = new Vector (entity.getVelocity().getXComponent() + (jX / entity.getMass()), entity.getVelocity().getYComponent() + (jY/entity.getMass()));
 				 newVelocityOtherEntity = new Vector (otherEntity.getVelocity().getXComponent() + (jX / otherEntity.getMass()), otherEntity.getVelocity().getYComponent() + (jY/otherEntity.getMass()));
 				  
-				 entity.setVelocity( newVelocityEntity);
-				 otherEntity.setVelocity( newVelocityOtherEntity);
+				 entity.setVelocity(newVelocityEntity);
+				 otherEntity.setVelocity(newVelocityOtherEntity);
 			 }
 			 
 			 else if (entity == ((Bullet) otherEntity).getSourceShip()) {
@@ -495,5 +497,7 @@ public class World {
 
 		 else if (entity.getPosition().getYComponent() == (this.getSize().getXComponent()))
 			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent(), entity.getVelocity().getYComponent() * -1));
+		 
+		 System.out.println();
 	}
 }

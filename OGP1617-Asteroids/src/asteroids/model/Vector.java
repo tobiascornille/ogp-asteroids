@@ -279,4 +279,10 @@ public class Vector implements Comparable<Vector>{
 	public int hashCode(){
 		return (int) this.getMagnitude();
 	}
+
+	@Override
+	public String toString() {
+		return "Vector [xComponent=" + xComponent + ", yComponent=" + yComponent + "]";
+	}
+	
 }
