@@ -397,25 +397,10 @@ public class World {
 	  * 
 	  */
 	 public Vector getPositionNextCollision() { 
-		  Set<Vector> collisionPositions = new HashSet<>();
-		  Vector collisionPosition;
-		  
-		  for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
-			    Entity entity = i.next();
-			    
-			    for (Iterator<Entity> j = entities.values().iterator(); j.hasNext();) { 
-			    	 Entity otherEntity = j.next();
-			    	 collisionPosition = entity.getCollisionPosition(otherEntity);
-			    	 
-			    	 if	(collisionPosition != null)
-			    		 collisionPositions.add(collisionPosition);
-			    	 
-			     collisionPosition = entity.getCollisionBoundaryPosition();	 
-			     if	(collisionPosition != null)
-			    	 collisionPositions.add(collisionPosition);		     	 			    	 
-			    }    	
-		  }
-		  return Collections.min(collisionPositions);  
+		  Map<Double, Entity[]> collisions = this.getCollisions();
+		  double time = Collections.min(collisions.keySet()); 
+		  Entity[] collidingEntities = collisions.get(time);
+		  return collidingEntities[0].getCollisionPosition(collidingEntities[1]);
 	 }
 	 
 	 /**

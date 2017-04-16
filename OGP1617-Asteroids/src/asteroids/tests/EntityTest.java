@@ -114,6 +114,8 @@ public class EntityTest {
 		assertEquals(50, ship.getTimeToCollisionBoundary(), EPSILON);
 	}
 	
+	
+	
 	// Tests for other methods can be found in the part 1 tests.
 	
 }
