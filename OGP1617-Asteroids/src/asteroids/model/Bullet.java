@@ -138,7 +138,7 @@ public class Bullet extends Entity{
 	/**
 	 * Variable registering the ship of this bullet.
 	 */
-	private Ship ship;
+	private Ship ship = null;
 	
 	/**
 	 * Return the source ship of this bullet.

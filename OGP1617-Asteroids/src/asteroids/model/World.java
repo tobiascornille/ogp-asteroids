@@ -384,6 +384,7 @@ public class World {
 	 /**
 	  * 
 	  * @return
+	  * 
 	  */
 	 public double getTimeNextCollision() {
 		 Map<Double, Entity[]> collisions = this.getCollisions();
@@ -393,6 +394,7 @@ public class World {
 	 /**
 	  * 
 	  * @return
+	  * 
 	  */
 	 public Vector getPositionNextCollision() { 
 		  Set<Vector> collisionPositions = new HashSet<>();
@@ -420,6 +422,7 @@ public class World {
 	  * 
 	  * @param entity
 	  * @param otherEntity
+	  * 
 	  */
 	 void objectCollision(Entity entity, Entity otherEntity) {
 		 
@@ -498,6 +501,7 @@ public class World {
 	 * 
 	 * @param entity
 	 * @param collisionPosition
+	 * 
 	 */
 	void boundaryCollision(Entity entity, Vector collisionPosition) {
 		 if (entity instanceof Bullet) {
@@ -516,6 +520,7 @@ public class World {
 	 * 
 	 * @param entity
 	 * @param collisionPosition
+	 * 
 	 */
 	private void bounceOffBoundary(Entity entity, Vector collisionPosition) {
 		if (collisionPosition.getXComponent() == 0){

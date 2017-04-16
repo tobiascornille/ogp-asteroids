@@ -5,8 +5,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+
 import asteroids.model.Ship;
 import asteroids.model.Vector;
+import asteroids.model.World;
+import asteroids.model.Size;
 
 public class Part1OwnTests {
 	
@@ -85,7 +88,9 @@ public class Part1OwnTests {
 	@Test
 	public void testMove() throws IllegalArgumentException {
 		Ship ship = new Ship(new Vector(100, 100), new Vector(50, -50), 20, 0,0);
-		ship.move(1);
+		World world = new World (new Size(500, 500));
+		world.addEntity(ship);
+		world.evolve(1, null);
 		Vector position = ship.getPosition();
 		assertNotNull(position);
 		assertEquals(150, position.getXComponent(), EPSILON);
@@ -113,6 +118,7 @@ public class Part1OwnTests {
 		assertEquals(50, velocity.getYComponent(), EPSILON);	
 	}
 	
+	// Is not up to date anymore, thrust has changed.
 	@Test 
 	public void testThrustIllegal() throws IllegalArgumentException {
 		// Testen thrust
