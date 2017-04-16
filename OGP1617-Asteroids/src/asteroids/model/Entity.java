@@ -375,60 +375,93 @@ public abstract class Entity {
 		
 	}
 	
+	public double getTimeToCollisionBoundary() {
+		if ((this.getWorld() == null) || (this.getVelocity().equals(Vector.NULL_VECTOR)))
+			return Double.POSITIVE_INFINITY;
+		
+		double xi = this.getPosition().getXComponent();
+		double yi = this.getPosition().getYComponent();
+		
+		double vxi = this.getVelocity().getXComponent();
+		double vyi = this.getVelocity().getYComponent();
+		
+		double sigma = this.getRadius();
+		
+		double xj = this.getWorld().getSize().getXComponent();
+		double yj = this.getWorld().getSize().getYComponent();
+		
+		// Get time to collision with vertical (endless) boundary
+		double dt1;
+		if (vxi > 0)
+			dt1 = (-sigma + xj - xi) / vxi;
+		else if (vxi < 0)
+			dt1 = (-sigma + xi) / -vxi;
+		else 
+			dt1 = Double.POSITIVE_INFINITY;
+		
+		// Get time to collision with the horizontal (endless) boundary
+		double dt2 = 0;
+		if (vyi > 0)
+			dt2 = (-sigma + yj - yi) / vyi;
+		else if (vyi < 0)
+			dt2 = (-sigma + yi) / -vyi;
+		else
+			dt2 = Double.POSITIVE_INFINITY;
+		
+		return Math.min(dt1, dt2);
+	}
+	
 	public Vector getCollisionBoundaryPosition() {
 		if ((this.getWorld() == null) || (this.getVelocity().equals(Vector.NULL_VECTOR)))
 			return null;
 		
-		double x;
-		double y;
+		double xi = this.getPosition().getXComponent();
+		double yi = this.getPosition().getYComponent();
 		
-		double x0 = this.getPosition().getXComponent();
-		double y0 = this.getPosition().getYComponent();
+		double vxi = this.getVelocity().getXComponent();
+		double vyi = this.getVelocity().getYComponent();
 		
-		double vx = this.getVelocity().getXComponent();
-		double vy = this.getVelocity().getYComponent();
+		double sigma = this.getRadius();
 		
-		if (vx > 0){
-			x = this.getWorld().getSize().getXComponent();
-			y = (vy / vx) * (x - x0) + y0;
-		}
-		else if (vx < 0){
-			x = 0;
-			y = y0 - (vy / vx) * x0;
+		double xj = this.getWorld().getSize().getXComponent();
+		double yj = this.getWorld().getSize().getYComponent();
+		
+		// Get time to collision with vertical (endless) boundary
+		double dt1;
+		if (vxi > 0)
+			dt1 = (-sigma + xj - xi) / vxi;
+		else if (vxi < 0)
+			dt1 = (-sigma + xi) / -vxi;
+		else 
+			dt1 = Double.POSITIVE_INFINITY;
+		
+		// Get time to collision with the horizontal (endless) boundary
+		double dt2 = 0;
+		if (vyi > 0)
+			dt2 = (-sigma + yj - yi) / vyi;
+		else if (vyi < 0)
+			dt2 = (-sigma + yi) / -vyi;
+		else
+			dt2 = Double.POSITIVE_INFINITY;
+		
+		Vector newPosition;
+		
+		if (dt1 < dt2) {
+			newPosition = this.getPosition().add(this.getVelocity().times(dt1));
+			if (vxi > 0)
+				return newPosition.add(new Vector(sigma, 0));
+			else
+				return newPosition.add(new Vector(-sigma, 0));
 		}
 		else {
-			x = y = Double.POSITIVE_INFINITY;
+			newPosition = this.getPosition().add(this.getVelocity().times(dt2));
+			if (vyi > 0)
+				return newPosition.add(new Vector(0, sigma));
+			else
+				return newPosition.add(new Vector(0, -sigma));
 		}
-		Vector collisionPosition1 = new Vector(x, y);
-		
-		if (vy > 0){
-			y = this.getWorld().getSize().getYComponent();
-			x = (vx / vy) * (y - y0) + x0; 
-		}
-		else if (vy < 0){
-			y = 0;
-			x = x0 - (vx / vy) * y0;
-		}
-		else {
-			x = y = Double.POSITIVE_INFINITY;
-		}
-		Vector collisionPosition2 = new Vector(x,y);
-		
-		if (this.getPosition().getDistanceBetween(collisionPosition1) < this.getPosition().getDistanceBetween(collisionPosition2))
-			return collisionPosition1;
-		return collisionPosition2;
 	}
 	
-	public double getTimeToCollisionBoundary() {
-		Vector collisionPosition = this.getCollisionBoundaryPosition();
-		CollisionPoint collisionPoint = new CollisionPoint(collisionPosition);
-		try {
-			return this.getTimeToCollision(collisionPoint);
-		} catch (IllegalArgumentException e) {
-			return 0;
-		}
-	}
-
 	/**
 	 * Return the world of this entity.
 	 */

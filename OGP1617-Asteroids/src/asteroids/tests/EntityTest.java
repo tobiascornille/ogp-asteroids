@@ -83,42 +83,6 @@ public class EntityTest {
 	}
 	
 	@Test
-	public void collisionBoundaryLeftUpperCorner() {
-		World world = new World (new Size(100, 100));
-		Ship ship = new Ship(new Vector(50, 50), new Vector(-1, 1), 11, 0, 0);
-		world.addEntity(ship);
-		assertEquals(0, ship.getCollisionBoundaryPosition().getXComponent(), EPSILON);
-		assertEquals(100, ship.getCollisionBoundaryPosition().getYComponent(), EPSILON);
-	}
-	
-	@Test
-	public void collisionBoundaryRightUpperCorner() {
-		World world = new World (new Size(100, 100));
-		Ship ship = new Ship(new Vector(50, 50), new Vector(1, 1), 11, 0, 0);
-		world.addEntity(ship);
-		assertEquals(100, ship.getCollisionBoundaryPosition().getXComponent(), EPSILON);
-		assertEquals(100, ship.getCollisionBoundaryPosition().getYComponent(), EPSILON);
-	}
-	
-	@Test
-	public void collisionBoundaryRightLowerCorner() {
-		World world = new World (new Size(100, 100));
-		Ship ship = new Ship(new Vector(50, 50), new Vector(1, -1), 11, 0, 0);
-		world.addEntity(ship);
-		assertEquals(100, ship.getCollisionBoundaryPosition().getXComponent(), EPSILON);
-		assertEquals(0, ship.getCollisionBoundaryPosition().getYComponent(), EPSILON);
-	}
-	
-	@Test
-	public void collisionBoundaryLeftLowerCorner() {
-		World world = new World (new Size(100, 100));
-		Ship ship = new Ship(new Vector(50, 50), new Vector(-1, -1), 11, 0, 0);
-		world.addEntity(ship);
-		assertEquals(0, ship.getCollisionBoundaryPosition().getXComponent(), EPSILON);
-		assertEquals(0, ship.getCollisionBoundaryPosition().getYComponent(), EPSILON);
-	}
-	
-	@Test
 	public void timeToCollisionBoundaryAbove() {
 		World world = new World (new Size(100, 100));
 		Ship ship = new Ship(new Vector(50, 30), new Vector(0, 1), 20, 0, 0);
