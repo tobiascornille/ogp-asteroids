@@ -350,7 +350,11 @@ public class World {
 			  }
 		  }
 	 }
-
+	 
+	 /**
+	  * 
+	  * @return
+	  */
 	 private Map<Double, Entity[]> getCollisions() { 
 		  Map<Double, Entity[]> collisions = new HashMap<>();
 		  double time;
@@ -377,11 +381,19 @@ public class World {
 		  return collisions; 
 	 }
 	 
+	 /**
+	  * 
+	  * @return
+	  */
 	 public double getTimeNextCollision() {
 		 Map<Double, Entity[]> collisions = this.getCollisions();
 		 return Collections.min(collisions.keySet());  
 	 }
 	 
+	 /**
+	  * 
+	  * @return
+	  */
 	 public Vector getPositionNextCollision() { 
 		  Set<Vector> collisionPositions = new HashSet<>();
 		  Vector collisionPosition;
@@ -481,7 +493,12 @@ public class World {
 			 }
 	     }
 	}
-	
+	 
+	/**
+	 * 
+	 * @param entity
+	 * @param collisionPosition
+	 */
 	void boundaryCollision(Entity entity, Vector collisionPosition) {
 		 if (entity instanceof Bullet) {
 			 if (((Bullet)entity).getCollisionCounter() >= 2) {
@@ -493,8 +510,13 @@ public class World {
 		 }
 		 
 		 bounceOffBoundary(entity, collisionPosition);
-	}	 
+	}
 	
+	/**
+	 * 
+	 * @param entity
+	 * @param collisionPosition
+	 */
 	private void bounceOffBoundary(Entity entity, Vector collisionPosition) {
 		if (collisionPosition.getXComponent() == 0){
 			entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));

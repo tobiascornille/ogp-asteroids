@@ -322,14 +322,15 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public double getTimeCollisionBoundary(Object object) throws ModelException {
-		// TODO Auto-generated method stub
-		return 0;
+			return ((Entity)object).getTimeToCollisionBoundary();
+		
+		
 	}
 
 	@Override
 	public double[] getPositionCollisionBoundary(Object object) throws ModelException {
-		// TODO Auto-generated method stub
-		return null;
+			return ((Entity)object).getCollisionBoundaryPosition().toDouble();
+		
 	}
 
 	@Override
@@ -365,12 +366,7 @@ public class Facade implements asteroids.part2.facade.IFacade {
 
 	@Override
 	public void evolve(World world, double dt, CollisionListener collisionListener) throws ModelException {
-		try {
-			world.evolve(dt, collisionListener);
-		} catch (IllegalArgumentException e) {
-			//throw new ModelException(e);
-		}
-		
+			world.evolve(dt, collisionListener);	
 	}
 
 	@Override
