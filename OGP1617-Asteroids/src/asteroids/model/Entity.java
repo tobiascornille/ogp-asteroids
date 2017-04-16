@@ -117,7 +117,6 @@ public abstract class Entity {
 			this.getPosition().getYComponent() <= world.getSize().getYComponent() - (0.99 * this.getRadius()) )
 				return true;
 		return false;
-	
 	}
 	
 	protected abstract boolean checkOverlapInWorld(World world); 
@@ -382,32 +381,37 @@ public abstract class Entity {
 		
 		double x;
 		double y;
-		if (this.getVelocity().getXComponent() > 0){
-			x = this.getWorld().getSize().getXComponent();
-			y = ((this.getVelocity().getYComponent() / this.getVelocity().getXComponent()) 
-					* (x - this.getPosition().getXComponent())) + this.getPosition().getYComponent();
-		}
-		else if (this.getVelocity().getXComponent() < 0){
-			x = 0;
-			y = ((this.getVelocity().getYComponent() / this.getVelocity().getXComponent()) 
-				* (x - this.getPosition().getXComponent())) + this.getPosition().getYComponent();
-		}
-		else
-			x = y = Double.POSITIVE_INFINITY;
-		Vector collisionPosition1 = new Vector(x,y);
 		
-		if (this.getVelocity().getYComponent() > 0){
-			y = this.getWorld().getSize().getYComponent();
-			x = ((this.getVelocity().getXComponent() / this.getVelocity().getYComponent()) 
-					* (y - this.getPosition().getYComponent())) + this.getPosition().getXComponent();
+		double x0 = this.getPosition().getXComponent();
+		double y0 = this.getPosition().getYComponent();
+		
+		double vx = this.getVelocity().getXComponent();
+		double vy = this.getVelocity().getYComponent();
+		
+		if (vx > 0){
+			x = this.getWorld().getSize().getXComponent();
+			y = (vy / vx) * (x - x0) + y0;
 		}
-		else if (this.getVelocity().getYComponent() < 0){
-			y = 0;
-			x = ((this.getVelocity().getXComponent() / this.getVelocity().getYComponent()) 
-					* (y - this.getPosition().getYComponent())) + this.getPosition().getXComponent();
+		else if (vx < 0){
+			x = 0;
+			y = y0 - (vy / vx) * x0;
 		}
-		else
+		else {
 			x = y = Double.POSITIVE_INFINITY;
+		}
+		Vector collisionPosition1 = new Vector(x, y);
+		
+		if (vy > 0){
+			y = this.getWorld().getSize().getYComponent();
+			x = (vx / vy) * (y - y0) + x0; 
+		}
+		else if (vy < 0){
+			y = 0;
+			x = x0 - (vx / vy) * y0;
+		}
+		else {
+			x = y = Double.POSITIVE_INFINITY;
+		}
 		Vector collisionPosition2 = new Vector(x,y);
 		
 		if (this.getPosition().getDistanceBetween(collisionPosition1) < this.getPosition().getDistanceBetween(collisionPosition2))
@@ -418,7 +422,11 @@ public abstract class Entity {
 	public double getTimeToCollisionBoundary() {
 		Vector collisionPosition = this.getCollisionBoundaryPosition();
 		CollisionPoint collisionPoint = new CollisionPoint(collisionPosition);
-		return this.getTimeToCollision(collisionPoint);
+		try {
+			return this.getTimeToCollision(collisionPoint);
+		} catch (IllegalArgumentException e) {
+			return 0;
+		}
 	}
 
 	/**
