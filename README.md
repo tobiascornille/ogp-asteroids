@@ -5,5 +5,5 @@
 - [X] interaction w bullets
 - [X] collision w boundaries
 - [X] change acceptable state with percentages (//TODO in collision prediction!)
-- [ ] collision resolution
-- [ ] evolve
+- [X] collision resolution
+- [X] evolve

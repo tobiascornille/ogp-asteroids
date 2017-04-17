@@ -17,7 +17,7 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @invar  	The world of each entity must be a valid world for this
  *         	entity.
  *      | 	isValidWorld(getWorld())
- * @version 1.2
+ * @version 1.0
  * @author 	Simon Merckx and Tobias Cornille.
  *         	We both study informatics (1ba).
  *         	Private repo on https://github.com/tobiascornille/Asteroids
@@ -63,6 +63,33 @@ public abstract class Entity {
 		
 	}
 	
+
+	/**
+	 * Return the radius of this entity.
+	 * 
+	 * @return	The radius of this entity.
+	 * 		|	result == this.radius
+	 */
+	@Basic @Raw @Immutable
+	public double getRadius() {
+		return this.radius;
+	}
+	
+	/**
+	 * Check whether this entity can have the given radius as its radius.
+	 *  
+	 * @param  	radius
+	 *         	The radius to check.
+	 */
+	@Raw
+	abstract protected boolean canHaveAsRadius(double radius);
+	
+	/**
+	 * Variable registering the radius of this entity.
+	 */
+	private final double radius;
+	
+	
 	/**
 	 * Return the position of this entity.
 	 * 
@@ -88,12 +115,32 @@ public abstract class Entity {
 		return true;
 	}
 	
+	/**
+	 * Check whether this entity has a valid position in the given world.
+	 * 
+	 * @param 	world
+	 * 			The given world.
+	 * @return	True if this entity is a ship in an unbounded space.
+	 * 		|	if (world == null && this instanceof Ship)
+	 *		|		then result == true;
+	 * @return	True if this entity is a bullet in an unbounded space.
+	 * 		|	if (world == null && this instanceof Ship && ((Bullet) this).getShip() == null)
+	 *		|		then result == true;
+	 * @return	True if this entity is a bullet in a ship.
+	 * 		|	if (world == null && this instanceof Ship && ((Bullet) this).isInShip(((Bullet) this).getShip()))
+	 *		|		then result == true;
+	 * @return	True if this entity lies within the bounds of the given world
+	 *			and this entity doesn't overlap in the given world.	
+	 *		|	if (this.liesWithinBoundsWorld(world) && (! this.checkOverlapInWorld(world)))
+	 *		|		then result == true;
+	 * @return	False in other cases.
+	 */
 	public boolean hasValidPositionInWorld(World world) {
 		if (world == null) {
 			if (this instanceof Ship)
 				//True if ship is in unbounded space
 				return true;
-			if (this instanceof Bullet)
+			if (this instanceof Bullet) {
 				//True if bullet is in unbounded space
 				if (((Bullet) this).getShip() == null)
 					return true;
@@ -101,6 +148,7 @@ public abstract class Entity {
 				//True if bullet is in ship
 				if (((Bullet) this).isInShip(((Bullet) this).getShip()))
 					return true;
+			}
 		}
 		
 		else if (this.liesWithinBoundsWorld(world) && (! this.checkOverlapInWorld(world))) 
@@ -109,6 +157,16 @@ public abstract class Entity {
 		return false;
 	}
 	
+	/**
+	 * Check whether this entity lies within the boundaries of the given world.
+	 *  
+	 * @param 	world
+	 * 			The given world.
+	 * @return	True if the X component of the position of this entity
+	 * 			is in the range [0, width] and the Y component is in 
+	 * 			the range [0, height].
+			|	@see implementation
+	 */
 	public boolean liesWithinBoundsWorld(World world) {
 		
 		if(	this.getPosition().getXComponent() >= 0.99 * this.getRadius() &&
@@ -118,9 +176,6 @@ public abstract class Entity {
 				return true;
 		return false;
 	}
-	
-	protected abstract boolean checkOverlapInWorld(World world); 
-	protected abstract double getMass(); 
 
 	/**
 	 * Change the position of the entity based on the current position, velocity and time duration dt.
@@ -185,6 +240,10 @@ public abstract class Entity {
 		return (this.getDistanceBetween(other)  <= -0.01 * (this.getRadius() + other.getRadius()));
 	}
 	
+	public abstract boolean checkOverlapInWorld(World world); 
+	
+	public abstract double getMass(); 
+	
 	/**
 	 * Set the position of this entity to the given position.
 	 * 
@@ -199,7 +258,7 @@ public abstract class Entity {
 	 *     	| 	! isValidPosition(getPosition())
 	 */
 	@Raw
-	public void setPosition(Vector position) throws IllegalArgumentException {
+	protected void setPosition(Vector position) throws IllegalArgumentException {
 		if (!isValidPosition(position)) throw new IllegalArgumentException();
 		this.position = position;
 	}
@@ -268,29 +327,69 @@ public abstract class Entity {
 	protected static final double C = 300000;
 	
 	/**
-	 * Return the radius of this entity.
-	 * 
-	 * @return	The radius of this entity.
-	 * 		|	result == this.radius
+	 * Return the world of this entity.
 	 */
-	@Basic @Raw @Immutable
-	public double getRadius() {
-		return this.radius;
+	@Basic @Raw
+	public World getWorld() {
+		return this.world;
 	}
 	
 	/**
-	 * Check whether this entity can have the given radius as its radius.
-	 *  
-	 * @param  	radius
-	 *         	The radius to check.
+	 * Check whether the given world is a valid world for
+	 * this entity.
+	 * 
+	 * @return
+	 * 		|	if (world == null)
+	 * 		|		result == true
+	 * @return 	
+	 *      | 	result == (this.getWorld() == null) && (this.inWorld(world))
 	 */
-	@Raw
-	abstract protected boolean canHaveAsRadius(double radius);
+	public boolean isValidWorld(World world) {
+		if (world == null)
+			return true;		
+		return (this.getWorld() == null) && (this.hasValidPositionInWorld(world));
+	}
 	
 	/**
-	 * Variable registering the radius of this entity.
+	 * Set the world of this entity to the given world.
+	 * 
+	 * @param  world
+	 *         The new world for this entity.
+	 * @post   The world of this new entity is equal to
+	 *         the given world.
+	 *       | new.getWorld() == world
+	 * @throws IllegalArgumentException
+	 *         The given world is not a valid world for any
+	 *         entity.
+	 *       | ! isValidWorld(getWorld())
 	 */
-	private final double radius;
+	@Raw
+	protected void setWorld(World world) throws IllegalArgumentException {
+		if (! isValidWorld(world))
+			throw new IllegalArgumentException();
+		this.world = world;
+	}
+	
+	/**
+	 * Variable registering the world of this entity.
+	 */
+	private World world = null;
+	
+	 /**
+	  * Return a boolean indicating whether or not this entity
+	  * is terminated.
+	  */
+	 @Basic @Raw
+	 public boolean isTerminated() {
+		 return this.isTerminated;
+	 }
+	 
+	 /**
+	  * Variable registering whether this entity is terminated.
+	  */
+	 protected boolean isTerminated = false;
+
+	 public abstract void terminate();
 	
 	/**
 	 * Return when, if ever, two entities will collide.
@@ -374,7 +473,23 @@ public abstract class Entity {
 		return collisionPosition;
 		
 	}
-	
+
+	/**
+	 * Return when, if ever, this entity collides with a boundary.
+	 * Return Double.POSITIVE_INFINITY if this entity never collides with a boundary.
+	 * 
+	 * @param 	entity
+	 * 		  	The other entity.
+	 * @return  Double.POSITIVE_INFINITY if the entity never collides with the boundary.
+	 * 		|	if (this.getCollisionBoundaryPosition() == null)
+	 * 		|		result == Double.POSTIVE_INFINITY
+	 * @return	The time this entity needs to reach the collision position.
+	 * 		|	while (new.getPosition != this.getCollisionBoundaryPosition()) {
+	 * 		|		time += dt
+	 * 		|		this.move(dt)
+	 * 		|	}
+	 * 		|	result == time
+	 */
 	public double getTimeToCollisionBoundary() {
 		if ((this.getWorld() == null) || (this.getVelocity().equals(Vector.NULL_VECTOR)))
 			return Double.POSITIVE_INFINITY;
@@ -410,7 +525,21 @@ public abstract class Entity {
 		
 		return Math.min(dt1, dt2);
 	}
-	
+
+	/**
+	 * Return where, if ever, this entity collides with a boundary.
+	 * Return null if the entity never collides with a boundary.
+	 * 
+	 * @param 	other
+	 * 			The other entity
+	 * @return	Null if the ship never collides with a boundary.
+	 * 		|	if (this.getTimeToCollision(entity) == Double.POSITIVE_INFINITY)
+	 *		|		then return null
+	 * @return	The position where the distance between this entity and a boundary
+	 * 			is equal the radius of this entity.
+	 * 		|	if (this.getDistanceBetween(boundary) == this.getRadius())
+	 *		|		return position
+	 */
 	public Vector getCollisionBoundaryPosition() {
 		if ((this.getWorld() == null) || (this.getVelocity().equals(Vector.NULL_VECTOR)))
 			return null;
@@ -460,72 +589,6 @@ public abstract class Entity {
 			else
 				return newPosition.add(new Vector(0, -sigma));
 		}
-	}
-	
-	/**
-	 * Return the world of this entity.
-	 */
-	@Basic @Raw
-	public World getWorld() {
-		return this.world;
-	}
-	
-	/**
-	 * Check whether the given world is a valid world for
-	 * this entity.
-	 * 
-	 * @return
-	 * 		|	if (world == null)
-	 * 		|		result == true
-	 * @return 	
-	 *      | 	result == (this.getWorld() == null) && (this.inWorld(world))
-	 */
-	public boolean isValidWorld(World world) {
-		if (world == null)
-			return true;		
-		return (this.getWorld() == null) && (this.hasValidPositionInWorld(world));
-	}
-	
-	/**
-	 * Set the world of this entity to the given world.
-	 * 
-	 * @param  world
-	 *         The new world for this entity.
-	 * @post   The world of this new entity is equal to
-	 *         the given world.
-	 *       | new.getWorld() == world
-	 * @throws IllegalArgumentException
-	 *         The given world is not a valid world for any
-	 *         entity.
-	 *       | ! isValidWorld(getWorld())
-	 */
-	@Raw
-	protected void setWorld(World world) throws IllegalArgumentException {
-		if (! isValidWorld(world))
-			throw new IllegalArgumentException();
-		this.world = world;
-	}
-	
-	/**
-	 * Variable registering the world of this entity.
-	 */
-	private World world = null;
-	
-	 /**
-	  * Return a boolean indicating whether or not this entity
-	  * is terminated.
-	  */
-	 @Basic @Raw
-	 public boolean isTerminated() {
-		 return this.isTerminated;
-	 }
-	 
-	 /**
-	  * Variable registering whether this entity is terminated.
-	  */
-	 protected boolean isTerminated = false;
-
-	 public abstract void terminate();
-	
+	}	
 }
 

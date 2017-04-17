@@ -108,7 +108,7 @@ public class Part1OwnTests {
 		assertEquals(2 * Math.PI + Math.PI/2, ship.getOrientation(), EPSILON);
 	}
 	
-	@Test 
+	@Deprecated
 	public void testThrust() throws IllegalArgumentException {
 		// Testen thrust
 		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 11, 0,0);
@@ -118,8 +118,7 @@ public class Part1OwnTests {
 		assertEquals(50, velocity.getYComponent(), EPSILON);	
 	}
 	
-	// Is not up to date anymore, thrust has changed.
-	@Test 
+	@Deprecated
 	public void testThrustIllegal() throws IllegalArgumentException {
 		// Testen thrust
 		Ship ship = new Ship(new Vector(200, 200), new Vector(50, 50), 11, 0,0);

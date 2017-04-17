@@ -9,7 +9,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar  	Each thruster can have its state as state.
  *       | 	canHaveAsState(this.getState())
  * 
- * @version 1.2
+ * @version 1.0
  * @author 	Simon Merckx and Tobias Cornille
  *
  */

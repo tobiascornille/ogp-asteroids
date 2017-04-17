@@ -9,7 +9,7 @@ import be.kuleuven.cs.som.annotate.*;
  * @invar  	Each vector can have its y component as y component.
  *       | 	canHaveAsYComponent(this.getYComponent())
  * 
- * @version 1.2
+ * @version 1.0
  * @author 	Simon Merckx and Tobias Cornille
  *
  */

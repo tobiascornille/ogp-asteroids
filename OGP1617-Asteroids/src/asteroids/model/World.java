@@ -11,6 +11,7 @@ import java.util.Set;
 import asteroids.part2.CollisionListener;
 
 /**
+ * A class of worlds involving a size and entities.
  * 
  * @author Simon Merckx and Tobias Cornille
  * 
@@ -18,12 +19,16 @@ import asteroids.part2.CollisionListener;
  *       | canHaveAsSize(this.getSize)
  * @invar   Each world must have proper entities.
  *        | hasProperEntities()
- * 
+ * @version 1.0
+ * @author 	Simon Merckx and Tobias Cornille.
+ *         	We both study informatics (1ba).
+ *         	Private repo on https://github.com/tobiascornille/Asteroids
+ *         	Please send us an email with your account info so we can add you as a contributer.
  */
 public class World {
 	/**
 	 * Initialize this new world as a non-terminated world
-	 * with given width and height and with no entities yet.
+	 * with given size and with no entities yet.
 	 * 
 	 * @param 	size
 	 * 		  	The size for this new world.		
@@ -71,7 +76,7 @@ public class World {
 	 *   	|	@see implementation
 	 */
 	@Raw
-	private boolean canHaveAsSize(Size size) {
+	public boolean canHaveAsSize(Size size) {
 		return (Size.MIN_SIZE.compareTo(size) <= 0) && (size.compareTo(Size.MAX_SIZE) <= 0);
 	}
 	
@@ -196,6 +201,50 @@ public class World {
 		entity.setWorld(null);
 		entities.values().remove(entity);
 	}
+	
+	 /**
+	  * Return the entity, if any, at a given position.
+	  * 
+	  * @param postion
+	  * 	   The given position.
+	  * @return 
+	  * 	  | @see implemantation
+	  */
+	 public Entity returnEntityGivenPosition(Vector position) {
+		 return entities.get(position);
+	 }
+	 
+	 /**
+	  * Return a set of all the ships of this world.
+	  * 
+	  * @return
+	  * 	  | @see implementation
+	  */
+	 public Set<Ship> getWorldShips() {	 
+		 Set<Ship> ships = new HashSet<>();
+		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    if (entity instanceof Ship)
+			    	ships.add((Ship) entity);
+		 }
+		 return ships;	    	
+	 }
+	 
+	 /**
+	  * Return a set of all the bullets of this world.
+	  * 
+	  * @return 
+	  *       | @see implementation
+	  */
+	 public Set<Bullet> getWorldBullets() {	 
+		 Set<Bullet> bullets = new HashSet<>();
+		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    if (entity instanceof Bullet)
+			    	bullets.add((Bullet) entity);
+		 }
+		 return bullets;		    	
+	}
 
 	/**
 	 * Variable referencing a set collecting all the entities
@@ -247,79 +296,6 @@ public class World {
 	  */
 	 private boolean isTerminated = false;
 	 
-	 /**
-	  * Returns the entity, if any, at a given position.
-	  * 
-	  * @param postion
-	  * 	   The given position.
-	  * @return 
-	  * 	  | @see implemantation
-	  */
-	 public Entity returnEntityGivenPosition(Vector position) {
-		 return entities.get(position);
-	 }
-	 
-	 /**
-	  * 
-	  * @return
-	  * 	  | @see implementation
-	  */
-	 public Set<Ship> getWorldShips() {	 
-		 Set<Ship> ships = new HashSet<>();
-		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
-			    Entity entity = i.next();
-			    if (entity instanceof Ship)
-			    	ships.add((Ship) entity);
-		 }
-		 
-		 return ships;
-			    	
-	 }
-	 
-	 /**
-	  * @return 
-	  *       | @see implementation
-	  */
-	 public Set<Bullet> getWorldBullets() {	 
-		 Set<Bullet> bullets = new HashSet<>();
-		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
-			    Entity entity = i.next();
-			    if (entity instanceof Bullet)
-			    	bullets.add((Bullet) entity);
-		 }
-		 
-		 return bullets;
-			    	
-	 }
-	 
-	 /**
-	  * 
-	  * @param dt
-	  */
-	 private void advance(double dt) {
-		 
-		 Map<Vector, Entity> newEntities  = new HashMap<>();
-		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
-			    Entity entity = i.next();
-			    entity.move(dt);
-			    
-			    if (entity instanceof Ship && ((Ship) entity).getThrusterState()) {
-			    	((Ship) entity).thrust(dt);
-			    }
-			    
-			    newEntities.put(entity.getPosition(), entity);
-			   	    
-		 }
-		 
-		 this.entities = newEntities;
-		 
-	 }
-	 
-	 /**
-	  * 
-	  * @param dt
-	  * 
-	  */
 	 public void evolve(double dt, CollisionListener listener) { 
 		  while (dt > 0) {
 			  Map<Double, Entity[]> collisions = this.getCollisions();
@@ -351,10 +327,22 @@ public class World {
 		  }
 	 }
 	 
-	 /**
-	  * 
-	  * @return
-	  */
+	 private void advance(double dt) {
+		 
+		 Map<Vector, Entity> newEntities  = new HashMap<>();
+		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
+			    Entity entity = i.next();
+			    entity.move(dt);
+			    
+			    if (entity instanceof Ship && ((Ship) entity).getThrusterState()) {
+			    	((Ship) entity).thrust(dt);
+			    }
+			    
+			    newEntities.put(entity.getPosition(), entity); 	    
+		 }
+		 this.entities = newEntities;
+	 }
+	 
 	 private Map<Double, Entity[]> getCollisions() { 
 		  Map<Double, Entity[]> collisions = new HashMap<>();
 		  double time;
@@ -381,21 +369,11 @@ public class World {
 		  return collisions; 
 	 }
 	 
-	 /**
-	  * 
-	  * @return
-	  * 
-	  */
 	 public double getTimeNextCollision() {
 		 Map<Double, Entity[]> collisions = this.getCollisions();
 		 return Collections.min(collisions.keySet());  
 	 }
 	 
-	 /**
-	  * 
-	  * @return
-	  * 
-	  */
 	 public Vector getPositionNextCollision() { 
 		  Map<Double, Entity[]> collisions = this.getCollisions();
 		  double time = Collections.min(collisions.keySet()); 
@@ -403,12 +381,6 @@ public class World {
 		  return collidingEntities[0].getCollisionPosition(collidingEntities[1]);
 	 }
 	 
-	 /**
-	  * 
-	  * @param entity
-	  * @param otherEntity
-	  * 
-	  */
 	 void objectCollision(Entity entity, Entity otherEntity) {
 		 
 		 if (entity instanceof Ship){
@@ -481,13 +453,7 @@ public class World {
 			 }
 	     }
 	}
-	 
-	/**
-	 * 
-	 * @param entity
-	 * @param collisionPosition
-	 * 
-	 */
+
 	void boundaryCollision(Entity entity, Vector collisionPosition) {
 		 if (entity instanceof Bullet) {
 			 if (((Bullet)entity).getCollisionCounter() >= 2) {
@@ -501,12 +467,6 @@ public class World {
 		 bounceOffBoundary(entity, collisionPosition);
 	}
 	
-	/**
-	 * 
-	 * @param entity
-	 * @param collisionPosition
-	 * 
-	 */
 	private void bounceOffBoundary(Entity entity, Vector collisionPosition) {
 		if (collisionPosition.getXComponent() == 0){
 			entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));

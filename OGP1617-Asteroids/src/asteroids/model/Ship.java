@@ -11,11 +11,6 @@ import be.kuleuven.cs.som.annotate.Raw;
 /**
  * A class of ships involving a position, velocity, radius and orientation.
  * 
- * @author 	Simon Merckx and Tobias Cornille.
- *         	We both study informatics (1ba).
- *         	Private repo on https://github.com/tobiascornille/Asteroids
- *         	Please send us an email with your account info so we can add you as a contributer.
- * @version 1.1
  * @invar 	The orientation of each ship must be a valid orientation for any 
  * 			ship.
  * 		|	isValidOrientation(getOrientation())
@@ -30,16 +25,17 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @invar  The total mass of each ship must be a valid total mass for that
  *         ship.
  *       | isValidTotalMass(getTotalMass())
- *
+ * @version 2.0
+ * @author 	Simon Merckx and Tobias Cornille.
+ *         	We both study informatics (1ba).
+ *         	Private repo on https://github.com/tobiascornille/Asteroids
+ *         	Please send us an email with your account info so we can add you as a contributer.
  */
 public class Ship extends Entity{
 	
 	/**
 	 * Initialize this new ship as a non terminated ship
-	 * with default values and no bullets yet.
-	 * 
-	 * @effect	The radius of this new ship is set to 11.
-	 * 		|	this.radius = 11
+	 * with no bullets yet.
 	 */
 	public Ship() {	
 		super(11);

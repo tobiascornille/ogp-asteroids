@@ -5,20 +5,28 @@ import java.util.Set;
 
 import be.kuleuven.cs.som.annotate.*;
 
+/**
+ * A class of bullets, which are entities, involving a ship, a source ship and a collision counter.
+ * 
+ * @invar  The ship of each bullet must be a valid ship for any
+ *         bullet.
+ *       | isValidShip(getShip())
+ * @invar  The source ship of each bullet must be a valid source ship for this
+ *         bullet.
+ *       | isValidSourceShip(getSourceShip())
+ * @invar  The collision counter of each bullet must be a valid collision counter for any
+ *         bullet.
+ *       | isValidCollisionCounter(getCollisionCounter())	
+ * @version 1.0
+ * @author 	Simon Merckx and Tobias Cornille.
+ *         	We both study informatics (1ba).
+ *         	Private repo on https://github.com/tobiascornille/Asteroids
+ *         	Please send us an email with your account info so we can add you as a contributer.
+ */
 public class Bullet extends Entity{
-
 	
 	/**
-	 * @invar  The ship of each bullet must be a valid ship for any
-	 *         bullet.
-	 *       | isValidShip(getShip())
-	 * @invar  The source ship of each bullet must be a valid source ship for this
-	 *         bullet.
-	 *       | isValidSourceShip(getSourceShip())
-	 *       
-	 * @invar  The collision counter of each bullet must be a valid collision counter for any
-	 *         bullet.
-	 *       | isValidCollisionCounter(getCollisionCounter())	
+	 * Initialize this new bullet.
 	 */
 	public Bullet() {
 		super(2);
@@ -26,10 +34,20 @@ public class Bullet extends Entity{
 	}
 	
 	/**
+	 * Initialize this new bullet with given position, velocity and radius.
 	 * 
 	 * @param position
+	 * 		|	The position of this new bullet.
 	 * @param velocity
+	 * 		|	The velocity of this new bullet.
 	 * @param radius
+	 * 		|	The radius of this new bullet.
+	 * @effect	The position of this new bullet is set to the given position.  
+	 * 		|	this.setPosition(position)
+	 * @effect  The velocity of this new bullet is set to the given velocity.
+	 * 		|   this.setVelocity(velocity)
+	 * @post  The radius of this new bullet is the given radius.
+	 * 		|   this.getRadius() = radius
 	 */
 	public Bullet (Vector position, Vector velocity, double radius) throws IllegalArgumentException {
 		super(position, velocity, radius);
@@ -58,6 +76,11 @@ public class Bullet extends Entity{
 	}
 	
 	/**
+	 * Variable registering the density of this bullet.
+	 */
+	private static final double density = 7.8 * Math.pow(10, 12);
+	
+	/**
 	 * Return the mass of this bullet.
 	 */
 	@Basic @Raw @Immutable
@@ -71,10 +94,11 @@ public class Bullet extends Entity{
 	private final double mass;
 
 	/**
-	 * Variable registering the density of this bullet.
+	 * Terminates this bullet.
+	 * 
+	 * @post	
+	 * 		|	@see implementation
 	 */
-	private static final double density = 7.8 * Math.pow(10, 12);
-	
 	@Override
 	public void terminate() {
 		if (!isTerminated()) {
@@ -175,7 +199,7 @@ public class Bullet extends Entity{
 	 *       | ! isValidSourceShip(getSourceShip())
 	 */
 	@Raw
-	public void setSourceShip(Ship sourceShip) throws IllegalArgumentException {
+	protected void setSourceShip(Ship sourceShip) throws IllegalArgumentException {
 		if (! isValidSourceShip(sourceShip))
 			throw new IllegalArgumentException();
 		this.sourceShip = sourceShip;
@@ -204,10 +228,15 @@ public class Bullet extends Entity{
 	}
 	
 	/**
+	 * Return true if there is an entity overlapping with this bullet in the given world. 
 	 * 
+	 * @param world
+	 * 		  The world to check for overlapping entities.
+	 * 
+	 * @return
+	 * 		 | @see implementation 
 	 */
 	public boolean checkOverlapInWorld(World world) {	
-		
 		Set<Entity> entities = world.getEntities();
 	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
 			    Entity entity = i.next();   
@@ -218,7 +247,14 @@ public class Bullet extends Entity{
 	}
 	
 	/**
+	 * Return the overlapping entity of this bullet in the given world, if one exists. 
+	 * If there is no overlapping entity then null will be returned.
 	 * 
+	 * @param world
+	 * 		  The world to check for overlapping entities.
+	 * 
+	 * @return
+	 * 		 | @see implementation
 	 */
 	public Entity getOverlappingEntityInWorld(World world) {	
 		
@@ -266,13 +302,16 @@ public class Bullet extends Entity{
 	 *       | ! isValidCollisionCounter(getCollisionCounter())
 	 */
 	@Raw
-	public void setCollisionCounter(double collisionCounter) 
+	private void setCollisionCounter(double collisionCounter) 
 			throws IllegalArgumentException {
 		if (! isValidCollisionCounter(collisionCounter))
 			throw new IllegalArgumentException();
 		this.collisionCounter = collisionCounter;
 	}
 	
+	/**
+	 * Increment the collision counter of this bullet.	
+	 */
 	public void incrementCollisionCounter() {
 		setCollisionCounter(this.getCollisionCounter() + 1);
 	}
