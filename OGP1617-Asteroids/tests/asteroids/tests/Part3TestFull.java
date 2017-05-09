@@ -1,7 +1,4 @@
 package asteroids.tests;
-//test voor commit
-// ik maak fucking veranderingen Git kijk
-//dit is nieuw
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
