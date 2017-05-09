@@ -41,9 +41,7 @@ public class Size implements Comparable<Size>{
 	 *         	This new size cannot have the given y component as its y component.
 	 *       | 	! canHaveAsYComponent(this.getYComponent())
 	 */
-	public Size(double xComponent, double yComponent) throws IllegalArgumentException {
-		if (! canHaveAsXComponent(xComponent) || ! canHaveAsYComponent(yComponent)) 
-			throw new IllegalArgumentException();
+	public Size(double xComponent, double yComponent) {
 		this.xComponent = xComponent;
 		this.yComponent = yComponent;
 	}
@@ -87,19 +85,6 @@ public class Size implements Comparable<Size>{
 	}
 	
 	/**
-	 * Check whether this size can have the given x component as its x component.
-	 *  
-	 * @param	xComponent
-	 *         	The x component to check.
-	 * @return 	True if and only if the given x component is not a NaN.
-	 *       | 	result == ! Double.isNaN(xComponent)
-	*/
-	@Raw
-	public boolean canHaveAsXComponent(double xComponent) {
-		return ! Double.isNaN(xComponent);
-	}
-	
-	/**
 	 * Variable registering the x component of this size.
 	 */
 	private final double xComponent;
@@ -110,19 +95,6 @@ public class Size implements Comparable<Size>{
 	@Basic @Raw @Immutable
 	public double getYComponent() {
 		return this.yComponent;
-	}
-	
-	/**
-	 * Check whether this size can have the given y component as its y component.
-	 *  
-	 * @param  	yComponent
-	 *         	The y component to check.
-	 * @return 	True if and only if the given y component is not a NaN.
-	 *       | 	result == ! Double.isNaN(yComponent)
-	*/
-	@Raw
-	public boolean canHaveAsYComponent(double yComponent) {
-		return ! Double.isNaN(yComponent);
 	}
 	
 	/**

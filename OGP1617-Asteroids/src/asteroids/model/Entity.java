@@ -423,9 +423,9 @@ public abstract class Entity {
 		double sigma = this.getRadius() + other.getRadius();
 		double d = Math.pow(dv.dot(dr), 2) - (dv.dot(dv) * (dr.dot(dr) - Math.pow(sigma, 2))); 
 		
-		if (dv.dot(dr) >= 0.01)	// not sure that the rounding is correct
+		if (dv.dot(dr) >= 0)	// TODO: deftige rounding
 			return Double.POSITIVE_INFINITY;
-		else if (d <= -0.01)
+		else if (d <= 0)
 			return Double.POSITIVE_INFINITY;
 		else
 			return (-(dv.dot(dr) + Math.sqrt(d))/dv.dot(dv));		

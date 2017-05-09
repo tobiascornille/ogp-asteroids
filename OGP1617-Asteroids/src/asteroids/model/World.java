@@ -77,6 +77,8 @@ public class World {
 	 */
 	@Raw
 	public boolean canHaveAsSize(Size size) {
+		if (Double.isNaN(size.getXComponent()) || Double.isNaN(size.getYComponent()))
+			return false;
 		return (Size.MIN_SIZE.compareTo(size) <= 0) && (size.compareTo(Size.MAX_SIZE) <= 0);
 	}
 	
@@ -202,6 +204,22 @@ public class World {
 		entities.values().remove(entity);
 	}
 	
+	/**
+	 * Prepares the given entity for removal during an iterator
+	 * 
+	 * @param  entity
+	 *         The entity to be removed.
+	 * @throws IllegalArgumentException
+	 *       | ! this.hasAsEntity(entity)
+	 * @throws IllegalArgumentException
+	 *       | entity.getWorld() != this
+	 */
+	@Raw
+	private void prepareRemovalForEntity(Entity entity) throws IllegalArgumentException {
+		if (! this.hasAsEntity(entity) || entity.getWorld() != this) throw new IllegalArgumentException();
+		entity.setWorld(null);
+	}
+	
 	 /**
 	  * Return the entity, if any, at a given position.
 	  * 
@@ -273,10 +291,13 @@ public class World {
 	 */
 	 public void terminate() {
 		 if (!isTerminated()) {
-			// We avoid ConcurrentModificationException by using an iterator
+			 // We avoid ConcurrentModificationException by using the remove prepare method
+			 // together with the iterator remove method from Java.
 			 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
 			    Entity entity = i.next();
-				this.removeEntity(entity);  
+			    this.prepareRemovalForEntity(entity);
+			    i.remove();
+				//this.removeEntity(entity);  
 			 }
 			 this.isTerminated = true;
 		 }
@@ -298,9 +319,11 @@ public class World {
 	 
 	 public void evolve(double dt, CollisionListener listener) { 
 		  while (dt > 0) {
+			  double tC = Double.POSITIVE_INFINITY;
 			  Map<Double, Entity[]> collisions = this.getCollisions();
-			  double tC = Collections.min(collisions.keySet());
-			  
+			  if (!collisions.keySet().isEmpty())
+				  tC = Collections.min(collisions.keySet());
+				  
 			  if (tC < dt) {
 				  advance(tC);
 				  Entity entity = collisions.get(tC)[0];
@@ -308,13 +331,15 @@ public class World {
 				  
 				  if (otherEntity == null) {
 					  Vector collisionPosition = entity.getCollisionBoundaryPosition();
-					  listener.boundaryCollision(entity, collisionPosition.getXComponent(), collisionPosition.getYComponent());
+					  if (listener != null)
+						  listener.boundaryCollision(entity, collisionPosition.getXComponent(), collisionPosition.getYComponent());
 					  this.boundaryCollision(entity, collisionPosition);
 				  }
 				  
 				  else {
 					  Vector collisionPosition = entity.getCollisionPosition(otherEntity);
-					  listener.objectCollision(entity, otherEntity, collisionPosition.getXComponent(), collisionPosition.getYComponent());
+					  if (listener != null)
+						  listener.objectCollision(entity, otherEntity, collisionPosition.getXComponent(), collisionPosition.getYComponent());
 					  objectCollision(entity, otherEntity);
 				  }
 				  
@@ -360,11 +385,12 @@ public class World {
 					
 			    	if	(time != Double.POSITIVE_INFINITY && collisions.get(time) == null)
 			    		collisions.put(time, new Entity[] {entity, otherEntity});
-			    	 
-			     time = entity.getTimeToCollisionBoundary();	 
-			     if	(time != Double.POSITIVE_INFINITY && collisions.get(time) == null)
-			    	 collisions.put(time, new Entity[] {entity, null});		     	 			    	 
-			    }    	
+			    }
+			    
+				time = entity.getTimeToCollisionBoundary();	 
+				 
+				if (time != Double.POSITIVE_INFINITY && collisions.get(time) == null)
+					collisions.put(time, new Entity[] {entity, null});		     	 			    	    	
 		  }
 		  return collisions; 
 	 }
