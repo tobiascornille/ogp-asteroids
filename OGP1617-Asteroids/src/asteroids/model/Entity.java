@@ -62,7 +62,6 @@ public abstract class Entity {
 		this.setVelocity(velocity);
 		
 	}
-	
 
 	/**
 	 * Return the radius of this entity.
@@ -80,10 +79,15 @@ public abstract class Entity {
 	 *  
 	 * @param  	radius
 	 *         	The radius to check.
+	 * @return	True if this entity is a ship and the radius is larger than 10.
+	 *     	| 	result == (radius > 10)
 	 */
-	@Raw
-	abstract protected boolean canHaveAsRadius(double radius);
-	
+	public boolean canHaveAsRadius(double radius) {
+	   if (this instanceof Ship)
+	       return radius > 10;
+	   if (this instanceof Bullet)
+	       return radius > 1;
+	}
 	/**
 	 * Variable registering the radius of this entity.
 	 */

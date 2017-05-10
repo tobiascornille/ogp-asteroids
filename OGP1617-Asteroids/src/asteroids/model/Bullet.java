@@ -55,19 +55,6 @@ public class Bullet extends Entity{
 	}
 	
 	/**
-	 * Check whether this bullet can have the given radius as its radius.
-	 *  
-	 * @param  	radius
-	 *         	The radius to check.
-	 * @return	True if the radius is larger than 1.
-	 *     	| 	result == radius > 1
-	 */
-	@Override
-	public boolean canHaveAsRadius(double radius) {
-		return radius > 1;
-	}
-	
-	/**
 	 * Return the density of this bullet. 
 	 */
 	@Basic @Raw @Immutable

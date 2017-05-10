@@ -1,4 +1,3 @@
-
 package asteroids.model;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -178,19 +177,6 @@ public class Ship extends Entity{
 	 * Variable registering the total mass of this ship.
 	 */
 	private double totalMass = 0;
-
-	
-	/**
-	 * Check whether this ship can have the given radius as its radius.
-	 *  
-	 * @param  	radius
-	 *         	The radius to check.
-	 * @return	True if the radius is larger than 10.
-	 *     	| 	result == (radius > 10)
-	 */
-	public boolean canHaveAsRadius(double radius) {
-		return radius > 10;
-	}
 
 	/**
 	 * Return the set collecting all the bullets
