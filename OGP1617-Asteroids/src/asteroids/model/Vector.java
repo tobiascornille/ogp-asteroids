@@ -96,13 +96,8 @@ public class Vector extends OrderedPair implements Comparable<Vector>{
 	 * 		|		this.getXComponent() * factor
 	 * 		|	result.getYComponent() == 
 	 * 		|		this.getYComponent() * factor
-	 * @throws	IllegalArgumentException
-	 * 			The factor is NaN.
-	 * 		|	Double.isNaN(factor)
 	 */
 	public Vector times(double factor) throws IllegalArgumentException {
-		if (Double.isNaN(factor)) 
-			throw new IllegalArgumentException();
 		return new Vector(this.getXComponent() * factor, this.getYComponent() * factor);
 	}
 	
