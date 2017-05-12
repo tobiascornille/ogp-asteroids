@@ -335,8 +335,13 @@ public abstract class Entity {
 	 */
 	@Raw
 	protected void setVelocity(Vector velocity) {
-		if (! isValidVelocity(velocity))	
+		if (! isValidVelocity(velocity)) {
+			if (Double.isNaN(velocity.getXComponent()))
+				this.velocity = new Vector(C, velocity.getYComponent());
+			if (Double.isNaN(velocity.getYComponent()))
+				this.velocity = new Vector(velocity.getXComponent(), C);
 			velocity = velocity.normalise().times(C);
+		}
 		this.velocity = velocity;
 	}
 	
