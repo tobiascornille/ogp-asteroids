@@ -77,7 +77,7 @@ public class World {
 	 */
 	@Raw
 	public boolean canHaveAsSize(Size size) {
-		if (! Double.isFinite(size.getXComponent()) || ! Double.isFinite(size.getYComponent() ))
+		if (Double.isNaN(size.getXComponent()) || Double.isNaN(size.getYComponent()))
 			return false;
 		return (Size.MIN_SIZE.compareTo(size) <= 0) && (size.compareTo(Size.MAX_SIZE) <= 0);
 	}
