@@ -14,12 +14,7 @@ import be.kuleuven.cs.som.annotate.*;
  *
  */
 @Value
-public class Size implements Comparable<Size>{
-
-	@Override
-	public String toString() {
-		return "Size [xComponent=" + xComponent + ", yComponent=" + yComponent + "]";
-	}
+public class Size extends OrderedPair implements Comparable<Size>{
 
 	/**
 	 * Initialize this new size with given x component and y component.
@@ -34,16 +29,9 @@ public class Size implements Comparable<Size>{
 	 * @post   	The y component of this new size is equal to the given
 	 *         	y component.
 	 *       | 	new.getYComponent() == yComponent
-	 * @throws 	IllegalArgumentException
-	 *         	This new size cannot have the given x component as its x component.
-	 *       | 	! canHaveAsXComponent(this.getXComponent())
-	 * @throws 	IllegalArgumentException
-	 *         	This new size cannot have the given y component as its y component.
-	 *       | 	! canHaveAsYComponent(this.getYComponent())
 	 */
 	public Size(double xComponent, double yComponent) {
-		this.xComponent = xComponent;
-		this.yComponent = yComponent;
+		super(xComponent, yComponent);
 	}
 	
 	/**
@@ -75,33 +63,7 @@ public class Size implements Comparable<Size>{
 	 * 		|	MIN_SIZE.equals(new Size(0, 0))
 	 */
 	public final static Size MIN_SIZE = new Size(0, 0);
-	
-	/**
-	 * Return the x component of this size.
-	 */
-	@Basic @Raw @Immutable
-	public double getXComponent() {
-		return this.xComponent;
-	}
-	
-	/**
-	 * Variable registering the x component of this size.
-	 */
-	private final double xComponent;
-	
-	/**
-	 * Return the y component of this size.
-	 */
-	@Basic @Raw @Immutable
-	public double getYComponent() {
-		return this.yComponent;
-	}
-	
-	/**
-	 * Variable registering the y component of this size.
-	 */
-	private final double yComponent;
-	
+
 	/**
 	 * Returns the area of this size.
 	 * 
@@ -113,27 +75,13 @@ public class Size implements Comparable<Size>{
 	}
 	
 	/**
-	 * Casts this size to an array of doubles.
-	 * 
-	 * @return	The first field of the resulting array is equal to
-	 * 			the x component of his size.
-	 * 			The second field of the resulting array is equal to
-	 * 			the y component of his size.
-	 * 		|	result[0] == this.getXComponent()
-	 * 		|	result[1] == this.getYComponent()
-	 */
-	public double[] toDouble() throws IllegalArgumentException{
-		return new double[] {this.getXComponent(), this.getYComponent()};
-	}
-	
-	/**
 	 * Compare this size with the other size.
 	 * 
 	 * @param	other
 	 * 			The other size to compare with.
 	 * @return	The result is equal to the difference of the magnitude
 	 * 			of this size and the magnitude of the other size.
-	 * 		| 	result == this.getMagnitude() - other.getMagnitude()
+	 * 		| 	result == this.getArea() - other.getArea()
 	 */
 	@Override
 	public int compareTo(Size other) {

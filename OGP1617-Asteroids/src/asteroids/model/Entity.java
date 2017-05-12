@@ -266,9 +266,7 @@ public abstract class Entity {
 		return (this.getDistanceBetween(other)  <= -0.01 * (this.getRadius() + other.getRadius()));
 	}
 	
-	public abstract boolean checkOverlapInWorld(World world); 
-	
-	
+	public abstract boolean checkOverlapInWorld(World world);
 	
 	/**
 	 * Set the position of this entity to the given position.

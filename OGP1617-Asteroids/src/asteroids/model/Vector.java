@@ -14,7 +14,7 @@ import be.kuleuven.cs.som.annotate.*;
  *
  */
 @Value
-public class Vector implements Comparable<Vector>{
+public class Vector extends OrderedPair implements Comparable<Vector>{
 
 	/**
 	 * Initialize this new vector with given x component and y component.
@@ -29,18 +29,9 @@ public class Vector implements Comparable<Vector>{
 	 * @post   	The y component of this new vector is equal to the given
 	 *         	y component.
 	 *       | 	new.getYComponent() == yComponent
-	 * @throws 	IllegalArgumentException
-	 *         	This new vector cannot have the given x component as its x component.
-	 *       | 	! canHaveAsXComponent(this.getXComponent())
-	 * @throws 	IllegalArgumentException
-	 *         	This new vector cannot have the given y component as its y component.
-	 *       | 	! canHaveAsYComponent(this.getYComponent())
 	 */
-	public Vector(double xComponent, double yComponent) throws IllegalArgumentException {
-		if (! canHaveAsXComponent(xComponent) || ! canHaveAsYComponent(yComponent)) 
-			throw new IllegalArgumentException();
-		this.xComponent = xComponent;
-		this.yComponent = yComponent;
+	public Vector(double xComponent, double yComponent) {
+		super(xComponent, yComponent);
 	}
 	
 	/**
@@ -52,59 +43,7 @@ public class Vector implements Comparable<Vector>{
 	 * 		|	NULL_VECTOR.equals(new Vector(0,0))
 	 */
 	public final static Vector NULL_VECTOR = new Vector(0, 0);
-	
-	/**
-	 * Return the x component of this vector.
-	 */
-	@Basic @Raw @Immutable
-	public double getXComponent() {
-		return this.xComponent;
-	}
-	
-	/**
-	 * Check whether this vector can have the given x component as its x component.
-	 *  
-	 * @param	xComponent
-	 *         	The x component to check.
-	 * @return 	True if and only if the given x component is not a NaN.
-	 *       | 	result == ! Double.isNaN(xComponent)
-	*/
-	@Raw
-	public boolean canHaveAsXComponent(double xComponent) {
-		return ! Double.isNaN(xComponent);
-	}
-	
-	/**
-	 * Variable registering the x component of this vector.
-	 */
-	private final double xComponent;
-	
-	/**
-	 * Return the y component of this vector.
-	 */
-	@Basic @Raw @Immutable
-	public double getYComponent() {
-		return this.yComponent;
-	}
-	
-	/**
-	 * Check whether this vector can have the given y component as its y component.
-	 *  
-	 * @param  	yComponent
-	 *         	The y component to check.
-	 * @return 	True if and only if the given y component is not a NaN.
-	 *       | 	result == ! Double.isNaN(yComponent)
-	*/
-	@Raw
-	public boolean canHaveAsYComponent(double yComponent) {
-		return ! Double.isNaN(yComponent);
-	}
-	
-	/**
-	 * Variable registering the y component of this vector.
-	 */
-	private final double yComponent;
-	
+
 	/**
 	 * Returns the magnitude of this vector.
 	 * 
@@ -218,20 +157,6 @@ public class Vector implements Comparable<Vector>{
 	}
 	
 	/**
-	 * Casts this vector to an array of doubles.
-	 * 
-	 * @return	The first field of the resulting array is equal to
-	 * 			the x component of his vector.
-	 * 			The second field of the resulting array is equal to
-	 * 			the y component of his vector.
-	 * 		|	result[0] == this.getXComponent()
-	 * 		|	result[1] == this.getYComponent()
-	 */
-	public double[] toDouble() throws IllegalArgumentException{
-		return new double[] {this.getXComponent(), this.getYComponent()};
-	}
-	
-	/**
 	 * Compare this vector with the other vector.
 	 * 
 	 * @param	other
@@ -279,10 +204,4 @@ public class Vector implements Comparable<Vector>{
 	public int hashCode(){
 		return (int) this.getMagnitude();
 	}
-
-	@Override
-	public String toString() {
-		return "Vector [xComponent=" + xComponent + ", yComponent=" + yComponent + "]";
-	}
-	
 }
