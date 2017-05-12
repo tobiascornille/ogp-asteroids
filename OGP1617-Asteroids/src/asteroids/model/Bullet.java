@@ -1,3 +1,4 @@
+
 package asteroids.model;
 
 import java.util.Iterator;
@@ -30,7 +31,7 @@ public class Bullet extends Entity{
 	 */
 	public Bullet() {
 		super(2);
-		double mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
+		double mass = 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
 		this.setMass(mass);
 	}
 	

@@ -39,7 +39,7 @@ public abstract class Entity {
 		else if (this instanceof Bullet)
 			this.setDensity(7.8 * Math.pow(10, 12));
 		
-		this.setMass(4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity()); 
+		this.setMass(4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity()); 
 
 	}
 	
@@ -419,16 +419,16 @@ public abstract class Entity {
 	 *         	The mass to check.
 	 * @return	
 	 * 		|	if (this instanceof Ship) 
-	 *      |		result == (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE)
+	 *      |		result == (mass >= 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE)
 	 * @return	
 	 * 		|	if (this instanceof Bullet) 
-	 *      |		result == (mass == 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE)
+	 *      |		result == (mass == 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE)
 	 */
 	public boolean isValidMass(double mass) {
 		if (this instanceof Ship)
-			return (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE);
+			return (mass >= 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE);
 		else if (this instanceof Bullet)
-			return (mass == 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE);
+			return (mass == 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE);
 		return false;
 	}
 	
@@ -444,14 +444,14 @@ public abstract class Entity {
 	 *    	| 	if (isValidMass(mass))
 	 *      |   	then new.mass == mass
 	 *      |	else
-	 *      |		then new.mass ==  4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity()    
+	 *      |		then new.mass ==  4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity()    
 	 */
 	@Raw
 	public void setMass(double mass) {
 		if (this.isValidMass(mass))
 			this.mass = mass;
 		else
-			this.mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
+			this.mass = 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
 	}
 	
 	/**
