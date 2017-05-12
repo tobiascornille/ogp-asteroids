@@ -67,9 +67,8 @@ public class Ship extends Entity{
 	 *      |   this.setOrientation(orientation)  
 	 */	
 	public Ship (Vector position, Vector velocity, double radius, double orientation, double mass) throws IllegalArgumentException {
-		super(position, velocity, radius);
+		super(position, velocity, radius, mass);
 		this.setOrientation(orientation);
-		this.setMass(mass);
 		this.setTotalMass(mass);
 	}
 	

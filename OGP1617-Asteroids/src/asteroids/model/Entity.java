@@ -31,8 +31,16 @@ public abstract class Entity {
 	 * @effect	The radius of this new ship is set to the given radius.
 	 * 		|	this.setRadius(radius)
 	 */
-	public Entity(double radius) {	
-		this.radius = radius;
+	public Entity(double radius) throws IllegalArgumentException {	
+		if (! canHaveAsRadius(radius)) throw new IllegalArgumentException(); 
+			this.radius = radius;
+		if (this instanceof Ship)
+			this.setDensity(1.42 * Math.pow(10, 12)); 
+		else if (this instanceof Bullet)
+			this.setDensity(7.8 * Math.pow(10, 12));
+		
+		this.setMass(4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity()); 
+
 	}
 	
 	/**
@@ -45,6 +53,7 @@ public abstract class Entity {
 	 * 			The velocity of this new entity.
 	 * @param	radius
 	 * 			The radius of this new entity.
+	 * @param mass 
 	 * @throws  IllegalArgumentException
 	 * 			If the radius is invalid.
 	 * 		|	! canHaveAsRadius(radius)
@@ -52,15 +61,27 @@ public abstract class Entity {
 	 * 		|	this.setPosition(position)
 	 * @effect  The velocity of this new entity is set to the given velocity.
 	 * 		|   this.setVelocity(velocity) 
-	 * @effect  The radius of this new ship is set to the given radius.
+	 * @effect  The radius of this new entity is set to the given radius.
 	 * 		|	this.setRadius(radius) 
+	 * @effect	The mass of this new entity is set to the given mass.
+	 * 		|	this.setMass(mass)
+	 * @effect	The density of this new entity is set to the default value
+	 * 			for this entity
+	 * 		|	if (this instanceof Ship)
+	 *		|		then this.setDensity(1.42 * Math.pow(10, 12)) 
+	 *		|	else if (this instanceof Bullet)
+	 *		|		then this.setDensity(7.8 * Math.pow(10, 12))
 	 */	
-	public Entity (Vector position, Vector velocity, double radius) throws IllegalArgumentException {
-		if (! canHaveAsRadius(radius)) throw new IllegalArgumentException();
-		this.radius = radius;
+	public Entity (Vector position, Vector velocity, double radius, double mass) throws IllegalArgumentException {
+		if (! canHaveAsRadius(radius)) throw new IllegalArgumentException(); 
+			this.radius = radius;
+		if (this instanceof Ship)
+			this.setDensity(1.42 * Math.pow(10, 12)); 
+		else if (this instanceof Bullet)
+			this.setDensity(7.8 * Math.pow(10, 12));
 		this.setPosition(position);
 		this.setVelocity(velocity);
-		
+		this.setMass(mass);
 	}
 
 	/**
@@ -331,25 +352,25 @@ public abstract class Entity {
 	 */
 	protected static final double C = 300000;
 	
-		/**
-	 * Set the density of this ship to the given density.
+	/**
+	 * Set the density of this entity to the given density.
 	 * 
 	 * @param  density
-	 *         The new density for this ship.
-	 * @post   If the given density is a valid density for any ship,
-	 *         the density of this new ship is equal to the given
+	 *         The new density for this entity.
+	 * @post   If the given density is a valid density for this entity,
+	 *         the density of this new entity is equal to the given
 	 *         density.
-	 *       | if (isValidDensity(density))
+	 *       | if (this.isValidDensity(density))
 	 *       |   then new.getDensity() == density
 	 */
 	@Raw
 	public void setDensity(double density) {
-		if (isValidDensity(density))
+		if (this.isValidDensity(density))
 			this.density = density;
 	}
 	
 	/**
-	 * Return the density of this ship.
+	 * Return the density of this entity.
 	 */
 	@Basic @Raw
 	public double getDensity() {
@@ -358,37 +379,32 @@ public abstract class Entity {
 		
 	/**
 	 * Check whether the given density is a valid density for
-	 * any ship.
+	 * this entity.
 	 *  
-	 * @param  density
-	 *         The density to check.
+	 * @param	density
+	 *         	The density to check.
 	 * @return 
-	 *       | result == (density >= 1.42 * Math.pow(10, 12))
-	*/
-	public static boolean isValidDensity(double density) {
-		return (density >= 1.42 * Math.pow(10, 12));
+	 * 		|	if (this instanceof Ship)	
+	 *      | 		then result == (density >= 1.42 * Math.pow(10, 12))
+	 * @return 
+	 * 		|	if (this instanceof Bullet)	
+	 *      | 		then result == (density >= 7.8 * Math.pow(10, 12))
+	 */
+	public boolean isValidDensity(double density) {
+		if (this instanceof Ship)
+			return (density >= 1.42 * Math.pow(10, 12));
+		else if (this instanceof Bullet)
+			return (density == 7.8 * Math.pow(10, 12));
+		return false;
 	}
 	
 	/**
-	 * Variable registering the density of this bullet.
+	 * Variable registering the density of this entity.
 	 */
-	private double density = 1.42 * Math.pow(10, 12);
-	
-//	/**
-//	 * Return the density of this bullet. 
-//	 */
-//	@Basic @Raw @Immutable
-//	public double getDensity() {
-//		return density;
-//	}
-	
-//	/**
-//	 * Variable registering the density of this bullet.
-//	 */
-//	private double density = 7.8 * Math.pow(10, 12);
+	private double density = 0;
 	
 	/**
-	 * Return the mass of this bullet.
+	 * Return the mass of this entity.
 	 */
 	@Basic @Raw @Immutable
 	public double getMass() {
@@ -397,31 +413,42 @@ public abstract class Entity {
 	
 	/**
 	 * Check whether the given mass is a valid mass for
-	 * any ship.
+	 * this entity.
 	 *  
-	 * @param  mass
-	 *         The mass to check.
-	 * @return 
-	 *       | result == (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE)
-	*/
+	 * @param  	mass
+	 *         	The mass to check.
+	 * @return	
+	 * 		|	if (this instanceof Ship) 
+	 *      |		result == (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE)
+	 * @return	
+	 * 		|	if (this instanceof Bullet) 
+	 *      |		result == (mass == 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE)
+	 */
 	public boolean isValidMass(double mass) {
-		return (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE);
+		if (this instanceof Ship)
+			return (mass >= 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE);
+		else if (this instanceof Bullet)
+			return (mass == 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE);
+		return false;
 	}
 	
 	/**
-	 * Set the mass of this ship to the given mass.
+	 * Set the mass of this entity to the given mass.
 	 * 
-	 * @param  mass
-	 *         The new mass for this ship.
-	 * @post   If the given mass is a valid mass for any ship,
-	 *         the mass of this new ship is equal to the given
-	 *         mass.
-	 *       | if (isValidMass(mass))
-	 *       |   then new.getMass() == mass
+	 * @param  	mass
+	 *         	The new mass for this entity.
+	 * @post   	If the given mass is a valid mass for this entity,
+	 *         	the mass of this new entity is equal to the given
+	 *         	mass. Else, the mass is set to the minimum mass
+	 *         	for this entity.
+	 *    	| 	if (isValidMass(mass))
+	 *      |   	then new.mass == mass
+	 *      |	else
+	 *      |		then new.mass ==  4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity()    
 	 */
 	@Raw
 	public void setMass(double mass) {
-		if (isValidMass(mass))
+		if (this.isValidMass(mass))
 			this.mass = mass;
 		else
 			this.mass = 4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
