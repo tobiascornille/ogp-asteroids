@@ -100,7 +100,9 @@ public class Vector extends OrderedPair implements Comparable<Vector>{
 	 * 			The factor is NaN.
 	 * 		|	Double.isNaN(factor)
 	 */
-	public Vector times(double factor) {
+	public Vector times(double factor) throws IllegalArgumentException {
+		if (Double.isNaN(factor)) 
+			throw new IllegalArgumentException();
 		return new Vector(this.getXComponent() * factor, this.getYComponent() * factor);
 	}
 	
