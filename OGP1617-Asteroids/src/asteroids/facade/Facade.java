@@ -108,7 +108,9 @@ public class Facade implements asteroids.part3.facade.IFacade {
 			return new Ship(new Vector(x, y), new Vector(xVelocity, yVelocity), radius, direction, mass);
 		} catch (IllegalArgumentException e) {
 			throw new ModelException(e);
-		}
+		} catch (AssertionError e) {
+			throw new ModelException(e);
+		 }
 	}
 
 	@Override
@@ -334,7 +336,11 @@ public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
 	public double[] getPositionCollisionBoundary(Object object) throws ModelException {
-			return ((Entity)object).getCollisionBoundaryPosition().toDouble();
+			Vector collision = ((Entity)object).getCollisionBoundaryPosition();
+			if (collision == null)
+				return null;
+			else
+			 	return collision.toDouble();
 		
 	}
 
