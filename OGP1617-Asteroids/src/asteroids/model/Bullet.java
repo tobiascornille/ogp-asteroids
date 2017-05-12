@@ -51,7 +51,7 @@ public class Bullet extends Entity{
 	 * 		|   this.getRadius() = radius
 	 */
 	public Bullet (Vector position, Vector velocity, double radius) throws IllegalArgumentException {
-		double mass = 
+		//double mass = 
 		super(position, velocity, radius);
 		double mass =  4/3 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity();
 		this.setMass(mass);

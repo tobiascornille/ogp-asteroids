@@ -85,8 +85,9 @@ public abstract class Entity {
 	public boolean canHaveAsRadius(double radius) {
 	   if (this instanceof Ship)
 	       return radius > 10;
-	   if (this instanceof Bullet)
+	   else if (this instanceof Bullet)
 	       return radius > 1;
+	   return true;
 	}
 	/**
 	 * Variable registering the radius of this entity.
@@ -246,7 +247,7 @@ public abstract class Entity {
 	
 	public abstract boolean checkOverlapInWorld(World world); 
 	
-	public abstract double getMass(); 
+	
 	
 	/**
 	 * Set the position of this entity to the given position.
@@ -373,18 +374,18 @@ public abstract class Entity {
 	 */
 	private double density = 1.42 * Math.pow(10, 12);
 	
-	/**
-	 * Return the density of this bullet. 
-	 */
-	@Basic @Raw @Immutable
-	public double getDensity() {
-		return density;
-	}
+//	/**
+//	 * Return the density of this bullet. 
+//	 */
+//	@Basic @Raw @Immutable
+//	public double getDensity() {
+//		return density;
+//	}
 	
-	/**
-	 * Variable registering the density of this bullet.
-	 */
-	private double density = 7.8 * Math.pow(10, 12);
+//	/**
+//	 * Variable registering the density of this bullet.
+//	 */
+//	private double density = 7.8 * Math.pow(10, 12);
 	
 	/**
 	 * Return the mass of this bullet.
