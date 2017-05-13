@@ -403,9 +403,20 @@ public class Ship extends Entity{
 	 * Variable registering the thruster of this ship.
 	 */
 	private Thruster thruster = Thruster.DEFAULT;
-	
 
-	
+	/**
+	 * Check whether any ship can have the given radius as its radius.
+	 *
+	 * @param  	radius
+	 *         	The radius to check.
+	 * @return	True if the radius is larger than 10.
+	 *     	| 	result == (radius > 10)
+	 */
+	@Override
+	public boolean canHaveAsRadius(double radius) {
+		return radius > 10;
+	}
+
 	@Override
 	public void terminate() {
 		if (!isTerminated()) {
@@ -434,6 +445,31 @@ public class Ship extends Entity{
 	    }
 	    
 		return false;
+	}
+
+	/**
+	 * Check whether the given density is a valid density for
+	 * any ship.
+	 *
+	 * @param	density
+	 *         	The density to check.
+	 * @return	True if the density is at least 1.42E12
+	 *      | 	result == density >= 1.42E12
+	 */
+	@Override
+	public boolean isValidDensity(double density) {
+		return density >= 1.42E12;
+	}
+
+	/**
+	 * Return the default density for any ship.
+	 *
+	 * @return	The default density for any ship.
+	 * 		|	result == 1.42E12
+	 */
+	@Override
+	public double getDefaultDensity() {
+		return 1.42E12;
 	}
 }
 

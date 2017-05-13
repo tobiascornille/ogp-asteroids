@@ -242,7 +242,7 @@ public class Bullet extends Entity{
 	 * Check whether the given collision counter is a valid collision counter for
 	 * any bullet.
 	 *  
-	 * @param  collision counter
+	 * @param  collisionCounter
 	 *         The collision counter to check.
 	 * @return 
 	 *       | result == (collisionCounter <= 3)
@@ -283,5 +283,90 @@ public class Bullet extends Entity{
 	 * Variable registering the collision counter of this bullet.
 	 */
 	private double collisionCounter = 0;
-		
+
+	/**
+	 * Check whether any bullet can have the given radius as its radius.
+	 *
+	 * @param  	radius
+	 *         	The radius to check.
+	 * @return	True if the radius is larger than 1.
+	 *     	| 	result == radius > 1
+	 */
+	@Override
+	public boolean canHaveAsRadius(double radius) {
+		return radius > 1;
 	}
+
+	/**
+	 * Check whether this bullet has a valid position in the given world.
+	 *
+	 * @param 	world
+	 * 			The given world.
+	 * @return	True if this bullet is in an unbounded space.
+	 * 		|	if (world == null && this.getShip() == null)
+	 *		|		then result == true;
+	 * @return	True if this bullet is in a ship.
+	 * 		|	if (world == null && this.isInShip(this.getShip()))
+	 *		|		then result == true;
+	 * @return	True if this bullet lies within the bounds of the given world
+	 *			and this bullet doesn't overlap in the given world.
+	 *		|	if (this.liesWithinBoundsWorld(world) && (! this.checkOverlapInWorld(world)))
+	 *		|		then result == true;
+	 */
+	@Override
+	public boolean hasValidPositionInWorld(World world) {
+		if (world == null) {
+			//True if this bullet is in unbounded space
+			if (this.getShip() == null)
+				return true;
+
+			//True if this bullet is in a ship
+			if (this.isInShip(this.getShip()))
+				return true;
+		}
+
+		else if (this.liesWithinBoundsWorld(world) && (! this.checkOverlapInWorld(world)))
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Check whether the given density is a valid density for
+	 * any bullet.
+	 *
+	 * @param	density
+	 *         	The density to check.
+	 * @return
+	 *      |   @see implementation
+	 */
+	@Override
+	public boolean isValidDensity(double density) {
+		return density == 7.8E12;
+	}
+
+	/**
+	 * Return the default density for any bullet.
+	 *
+	 * @return	The default density for any bullet.
+	 * 		|	result == 7.8E12
+	 */
+	@Override
+	public double getDefaultDensity() {
+		return 7.8E12;
+	}
+
+	/**
+	 * Check whether the given mass is a valid mass for
+	 * this bullet.
+	 *
+	 * @param  	mass
+	 *         	The mass to check.
+	 * @return
+	 *      |	result == (mass == 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE)
+	 */
+	@Override
+	public boolean isValidMass(double mass) {
+		return mass == 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE;
+	}
+}
