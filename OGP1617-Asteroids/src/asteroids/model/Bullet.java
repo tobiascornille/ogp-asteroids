@@ -139,7 +139,7 @@ public class Bullet extends Entity{
 	 * Check whether the given source ship is a valid source ship for
 	 * this bullet.
 	 *  
-	 * @param  source ship
+	 * @param  sourceShip
 	 *         The source ship to check.
 	 * @return 
 	 *       | result == (this.getShip() == null)
@@ -188,25 +188,6 @@ public class Bullet extends Entity{
 		
 		// calculation using the Pythagorean theorem
 		return Math.pow(a, 2) + Math.pow(b, 2) <= Math.pow(c, 2);
-	}
-	
-	/**
-	 * Return true if there is an entity overlapping with this bullet in the given world. 
-	 * 
-	 * @param world
-	 * 		  The world to check for overlapping entities.
-	 * 
-	 * @return
-	 * 		 | @see implementation 
-	 */
-	public boolean checkOverlapInWorld(World world) {	
-		Set<Entity> entities = world.getEntities();
-	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
-			    Entity entity = i.next();   
-			    if (this.overlap(entity)) 
-			    	return true;	        		   
-	    }
-		return false;
 	}
 	
 	/**

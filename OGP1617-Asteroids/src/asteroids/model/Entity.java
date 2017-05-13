@@ -3,6 +3,10 @@ package asteroids.model;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Immutable;
 import be.kuleuven.cs.som.annotate.Raw;
+
+import java.util.Iterator;
+import java.util.Set;
+
 /**
  * A class of entities involving a position, velocity, radius and mass.
  * 
@@ -232,8 +236,25 @@ public abstract class Entity {
 		if (this == other) return true;
 		return (this.getDistanceBetween(other)  <= -0.01 * (this.getRadius() + other.getRadius()));
 	}
-	
-	public abstract boolean checkOverlapInWorld(World world);
+
+    /**
+     * Return true if there is an entity overlapping with this entity in the given world.
+     *
+     * @param world
+     * 		  The world to check for overlapping entities.
+     *
+     * @return
+     * 		 | @see implementation
+     */
+    public boolean checkOverlapInWorld(World world) {
+        Set<Entity> entities = world.getEntities();
+        for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
+            Entity entity = i.next();
+            if (this.overlap(entity))
+                return true;
+        }
+        return false;
+    }
 	
 	/**
 	 * Set the position of this entity to the given position.

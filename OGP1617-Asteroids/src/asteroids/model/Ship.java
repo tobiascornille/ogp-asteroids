@@ -429,22 +429,6 @@ public class Ship extends Entity{
 			 world.removeEntity(this);
 			 this.isTerminated = true;
 		 }
-		
-	}
-	/**
-	 * Checks whether a ship overlaps with any entities in its world.
-	 * 
-	 * 
-	 */
-	public boolean checkOverlapInWorld(World world) {
-		Set<Entity> entities = world.getEntities();
-	    for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {  
-			    Entity entity = i.next();	    
-			    if (this.overlap(entity))
-			    	return true;		    
-	    }
-	    
-		return false;
 	}
 
 	/**
