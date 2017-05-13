@@ -19,7 +19,7 @@ public class Part3 {
 			if (arg.equals("-fullscreen")) {
 				tryFullscreen = true;
 			} else if (arg.equals("-nosound")) {
-				enableSound = false;
+				enableSound = true;
 			} else if (arg.equals("-ai")) {
 				if (i + 1 < args.length) {
 					String aiProgramPath = args[++i];
