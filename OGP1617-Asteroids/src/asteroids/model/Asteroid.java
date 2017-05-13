@@ -1,7 +1,20 @@
 package asteroids.model;
 
 public class Asteroid extends MinorPlanet{
-    /**
+	
+	/**
+	 * 
+	 * @param position
+	 * @param velocity
+	 * @param radius
+	 * @param mass
+	 * @throws IllegalArgumentException
+	 */
+    public Asteroid(Vector position, Vector velocity, double radius) throws IllegalArgumentException {
+		super(position, velocity, radius, 0);
+	}
+
+	/**
      * Check whether the given density is a valid density for
      * any asteroid.
      *
@@ -25,4 +38,10 @@ public class Asteroid extends MinorPlanet{
     public double getDefaultDensity() {
         return 2.65E12;
     }
+
+	@Override
+	public void terminate() {
+		// TODO Auto-generated method stub
+		
+	}
 }
