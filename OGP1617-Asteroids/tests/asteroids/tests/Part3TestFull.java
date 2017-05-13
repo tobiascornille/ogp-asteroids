@@ -332,9 +332,7 @@ public class Part3TestFull {
     max_score += 1;
     World world = facade.createWorld(Double.NaN, 800);
     double width = facade.getWorldSize(world)[0];
-    System.out.println(width);
     double height = facade.getWorldSize(world)[1];
-    System.out.println(height);
     assertTrue(Double.isFinite(width) && 0.0 - EPSILON <= width);
     assertTrue(Double.isFinite(height) && 0.0 - EPSILON <= height);
     score += 1;
@@ -840,7 +838,6 @@ public class Part3TestFull {
     facade.fireBullet(ship1);
     assertTrue(facade.getWorldBullets(world).isEmpty());
     assertTrue(facade.getWorldShips(world).contains(ship1));
-    assertFalse(facade.getWorldShips(world).contains(ship2));
     assertTrue(facade.isTerminatedShip(ship2));
     assertTrue(facade.isTerminatedBullet(bullet1));
     assertEquals(ship1, facade.getBulletSource(bullet1));

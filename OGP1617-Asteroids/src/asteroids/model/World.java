@@ -404,7 +404,10 @@ public class World {
 		  Map<Double, Entity[]> collisions = this.getCollisions();
 		  double time = Collections.min(collisions.keySet()); 
 		  Entity[] collidingEntities = collisions.get(time);
-		  return collidingEntities[0].getCollisionPosition(collidingEntities[1]);
+		  if (collidingEntities[1] == null)
+			  return  collidingEntities[0].getCollisionBoundaryPosition();
+		  else
+			  return collidingEntities[0].getCollisionPosition(collidingEntities[1]);
 	 }
 	 
 	 void objectCollision(Entity entity, Entity otherEntity) {

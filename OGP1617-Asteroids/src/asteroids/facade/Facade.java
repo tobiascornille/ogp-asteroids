@@ -372,7 +372,11 @@ public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
 	public double[] getPositionNextCollision(World world) throws ModelException {
-		return world.getPositionNextCollision().toDouble();
+		Vector collision = world.getPositionNextCollision();
+		if (collision == null)
+			return null;
+		else 
+			return collision.toDouble();
 	}
 
 	@Override
