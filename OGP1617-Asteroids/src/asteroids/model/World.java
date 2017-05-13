@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import asteroids.part2.CollisionListener;
 
@@ -223,7 +224,7 @@ public class World {
 	 /**
 	  * Return the entity, if any, at a given position.
 	  * 
-	  * @param postion
+	  * @param position
 	  * 	   The given position.
 	  * @return 
 	  * 	  | @see implemantation
@@ -231,38 +232,18 @@ public class World {
 	 public Entity returnEntityGivenPosition(Vector position) {
 		 return entities.get(position);
 	 }
-	 
-	 /**
-	  * Return a set of all the ships of this world.
-	  * 
-	  * @return
-	  * 	  | @see implementation
-	  */
-	 public Set<Ship> getWorldShips() {	 
-		 Set<Ship> ships = new HashSet<>();
-		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
-			    Entity entity = i.next();
-			    if (entity instanceof Ship)
-			    	ships.add((Ship) entity);
-		 }
-		 return ships;	    	
+
+	/**
+	 * Return a set of all the entities of subclass "type" of this world.
+	 * @param 	type
+	 * 			The subclass of Entity
+	 * @return
+	 * 		|	@see implementation
+	 */
+	 public Set<? extends Entity> getEntitiesOfType(Class<? extends Entity> type) {
+		Set<Entity> entities = this.getEntities();
+	 	return entities.stream().filter(entity -> type.isInstance(entity)).collect(Collectors.toSet());
 	 }
-	 
-	 /**
-	  * Return a set of all the bullets of this world.
-	  * 
-	  * @return 
-	  *       | @see implementation
-	  */
-	 public Set<Bullet> getWorldBullets() {	 
-		 Set<Bullet> bullets = new HashSet<>();
-		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
-			    Entity entity = i.next();
-			    if (entity instanceof Bullet)
-			    	bullets.add((Bullet) entity);
-		 }
-		 return bullets;		    	
-	}
 
 	/**
 	 * Variable referencing a set collecting all the entities
