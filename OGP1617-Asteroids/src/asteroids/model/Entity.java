@@ -490,11 +490,8 @@ public abstract class Entity {
 	 * Return Double.POSITIVE_INFINITY if the entities never collide.
 	 * This method does not apply to entities that overlap. 
 	 * 
-	 * @param 	entity
+	 * @param 	other
 	 * 		  	The other entity.
-	 * @return  Double.POSITIVE_INFINITY if the entities never collide.
-	 * 		|	if (this.getCollisionPosition(other) == null)
-	 * 		|		result == Double.POSTIVE_INFINITY
 	 * @return	The time the entity needs to reach the collision position.
 	 * 		|	while (new.getPosition != this.getCollisionPosition(other)) {
 	 * 		|		time += dt
@@ -571,12 +568,7 @@ public abstract class Entity {
 	/**
 	 * Return when, if ever, this entity collides with a boundary.
 	 * Return Double.POSITIVE_INFINITY if this entity never collides with a boundary.
-	 * 
-	 * @param 	entity
-	 * 		  	The other entity.
-	 * @return  Double.POSITIVE_INFINITY if the entity never collides with the boundary.
-	 * 		|	if (this.getCollisionBoundaryPosition() == null)
-	 * 		|		result == Double.POSTIVE_INFINITY
+	 *
 	 * @return	The time this entity needs to reach the collision position.
 	 * 		|	while (new.getPosition != this.getCollisionBoundaryPosition()) {
 	 * 		|		time += dt
@@ -623,9 +615,7 @@ public abstract class Entity {
 	/**
 	 * Return where, if ever, this entity collides with a boundary.
 	 * Return null if the entity never collides with a boundary.
-	 * 
-	 * @param 	other
-	 * 			The other entity
+	 *
 	 * @return	Null if the ship never collides with a boundary.
 	 * 		|	if (this.getTimeToCollision(entity) == Double.POSITIVE_INFINITY)
 	 *		|		then return null
