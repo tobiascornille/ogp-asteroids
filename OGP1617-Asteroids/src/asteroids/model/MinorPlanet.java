@@ -1,7 +1,6 @@
 package asteroids.model;
 
-import be.kuleuven.cs.som.annotate.Basic;
-import be.kuleuven.cs.som.annotate.Raw;
+import be.kuleuven.cs.som.annotate.*;
 
 /**
  * A class of minor planets involving a position, velocity, radius.
