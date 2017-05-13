@@ -7,8 +7,19 @@ import be.kuleuven.cs.som.annotate.Raw;
  * A class of minor planets involving a position, velocity, radius.
  */
 public abstract class MinorPlanet extends Entity {
+	/**
+	 * 
+	 * @param position
+	 * @param velocity
+	 * @param radius
+	 * @param mass
+	 * @throws IllegalArgumentException
+	 */
+    public MinorPlanet(Vector position, Vector velocity, double radius, double mass) throws IllegalArgumentException {
+		super(position, velocity, radius, mass);
+	}
 
-    /**
+	/**
      * Check whether any minor planet can have the given radius as its radius.
      *
      * @param  	radius
@@ -35,4 +46,7 @@ public abstract class MinorPlanet extends Entity {
     public boolean isValidMass(double mass) {
         return mass == 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE;
     }
+    
+    
+  
 } 
