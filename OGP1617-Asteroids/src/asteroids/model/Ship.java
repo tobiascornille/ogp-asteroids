@@ -326,7 +326,7 @@ public class Ship extends Entity{
 			} catch (IllegalArgumentException e) {
 				
 				if (bullet.checkOverlapInWorld(this.getWorld())) {
-					this.getWorld().objectCollision(this, bullet.getOverlappingEntityInWorld(this.getWorld()));
+					this.objectCollision(bullet.getOverlappingEntityInWorld(this.getWorld()));
 				}
 				
 				else
@@ -474,6 +474,55 @@ public class Ship extends Entity{
 	@Override
 	public double getDefaultDensity() {
 		return 1.42E12;
+	}
+
+	void objectCollisionShip(Ship otherShip) {
+		Vector newVelocityThisShip;
+		Vector newVelocityOtherShip;
+
+		Vector dv = otherShip.getVelocity().subtract(this.getVelocity());
+		Vector dr = otherShip.getPosition().subtract(this.getPosition());
+
+		double sigma = this.getRadius() + otherShip.getRadius();
+
+		double massThisShip = this.getTotalMass();
+		double massOtherShip = otherShip.getTotalMass();
+
+		double xi = this.getPosition().getXComponent();
+		double yi = this.getPosition().getYComponent();
+
+		double xj = otherShip.getPosition().getXComponent();
+		double yj = otherShip.getPosition().getYComponent();
+
+		double vxi = this.getVelocity().getXComponent();
+		double vyi = this.getVelocity().getYComponent();
+
+		double vxj = otherShip.getVelocity().getXComponent();
+		double vyj = otherShip.getVelocity().getYComponent();
+
+		double J = (2 * massThisShip * massOtherShip  * (dv.dot(dr))) / (sigma * (massThisShip + massOtherShip));
+
+		double JX = (J * (xj - xi)) / sigma;
+		double JY = (J * (yj - yi)) / sigma;
+
+		newVelocityThisShip = new Vector (vxi + (JX / massThisShip), vyi + (JY / massThisShip));
+		newVelocityOtherShip = new Vector (vxj - (JX / massOtherShip), vyj - (JY / massOtherShip));
+
+		this.setVelocity(newVelocityThisShip);
+		otherShip.setVelocity(newVelocityOtherShip);
+	}
+
+	void objectCollisionBullet(Bullet bullet) {
+		if (this == bullet.getSourceShip()) {
+			this.getWorld().removeEntity(bullet);
+			bullet.setPosition(this.getPosition());
+			this.loadBullet(bullet);
+		}
+
+		else {
+			this.terminate();
+			bullet.terminate();
+		}
 	}
 }
 

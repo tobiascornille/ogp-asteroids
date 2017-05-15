@@ -350,4 +350,13 @@ public class Bullet extends Entity{
 	public boolean isValidMass(double mass) {
 		return mass == 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE;
 	}
+
+	void objectCollisionShip(Ship ship) {
+		ship.objectCollision(this);
+	}
+
+	void objectCollisionBullet(Bullet bullet) {
+		this.terminate();
+		bullet.terminate();
+	}
 }

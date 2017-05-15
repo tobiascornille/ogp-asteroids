@@ -320,7 +320,7 @@ public class World {
 					  Vector collisionPosition = entity.getCollisionPosition(otherEntity);
 					  if (listener != null)
 						  listener.objectCollision(entity, otherEntity, collisionPosition.getXComponent(), collisionPosition.getYComponent());
-					  objectCollision(entity, otherEntity);
+					  entity.objectCollision(otherEntity);
 				  }
 				  
 				  dt = dt - tC;  
@@ -389,79 +389,6 @@ public class World {
 		  else
 			  return collidingEntities[0].getCollisionPosition(collidingEntities[1]);
 	 }
-	 
-	 void objectCollision(Entity entity, Entity otherEntity) {
-		 
-		 if (entity instanceof Ship){
-			 if (otherEntity instanceof Ship) {
-				 Vector newVelocityEntity;
-				 Vector newVelocityOtherEntity;
-				 
-				 Vector dv = otherEntity.getVelocity().subtract(entity.getVelocity());
-				 Vector dr = otherEntity.getPosition().subtract(entity.getPosition());
-				 
-				 double sigma = entity.getRadius() + otherEntity.getRadius();
-				 
-				 double massEntity = ((Ship) entity).getTotalMass();
-				 double massOtherEntity = ((Ship) otherEntity).getTotalMass();
-				 
-				 double xi = entity.getPosition().getXComponent();
-				 double yi = entity.getPosition().getYComponent();
-				 
-				 double xj = otherEntity.getPosition().getXComponent(); 		
-				 double yj = otherEntity.getPosition().getYComponent();
-				 
-				 double vxi = entity.getVelocity().getXComponent();
-				 double vyi = entity.getVelocity().getYComponent();
-				 
-				 double vxj = otherEntity.getVelocity().getXComponent();
-				 double vyj = otherEntity.getVelocity().getYComponent();
-				 
-				 double J = (2 * massEntity * massOtherEntity  * (dv.dot(dr))) / (sigma * (massEntity + massOtherEntity));
-				 
-				 double JX = (J * (xj - xi)) / sigma;
-				 double JY = (J * (yj - yi)) / sigma;
-				 
-				 newVelocityEntity = new Vector (vxi + (JX / massEntity), vyi + (JY / massEntity));
-				 newVelocityOtherEntity = new Vector (vxj - (JX / massOtherEntity), vyj - (JY / massOtherEntity));
-			
-				 entity.setVelocity(newVelocityEntity);
-				 otherEntity.setVelocity(newVelocityOtherEntity);
-			 }
-			 
-			 else if (entity == ((Bullet) otherEntity).getSourceShip()) {
-				 	Bullet bullet = (Bullet) otherEntity;
-			 		Ship ship = (Ship) entity;
-						 
-					this.removeEntity(bullet);
-					bullet.setPosition(ship.getPosition());
-					ship.loadBullet(bullet);	 
-			 }
-			 
-			 else {
-				 entity.terminate();
-				 otherEntity.terminate();
-			 }
-		 }
-		 
-		 else if (entity instanceof Bullet) {
-			 Bullet bullet = (Bullet)entity;
-		 	 
-			 if (otherEntity instanceof Ship && otherEntity == bullet.getSourceShip()) {
-
-			 		Ship ship = (Ship) otherEntity;
-						 
-					this.removeEntity(bullet);
-					bullet.setPosition(ship.getPosition());
-					ship.loadBullet(bullet);	 
-			 }
-			 
-			 else {
-				 bullet.terminate();
-				 otherEntity.terminate();
-			 }
-	     }
-	}
 
 	void boundaryCollision(Entity entity, Vector collisionPosition) {
 		 if (entity instanceof Bullet) {

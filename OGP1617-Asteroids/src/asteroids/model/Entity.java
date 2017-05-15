@@ -694,6 +694,16 @@ public abstract class Entity {
 			else
 				return newPosition.add(new Vector(0, -sigma));
 		}
-	}	
+	}
+
+	void objectCollision(Entity entity) {
+		if (entity instanceof Ship)
+			this.objectCollisionShip((Ship) entity);
+		else if (entity instanceof Bullet)
+			this.objectCollisionBullet((Bullet) entity);
+	}
+
+	abstract void objectCollisionShip(Ship ship);
+	abstract void objectCollisionBullet(Bullet bullet);
 }
 
