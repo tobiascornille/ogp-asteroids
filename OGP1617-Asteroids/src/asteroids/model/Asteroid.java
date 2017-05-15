@@ -38,10 +38,4 @@ public class Asteroid extends MinorPlanet{
     public double getDefaultDensity() {
         return 2.65E12;
     }
-
-	@Override
-	public void terminate() {
-		// TODO Auto-generated method stub
-		
-	}
 }

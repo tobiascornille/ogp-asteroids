@@ -420,15 +420,35 @@ public class Ship extends Entity{
 	@Override
 	public void terminate() {
 		if (!isTerminated()) {
-			// We avoid ConcurrentModificationException by using an iterator
-			 for (Iterator<Bullet> i = bullets.iterator(); i.hasNext();) {
+			 // We avoid ConcurrentModificationException by using the remove prepare method
+			 // together with the iterator remove method from Java.
+			 for (Iterator<Bullet> i = this.getBullets().iterator(); i.hasNext();) {
 			    Bullet bullet = i.next();
-			    bullet.terminate();    
+			    this.prepareRemovalForBullet(bullet);
+			    i.remove();
 			 }
-			 World world = this.getWorld(); 
-			 world.removeEntity(this);
+			 
+			 if (this.getWorld() != null)
+				 this.getWorld().removeEntity(this);
+			 
 			 this.isTerminated = true;
 		 }
+	}
+	
+	/**
+	 * Prepares the given bullet for removal during an iterator
+	 * 
+	 * @param  bullet
+	 *         The bullet to be removed.
+	 * @throws IllegalArgumentException
+	 *       | ! this.hasAsBullet(bullet)
+	 * @throws IllegalArgumentException
+	 *       | bullet.getShip() != this
+	 */
+	@Raw
+	private void prepareRemovalForBullet(Bullet bullet) throws IllegalArgumentException {
+		if (! this.hasAsBullet(bullet) || bullet.getShip() != this) throw new IllegalArgumentException();
+		bullet.setShip(null);
 	}
 
 	/**

@@ -46,6 +46,15 @@ public abstract class MinorPlanet extends Entity {
         return mass == 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE;
     }
     
+    public void terminate() {
+		if (!isTerminated()) {
+			if (this.getWorld() != null)
+				this.getWorld().removeEntity(this);
+			
+			this.isTerminated = true;
+		}
+    }
+    
     
   
 } 

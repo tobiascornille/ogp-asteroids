@@ -278,7 +278,6 @@ public class World {
 			    Entity entity = i.next();
 			    this.prepareRemovalForEntity(entity);
 			    i.remove();
-				//this.removeEntity(entity);  
 			 }
 			 this.isTerminated = true;
 		 }

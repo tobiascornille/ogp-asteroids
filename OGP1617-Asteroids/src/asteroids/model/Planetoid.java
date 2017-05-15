@@ -47,12 +47,6 @@ public class Planetoid extends MinorPlanet {
         return 0.917E12;
     }
 
-    @Override
-  	public void terminate() {
-  		// TODO Auto-generated method stub
-  		
-  	}
-
 	/**
 	 * Return the totalDistanceTraveled of this planetoid.
 	 */
