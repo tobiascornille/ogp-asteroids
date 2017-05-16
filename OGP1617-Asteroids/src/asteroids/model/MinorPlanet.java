@@ -55,6 +55,15 @@ public abstract class MinorPlanet extends Entity {
 		}
     }
     
-    
-  
+    void objectCollision(Entity entity) {
+		if (entity instanceof Bullet) {
+			entity.objectCollision(this);
+		}
+		else if (entity instanceof Ship){
+			entity.objectCollision(this);
+		}
+		else if (entity instanceof MinorPlanet) {
+			this.bounceOff(entity);
+		}
+	}
 } 

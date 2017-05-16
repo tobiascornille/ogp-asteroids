@@ -696,14 +696,50 @@ public abstract class Entity {
 		}
 	}
 
-	void objectCollision(Entity entity) {
-		if (entity instanceof Ship)
-			this.objectCollisionShip((Ship) entity);
-		else if (entity instanceof Bullet)
-			this.objectCollisionBullet((Bullet) entity);
-	}
+	abstract void objectCollision(Entity entity);
+	
+	void bounceOff(Entity entity) {
+		Vector newVelocity;
+		Vector newVelocityEntity;
 
-	abstract void objectCollisionShip(Ship ship);
-	abstract void objectCollisionBullet(Bullet bullet);
+		Vector dv = entity.getVelocity().subtract(this.getVelocity());
+		Vector dr = entity.getPosition().subtract(this.getPosition());
+
+		double sigma = this.getRadius() + entity.getRadius();
+
+		double mass = 0;
+		double massEntity = 0;
+		if (this instanceof Ship && entity instanceof Ship) {
+			mass = ((Ship) this).getTotalMass();
+			massEntity = ((Ship) entity).getTotalMass();
+		}
+		else if (this instanceof MinorPlanet && entity instanceof MinorPlanet) {
+			mass = this.getMass();
+			massEntity = entity.getMass();
+		}
+
+		double xi = this.getPosition().getXComponent();
+		double yi = this.getPosition().getYComponent();
+
+		double xj = entity.getPosition().getXComponent();
+		double yj = entity.getPosition().getYComponent();
+
+		double vxi = this.getVelocity().getXComponent();
+		double vyi = this.getVelocity().getYComponent();
+
+		double vxj = entity.getVelocity().getXComponent();
+		double vyj = entity.getVelocity().getYComponent();
+
+		double J = (2 * mass * massEntity  * (dv.dot(dr))) / (sigma * (mass + massEntity));
+
+		double JX = (J * (xj - xi)) / sigma;
+		double JY = (J * (yj - yi)) / sigma;
+
+		newVelocity = new Vector (vxi + (JX / mass), vyi + (JY / mass));
+		newVelocityEntity = new Vector (vxj - (JX / massEntity), vyj - (JY / massEntity));
+
+		this.setVelocity(newVelocity);
+		entity.setVelocity(newVelocityEntity);
+	}
 }
 

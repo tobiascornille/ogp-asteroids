@@ -90,5 +90,4 @@ public class Planetoid extends MinorPlanet {
 	 * Variable registering the totalDistanceTraveled of this planetoid.
 	 */
 	private double totalDistanceTraveled = 0;
-	
 }

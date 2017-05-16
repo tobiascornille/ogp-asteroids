@@ -396,7 +396,6 @@ public class World {
 				 entity.terminate();
 		 		 return;
 			 }
-			
 			((Bullet)entity).incrementCollisionCounter();
 		 }
 		 

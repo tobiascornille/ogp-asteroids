@@ -2,6 +2,7 @@ package asteroids.model;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Set;
 
 import be.kuleuven.cs.som.annotate.Basic;
@@ -476,52 +477,25 @@ public class Ship extends Entity{
 		return 1.42E12;
 	}
 
-	void objectCollisionShip(Ship otherShip) {
-		Vector newVelocityThisShip;
-		Vector newVelocityOtherShip;
-
-		Vector dv = otherShip.getVelocity().subtract(this.getVelocity());
-		Vector dr = otherShip.getPosition().subtract(this.getPosition());
-
-		double sigma = this.getRadius() + otherShip.getRadius();
-
-		double massThisShip = this.getTotalMass();
-		double massOtherShip = otherShip.getTotalMass();
-
-		double xi = this.getPosition().getXComponent();
-		double yi = this.getPosition().getYComponent();
-
-		double xj = otherShip.getPosition().getXComponent();
-		double yj = otherShip.getPosition().getYComponent();
-
-		double vxi = this.getVelocity().getXComponent();
-		double vyi = this.getVelocity().getYComponent();
-
-		double vxj = otherShip.getVelocity().getXComponent();
-		double vyj = otherShip.getVelocity().getYComponent();
-
-		double J = (2 * massThisShip * massOtherShip  * (dv.dot(dr))) / (sigma * (massThisShip + massOtherShip));
-
-		double JX = (J * (xj - xi)) / sigma;
-		double JY = (J * (yj - yi)) / sigma;
-
-		newVelocityThisShip = new Vector (vxi + (JX / massThisShip), vyi + (JY / massThisShip));
-		newVelocityOtherShip = new Vector (vxj - (JX / massOtherShip), vyj - (JY / massOtherShip));
-
-		this.setVelocity(newVelocityThisShip);
-		otherShip.setVelocity(newVelocityOtherShip);
-	}
-
-	void objectCollisionBullet(Bullet bullet) {
-		if (this == bullet.getSourceShip()) {
-			this.getWorld().removeEntity(bullet);
-			bullet.setPosition(this.getPosition());
-			this.loadBullet(bullet);
+	void objectCollision(Entity entity) {
+		if (entity instanceof Bullet) {
+			entity.objectCollision(this);
 		}
-
-		else {
+		else if (entity instanceof Asteroid) {
 			this.terminate();
-			bullet.terminate();
+		}
+		else if (entity instanceof Planetoid) {
+			Random randomNumber = new Random();
+			double x = this.getRadius() + randomNumber.nextDouble() * (this.getWorld().getSize().getXComponent() - this.getRadius());
+			double y = this.getRadius() + randomNumber.nextDouble() * (this.getWorld().getSize().getYComponent() - this.getRadius());
+			try {
+				this.setPosition(new Vector(x, y));
+			} catch (IllegalArgumentException e) {
+				this.terminate();
+			}
+		}
+		else if (entity instanceof Ship){
+			this.bounceOff((Ship) entity);
 		}
 	}
 }
