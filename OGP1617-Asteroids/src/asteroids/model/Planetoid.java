@@ -1,5 +1,7 @@
 package asteroids.model;
 
+import java.util.Random;
+
 import be.kuleuven.cs.som.annotate.*;
 
 /**
@@ -90,4 +92,35 @@ public class Planetoid extends MinorPlanet {
 	 * Variable registering the totalDistanceTraveled of this planetoid.
 	 */
 	private double totalDistanceTraveled = 0;
+	
+	@Override
+	public void terminate() {
+		if (!isTerminated()) {
+			World world = this.getWorld();
+			if (world != null) {
+				world.removeEntity(this);
+				if (this.getRadius() >= 30)
+					this.spawnAsteroids(world);
+			}
+			this.isTerminated = true;
+		}
+	}
+	
+	private void spawnAsteroids(World world) {
+		Random randomNumber = new Random();
+		double velocityDirection = randomNumber.nextDouble() * 2 * Math.PI;
+		double speed = this.getVelocity().getMagnitude();
+		
+		Vector velocity = new Vector(Math.cos(velocityDirection), Math.sin(velocityDirection)).times(speed);
+		Vector otherVelocity = velocity.times(-1);
+		Vector position = this.getPosition().subtract(new Vector(this.getRadius() / 2, 0));
+		Vector otherPosition = this.getPosition().add(new Vector(this.getRadius() / 2, 0));
+		double radius = this.getRadius() / 2;
+		
+		Asteroid asteroid = new Asteroid(position, velocity, radius);
+		Asteroid otherAsteroid = new Asteroid(otherPosition, otherVelocity, radius);
+		
+		world.addEntity(asteroid);
+		world.addEntity(otherAsteroid);
+	}
 }
