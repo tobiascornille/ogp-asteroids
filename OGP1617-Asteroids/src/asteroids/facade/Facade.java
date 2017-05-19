@@ -21,11 +21,6 @@ import asteroids.util.ModelException;
 public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
-	public Ship createShip() throws ModelException {
-		return new Ship();
-	}
-
-	@Override
 	public double[] getShipPosition(Ship ship) throws ModelException {
 		return ship.getPosition().toDouble();
 	}
@@ -44,16 +39,6 @@ public class Facade implements asteroids.part3.facade.IFacade {
 	@Override
 	public double getShipOrientation(Ship ship) throws ModelException {
 		return ship.getOrientation();
-	}
-
-	@Override
-	public void move(Ship ship, double dt) throws ModelException {
-		return;		
-	}
-
-	@Override
-	public void thrust(Ship ship, double amount) throws ModelException {
-		ship.thrust(amount);
 	}
 
 	@Override
@@ -283,7 +268,7 @@ public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
 	public Set<? extends Bullet> getBulletsOnShip(Ship ship) throws ModelException {
-		return new HashSet<Bullet>(ship.getBullets());
+		return new HashSet<>(ship.getBullets());
 	}
 
 	@Override
