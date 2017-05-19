@@ -66,8 +66,8 @@ public class Planetoid extends MinorPlanet {
 	 * @return 
 	 *       | result == 
 	*/
-	public static boolean isValidTotalDistanceTraveled(double totalDistanceTraveled) {
-		return (totalDistanceTraveled >= 0);
+	public boolean isValidTotalDistanceTraveled(double totalDistanceTraveled) {
+		return ((this.getRadius() - (0.000001 * this.getTotalDistanceTraveled())) > 5);
 	}
 	
 	/**
@@ -83,9 +83,12 @@ public class Planetoid extends MinorPlanet {
 	 *       | new.getTotalDistanceTraveled() == totalDistanceTraveled
 	 */
 	@Raw
-	public void setTotalDistanceTraveled(double totalDistanceTraveled) {
-		assert isValidTotalDistanceTraveled(totalDistanceTraveled);
-		this.totalDistanceTraveled = totalDistanceTraveled;
+	public void setTotalDistanceTraveled(double totalDistanceTraveled) throws IllegalArgumentException  {
+		//TODO throw exception
+		if (!isValidTotalDistanceTraveled(totalDistanceTraveled))
+				this.terminate();
+		else
+			this.totalDistanceTraveled = totalDistanceTraveled;
 	}
 	
 	/**
@@ -93,6 +96,9 @@ public class Planetoid extends MinorPlanet {
 	 */
 	private double totalDistanceTraveled = 0;
 	
+	/**
+	 * 
+	 */
 	@Override
 	public void terminate() {
 		if (!isTerminated()) {
@@ -106,6 +112,10 @@ public class Planetoid extends MinorPlanet {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param world
+	 */
 	private void spawnAsteroids(World world) {
 		Random randomNumber = new Random();
 		double velocityDirection = randomNumber.nextDouble() * 2 * Math.PI;
@@ -122,5 +132,28 @@ public class Planetoid extends MinorPlanet {
 		
 		world.addEntity(asteroid);
 		world.addEntity(otherAsteroid);
+	}
+	
+	/**
+	 * 
+	 */
+	private void setRadius(double radius) {
+		this.radius = radius;
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	 void move(double dt) throws IllegalArgumentException {
+		if (dt < 0) throw new IllegalArgumentException();
+		Vector newPosition = this.getPosition().add(this.getVelocity().times(dt)); 
+		double distance = newPosition.getDistanceBetween(this.getPosition());
+		this.setTotalDistanceTraveled(this.getTotalDistanceTraveled() + distance);
+		double newRadius = this.getRadius() - (0.000001 * this.getTotalDistanceTraveled());
+		if (!this.isTerminated) {
+			this.setRadius(newRadius);
+			this.setPosition(newPosition); 
+		}	     			
 	}
 }

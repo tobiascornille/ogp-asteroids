@@ -103,7 +103,7 @@ public abstract class Entity {
 	/**
 	 * Variable registering the radius of this entity.
 	 */
-	private final double radius;
+	protected double radius;
 	
 	
 	/**
