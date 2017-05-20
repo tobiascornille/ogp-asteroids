@@ -774,5 +774,18 @@ public abstract class Entity {
 		result = 31 * result + (isTerminated() ? 1 : 0);
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return "Entity{" +
+				"radius=" + radius +
+				", position=" + position +
+				", velocity=" + velocity +
+				", density=" + density +
+				", mass=" + mass +
+				", world=" + world +
+				", isTerminated=" + isTerminated +
+				'}';
+	}
 }
 

@@ -2,7 +2,7 @@ package asteroids.programs.expressions;
 
 import asteroids.programs.MyExpression;
 
-public abstract class NameExpression implements MyExpression {
+public abstract class NameExpression extends MyExpression {
     NameExpression(String name) {
         this.name = name;
     }

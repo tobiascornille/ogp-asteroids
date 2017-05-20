@@ -1,11 +1,13 @@
 package asteroids.programs.expressions;
 
-public class Not extends UnaryExpression implements ToBooleanExpression {
+import asteroids.model.Program;
+
+public class Not extends UnaryExpression<ToBooleanExpression> implements ToBooleanExpression {
     public Not(ToBooleanExpression expression) {
         super(expression);
     }
 
-    public Boolean evaluate() {
-        return ! (boolean) this.getExpression().evaluate();
+    public Boolean evaluate(Program program) {
+        return ! this.getExpression().evaluate(program);
     }
 }

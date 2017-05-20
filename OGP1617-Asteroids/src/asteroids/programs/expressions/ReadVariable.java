@@ -2,8 +2,8 @@ package asteroids.programs.expressions;
 
 import asteroids.model.Program;
 
-public class ReadParameter extends NameExpression {
-    public ReadParameter(String parameterName) {
+public class ReadVariable extends NameExpression {
+    public ReadVariable(String parameterName) {
         super(parameterName);
     }
 

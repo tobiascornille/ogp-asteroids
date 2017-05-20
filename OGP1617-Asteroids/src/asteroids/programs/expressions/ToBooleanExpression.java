@@ -1,5 +1,7 @@
 package asteroids.programs.expressions;
 
-public interface ToBooleanExpression extends MyExpression{
-    Boolean evaluate();
+import asteroids.model.Program;
+
+public interface ToBooleanExpression {
+    Boolean evaluate(Program program);
 }

@@ -3,7 +3,7 @@ package asteroids.programs.expressions;
 import asteroids.programs.MyExpression;
 import be.kuleuven.cs.som.annotate.*;
 
-public abstract class BinaryExpression<E extends MyExpression, F extends MyExpression> implements MyExpression {
+public abstract class BinaryExpression<E, F> extends MyExpression {
 
     BinaryExpression(E leftExpression, F rightExpression) {
         this.leftExpression = leftExpression;
@@ -11,14 +11,14 @@ public abstract class BinaryExpression<E extends MyExpression, F extends MyExpre
     }
 
     @Basic
-    public MyExpression getLeftExpression() {
+    public E getLeftExpression() {
         return this.leftExpression;
     }
 
     private final E leftExpression;
 
     @Basic
-    public MyExpression getRightExpression() {
+    public F getRightExpression() {
         return this.rightExpression;
     }
 

@@ -1,5 +1,6 @@
 package asteroids.programs.expressions;
 
+import asteroids.model.Program;
 import asteroids.programs.MyExpression;
 
 import java.lang.reflect.InvocationTargetException;
@@ -35,9 +36,9 @@ public class FunctionCall extends NameExpression {
 
     private final Method function;
 
-    public Object evaluate() {
+    public Object evaluate(Program program) {
         try {
-            return this.getFunction().invoke(this.getArguments());
+            return Program.invoke(this.getArguments()); //TODO: fix
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {

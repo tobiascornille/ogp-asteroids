@@ -1,12 +1,14 @@
 package asteroids.programs.expressions;
 
-public class SquareRoot extends UnaryExpression implements ToDoubleExpression {
+import asteroids.model.Program;
+
+public class SquareRoot extends UnaryExpression<ToDoubleExpression> implements ToDoubleExpression {
     public SquareRoot(ToDoubleExpression expression) {
         super(expression);
     }
 
-    public Double evaluate() {
-        return Math.sqrt((double) this.getExpression().evaluate());
+    public Double evaluate(Program program) {
+        return Math.sqrt(this.getExpression().evaluate(program));
     }
 }
 

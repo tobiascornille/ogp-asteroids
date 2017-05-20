@@ -1,7 +1,7 @@
 package asteroids.programs.expressions;
 
-import asteroids.programs.MyExpression;
+import asteroids.model.Program;
 
-public interface ToDoubleExpression extends MyExpression {
-    Double evaluate();
+public interface ToDoubleExpression {
+    Double evaluate(Program program);
 }

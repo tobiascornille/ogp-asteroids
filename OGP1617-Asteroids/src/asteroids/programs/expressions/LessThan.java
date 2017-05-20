@@ -1,12 +1,14 @@
 package asteroids.programs.expressions;
 
-public class LessThan extends BinaryExpression implements ToBooleanExpression {
+import asteroids.model.Program;
+
+public class LessThan extends BinaryExpression<ToDoubleExpression, ToDoubleExpression> implements ToBooleanExpression {
 
     public LessThan(ToDoubleExpression leftExpression, ToDoubleExpression rightExpression) {
         super(leftExpression, rightExpression);
     }
 
-    public Boolean evaluate() {
-        return (double) this.getLeftExpression().evaluate() < (double) this.getRightExpression().evaluate();
+    public Boolean evaluate(Program program) {
+        return this.getLeftExpression().evaluate(program) < this.getRightExpression().evaluate(program);
     }
 }

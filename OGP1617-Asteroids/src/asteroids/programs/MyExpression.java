@@ -1,5 +1,8 @@
 package asteroids.programs;
 
-public interface MyExpression {
-    Object evaluate();
+import asteroids.model.Program;
+
+public abstract class MyExpression {
+
+    public abstract Object evaluate(Program program);
 }
