@@ -1,4 +1,4 @@
-package asteroids.programs;
+package asteroids.programs.expressions;
 
 public class Addition extends BinaryExpression implements ToDoubleExpression {
 

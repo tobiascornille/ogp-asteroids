@@ -1,4 +1,4 @@
-package asteroids.programs;
+package asteroids.programs.expressions;
 
 public class Not extends UnaryExpression implements ToBooleanExpression {
     public Not(ToBooleanExpression expression) {

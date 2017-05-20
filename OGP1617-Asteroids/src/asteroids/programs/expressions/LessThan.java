@@ -1,4 +1,4 @@
-package asteroids.programs;
+package asteroids.programs.expressions;
 
 public class LessThan extends BinaryExpression implements ToBooleanExpression {
 

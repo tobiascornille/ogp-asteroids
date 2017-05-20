@@ -1,4 +1,4 @@
-package asteroids.programs;
+package asteroids.programs.expressions;
 
 public class SquareRoot extends UnaryExpression implements ToDoubleExpression {
     public SquareRoot(ToDoubleExpression expression) {

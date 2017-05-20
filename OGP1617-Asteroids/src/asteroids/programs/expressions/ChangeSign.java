@@ -1,4 +1,4 @@
-package asteroids.programs;
+package asteroids.programs.expressions;
 
 public class ChangeSign extends UnaryExpression implements ToDoubleExpression {
     public ChangeSign(ToDoubleExpression expression) {

@@ -1,4 +1,6 @@
-package asteroids.programs;
+package asteroids.programs.expressions;
+
+import asteroids.programs.MyExpression;
 
 public class Equality<E extends MyExpression, F extends MyExpression> extends BinaryExpression implements ToBooleanExpression {
 

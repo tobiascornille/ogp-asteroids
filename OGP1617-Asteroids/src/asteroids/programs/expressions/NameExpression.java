@@ -1,4 +1,6 @@
-package asteroids.programs;
+package asteroids.programs.expressions;
+
+import asteroids.programs.MyExpression;
 
 public abstract class NameExpression implements MyExpression {
     NameExpression(String name) {

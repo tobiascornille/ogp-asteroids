@@ -1,5 +1,6 @@
-package asteroids.programs;
+package asteroids.programs.expressions;
 
+import asteroids.programs.MyExpression;
 import be.kuleuven.cs.som.annotate.*;
 
 public abstract class UnaryExpression<E extends MyExpression> implements MyExpression {
