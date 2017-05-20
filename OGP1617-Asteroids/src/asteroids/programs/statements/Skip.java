@@ -1,4 +1,4 @@
-package asteroids.programs;
+package asteroids.programs.statements;
 
 public class Skip extends ActionStatement {
 
