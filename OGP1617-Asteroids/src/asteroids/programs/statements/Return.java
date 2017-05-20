@@ -1,5 +1,6 @@
 package asteroids.programs.statements;
 
+import asteroids.model.Program;
 import asteroids.programs.MyExpression;
 
 public class Return extends ReturnStatement {
@@ -13,8 +14,8 @@ public class Return extends ReturnStatement {
 	
 	//TODO check if the location given is in a function body!!!
 	
-	public Object evaluate() {
-		this.setValue(expression.evaluate());
+	public Object evaluate(Program program) {
+		this.setValue(expression.evaluate(program));
 		return this.returnValue();
 	}
 }
