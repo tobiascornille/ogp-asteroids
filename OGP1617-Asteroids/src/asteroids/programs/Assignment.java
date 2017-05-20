@@ -1,5 +1,5 @@
 package asteroids.programs;
 
-public class If {
+public class Assignment {
 
 }

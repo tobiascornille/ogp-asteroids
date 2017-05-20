@@ -1,5 +1,5 @@
 package asteroids.programs;
 
-public class Turn {
+public class Turn extends ActionStatement {
 
 }

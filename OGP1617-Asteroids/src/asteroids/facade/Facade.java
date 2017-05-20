@@ -366,7 +366,11 @@ public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
 	public void evolve(World world, double dt, CollisionListener collisionListener) throws ModelException {
-			world.evolve(dt, collisionListener);	
+			try {
+				world.evolve(dt, collisionListener);
+			} catch (IllegalArgumentException e) {
+				throw new ModelException(e);
+			}
 	}
 
 	@Override
@@ -391,7 +395,11 @@ public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
 	public void addAsteroidToWorld(World world, Asteroid asteroid) throws ModelException {
-		world.addEntity(asteroid);	
+		try {
+			world.addEntity(asteroid);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 	}
 
 	@Override
@@ -406,7 +414,11 @@ public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
 	public void addPlanetoidToWorld(World world, Planetoid planetoid) throws ModelException {
-		world.addEntity(planetoid);
+		try {
+			world.addEntity(planetoid);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException(e);
+		}
 		
 	}
 

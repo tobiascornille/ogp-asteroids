@@ -1,5 +1,5 @@
 package asteroids.programs;
 
-public class Skip {
+public class Skip extends ActionStatement {
 
 }

@@ -1,5 +1,5 @@
 package asteroids.programs;
 
-public class Fire {
+public class Fire extends ActionStatement {
 
 }
