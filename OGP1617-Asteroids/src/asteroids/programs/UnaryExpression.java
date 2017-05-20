@@ -2,7 +2,7 @@ package asteroids.programs;
 
 import be.kuleuven.cs.som.annotate.*;
 
-public abstract class UnaryExpression<E extends MyExpression> extends ComposedExpression {
+public abstract class UnaryExpression<E extends MyExpression> implements MyExpression {
     UnaryExpression(E expression) {
         this.expression = expression;
     }

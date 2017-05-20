@@ -2,7 +2,7 @@ package asteroids.programs;
 
 import be.kuleuven.cs.som.annotate.*;
 
-public abstract class BinaryExpression<E extends MyExpression, F extends MyExpression> extends ComposedExpression {
+public abstract class BinaryExpression<E extends MyExpression, F extends MyExpression> implements MyExpression {
 
     BinaryExpression(E leftExpression, F rightExpression) {
         this.leftExpression = leftExpression;
