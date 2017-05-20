@@ -741,5 +741,38 @@ public abstract class Entity {
 		this.setVelocity(newVelocity);
 		entity.setVelocity(newVelocityEntity);
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Entity)) return false;
+
+		Entity entity = (Entity) o;
+
+		if (Double.compare(entity.getRadius(), getRadius()) != 0) return false;
+		if (Double.compare(entity.getDensity(), getDensity()) != 0) return false;
+		if (Double.compare(entity.getMass(), getMass()) != 0) return false;
+		if (isTerminated() != entity.isTerminated()) return false;
+		if (!getPosition().equals(entity.getPosition())) return false;
+		if (!getVelocity().equals(entity.getVelocity())) return false;
+		return getWorld() != null ? getWorld().equals(entity.getWorld()) : entity.getWorld() == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result;
+		long temp;
+		temp = Double.doubleToLongBits(getRadius());
+		result = (int) (temp ^ (temp >>> 32));
+		result = 31 * result + getPosition().hashCode();
+		result = 31 * result + getVelocity().hashCode();
+		temp = Double.doubleToLongBits(getDensity());
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(getMass());
+		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		result = 31 * result + (getWorld() != null ? getWorld().hashCode() : 0);
+		result = 31 * result + (isTerminated() ? 1 : 0);
+		return result;
+	}
 }
 

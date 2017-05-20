@@ -1,6 +1,5 @@
 package asteroids.programs;
 
-public abstract class MyExpression {
-
-    public abstract Object evaluate();
+public interface MyExpression {
+    Object evaluate();
 }

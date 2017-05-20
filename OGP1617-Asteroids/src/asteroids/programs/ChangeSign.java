@@ -1,4 +1,11 @@
 package asteroids.programs;
 
-public class ChangeSign extends UnaryExpression {
+public class ChangeSign extends UnaryExpression implements ToDoubleExpression {
+    public ChangeSign(ToDoubleExpression expression) {
+        super(expression);
+    }
+
+    public Double evaluate() {
+        return - (double) this.getExpression().evaluate();
+    }
 }

@@ -2,19 +2,24 @@ package asteroids.programs;
 
 import be.kuleuven.cs.som.annotate.*;
 
-public abstract class BinaryExpression extends ComposedExpression {
+public abstract class BinaryExpression<E extends MyExpression, F extends MyExpression> extends ComposedExpression {
 
-    @Basic
-    public MyExpression getLeftOperand() {
-        return leftOperand;
+    BinaryExpression(E leftExpression, F rightExpression) {
+        this.leftExpression = leftExpression;
+        this.rightExpression = rightExpression;
     }
 
-    private final MyExpression leftOperand;
-
     @Basic
-    public MyExpression getRightOperand() {
-        return rightOperand;
+    public MyExpression getLeftExpression() {
+        return this.leftExpression;
     }
 
-    private final MyExpression rightOperand;
+    private final E leftExpression;
+
+    @Basic
+    public MyExpression getRightExpression() {
+        return this.rightExpression;
+    }
+
+    private final F rightExpression;
 }
