@@ -2,12 +2,14 @@ package asteroids.programs.statements;
 
 import asteroids.model.Program;
 import asteroids.model.Ship;
+import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
 import asteroids.programs.expressions.Self;
 
 public class Fire extends ActionStatement {
 	
-	public Fire() {	
+	public Fire(SourceLocation location) {
+		super(location);
 		
 	}
 	
