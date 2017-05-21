@@ -1,7 +1,11 @@
 package asteroids.programs.statements;
 
+import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyStatement;
 
 public class Break extends MyStatement {
-	//TODO change the location to the first line of code after the while
+	
+	public Break(SourceLocation location) {
+		super(location);
+	}
 }

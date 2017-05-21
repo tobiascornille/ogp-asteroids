@@ -6,13 +6,14 @@ import asteroids.model.Program;
 import asteroids.part3.programs.IProgramFactory;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.expressions.*;
+import asteroids.programs.statements.*;
+
 
 public class ProgramFactory implements IProgramFactory<MyExpression, MyStatement, MyFunction, Program> {
 
 	@Override
 	public Program createProgram(List<MyFunction> functions, MyStatement main) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Program(functions, main);
 	}
 
 	@Override
@@ -24,45 +25,39 @@ public class ProgramFactory implements IProgramFactory<MyExpression, MyStatement
 	@Override
 	public MyStatement createAssignmentStatement(String variableName, MyExpression value,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return new Assignment(variableName, value, sourceLocation);
 	}
 
 	@Override
 	public MyStatement createWhileStatement(MyExpression condition, MyStatement body, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new While(condition, body, sourceLocation);
 	}
 
 	@Override
 	public MyStatement createBreakStatement(SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Break(sourceLocation);
 	}
 
 	@Override
 	public MyStatement createReturnStatement(MyExpression value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Return(value, sourceLocation);
 	}
 
 	@Override
 	public MyStatement createIfStatement(MyExpression condition, MyStatement ifBody, MyStatement elseBody,
 			SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new IfThen(condition, ifBody, elseBody, sourceLocation);
 	}
 
 	@Override
 	public MyStatement createPrintStatement(MyExpression value, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Print(value, sourceLocation);
 	}
 
 	@Override
 	public MyStatement createSequenceStatement(List<MyStatement> statements, SourceLocation sourceLocation) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Sequence(statements, sourceLocation);
 	}
 
 	@Override
@@ -193,32 +188,27 @@ public class ProgramFactory implements IProgramFactory<MyExpression, MyStatement
 
 	@Override
 	public MyStatement createThrustOnStatement(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ThrustOn(location);
 	}
 
 	@Override
 	public MyStatement createThrustOffStatement(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ThrustOff(location);
 	}
 
 	@Override
 	public MyStatement createFireStatement(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Fire(location);
 	}
 
 	@Override
 	public MyStatement createTurnStatement(MyExpression angle, SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Turn(angle, location);
 	}
 
 	@Override
 	public MyStatement createSkipStatement(SourceLocation location) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Skip(location);
 	}
 
 }

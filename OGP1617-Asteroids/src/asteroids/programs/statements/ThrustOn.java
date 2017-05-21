@@ -5,18 +5,17 @@ import asteroids.model.Ship;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.expressions.Self;
 
-public class Thrust_off extends ActionStatement {
+public class ThrustOn extends ActionStatement {
 	
-	public Thrust_off(SourceLocation location) {
+	public ThrustOn(SourceLocation location) {
 		super(location);
 	}
 
 	@Override
 	public Object evaluate(Program program) {
 		Self self = new Self();
-		Ship ship =   self.evaluate(program);
-		ship.thrustOn();
+		Ship ship = self.evaluate(program);
+		ship.thrustOff();
 		return null;
 	}
-	
 }
