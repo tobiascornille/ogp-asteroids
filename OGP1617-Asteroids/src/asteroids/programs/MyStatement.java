@@ -5,14 +5,16 @@ import asteroids.part3.programs.SourceLocation;
 
 public class MyStatement {
 	
+	public MyStatement() {
+		
+	}
+	
 	public MyStatement(SourceLocation location) {
 		this.setSourceLocation(location);
 	}
 
-	protected Object evaluate(Program program) {
-		return null;
-		// TODO Auto-generated method stub
-		
+	public Object evaluate(Program program) {
+		return null;		
 	}
 	
 	private SourceLocation location;

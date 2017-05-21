@@ -11,8 +11,10 @@ public abstract class ActionStatement extends MyStatement {
 	}
 
 	@Override
-	protected Object evaluate(Program program) {
+	public Object evaluate(Program program) {
 		return null;
 		
 	}
+	
+
 }

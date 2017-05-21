@@ -1,6 +1,7 @@
 package asteroids.programs.statements;
 
 import asteroids.model.Program;
+import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
 
 
@@ -9,7 +10,8 @@ public class Print extends ReturnStatement {
 	private MyExpression expression;
 	
 	
-	public Print (MyExpression expression ){
+	public Print (MyExpression expression, SourceLocation location ){
+		super(location);
 		this.expression = expression;
 	}
 	

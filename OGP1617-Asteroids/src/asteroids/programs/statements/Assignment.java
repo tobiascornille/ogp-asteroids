@@ -9,17 +9,34 @@ public class Assignment extends MyStatement  {
 	
 	public Assignment(String name, MyExpression value, SourceLocation location) {
 		super(location);
-		this.name = name;
-		this.expression = value;
+		this.setName(name);
+		this.setExpression (value);
 	}
 	
 	private String name;
 	private MyExpression expression;
 	
+	
+	
 	@Override
-	public Object evaluate(Program porgram) {
-		// TODO return shit
-		
-		return null;
+	public Object evaluate(Program program) {
+		Object name = getExpression().evaluate(program);
+		return name;
+	}
+
+	private MyExpression getExpression() {
+		return this.expression;
+	}
+	
+	private void setExpression(MyExpression expression) {
+		this.expression = expression;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
