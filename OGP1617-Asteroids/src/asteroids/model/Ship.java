@@ -2,6 +2,7 @@ package asteroids.model;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -25,6 +26,9 @@ import be.kuleuven.cs.som.annotate.Raw;
  * @invar  The total mass of each ship must be a valid total mass for that
  *         ship.
  *       | isValidTotalMass(getTotalMass())
+ * @invar  The program of each Ship must be a valid program for any
+ *         Ship.
+ *       | isValidProgram(getProgram())
  * @version 2.0
  * @author 	Simon Merckx and Tobias Cornille.
  *         	We both study informatics (1ba).
@@ -497,6 +501,37 @@ public class Ship extends Entity{
 		else if (entity instanceof Ship){
 			this.bounceOff((Ship) entity);
 		}
+	}
+
+	/**
+	 * Return the program of this Ship.
+	 */
+	@Basic @Raw
+	public Program getProgram() {
+		return this.program;
+	}
+	
+	/**
+	 * Set the program of this Ship to the given program.
+	 * 
+	 * @param  program
+	 *         The new program for this Ship.
+	 * @post   The program of this new Ship is equal to
+	 *         the given program.
+	 *       | new.getProgram() == program
+	 */
+	@Raw
+	public void loadProgram(Program program) {
+		this.program = program;
+	}
+	
+	/**
+	 * Variable registering the program of this Ship.
+	 */
+	private Program program;
+	
+	public List<Object> executeProgram(double dt){
+		return null;	// TODO: add implementation
 	}
 }
 

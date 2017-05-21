@@ -3,9 +3,9 @@ package asteroids.programs.expressions;
 import asteroids.model.Program;
 import asteroids.programs.MyExpression;
 
-public class Equality<E extends MyExpression, F extends MyExpression> extends BinaryExpression<E, F> implements ToBooleanExpression {
+public class Equality extends BinaryExpression<MyExpression, MyExpression> implements ToBooleanExpression {
 
-    public Equality(E leftExpression, F rightExpression){
+    public Equality(MyExpression leftExpression, MyExpression rightExpression){
         super(leftExpression, rightExpression);
     }
 
