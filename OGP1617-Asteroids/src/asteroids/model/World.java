@@ -416,4 +416,18 @@ public class World {
 			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent(), entity.getVelocity().getYComponent() * -1));
 		 }
 	}
+
+	public <T extends Entity> T getClosestEntityOfType(Class type, Ship ship) {
+	 	T closestEntity = null;
+	 	double minDistance = Double.POSITIVE_INFINITY;
+	 	for (T entity: (Set<T>) this.getEntitiesOfType(type)) {
+	 		double distance = entity.getPosition().getDistanceBetween(ship.getPosition());
+	 		if (distance < minDistance) {
+				minDistance = distance;
+	 			closestEntity = entity;
+			}
+		}
+
+		return closestEntity;
+	}
 }
