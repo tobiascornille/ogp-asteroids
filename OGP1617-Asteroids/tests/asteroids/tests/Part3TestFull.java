@@ -2654,6 +2654,7 @@ public class Part3TestFull {
     max_score += 3;
     String code = "print gety self ; ";
     Program program = ProgramParser.parseProgramFromString(code, programFactory);
+    if(program == null) System.out.println("oh no");
     facade.loadProgramOnShip(ship1, program);
     List<Object> results = facade.executeProgram(ship1, 1.0);
     Object[] expecteds = { facade.getShipPosition(ship1)[1] };
