@@ -1,19 +1,19 @@
 package asteroids.programs;
 
+import java.util.List;
+
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 
 public class MyStatement {
 	
-	public MyStatement() {
-		
-	}
+
 	
 	public MyStatement(SourceLocation location) {
 		this.setSourceLocation(location);
 	}
 
-	public Object evaluate(Program program) {
+	public List<Object> evaluate(Program program) {
 		return null;		
 	}
 	
@@ -26,5 +26,12 @@ public class MyStatement {
 	protected SourceLocation getSourceLocation() {
 		return this.location;
 	}
+	
+	protected List<Object> printed;
+	
+	public List<Object >getPrinted() {
+		return this.printed;
+	}
+	
 
 }

@@ -1,5 +1,8 @@
 package asteroids.programs.statements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
@@ -19,9 +22,11 @@ public class Assignment extends MyStatement  {
 	
 	
 	@Override
-	public Object evaluate(Program program) {
+	public List<Object> evaluate(Program program) {
 		Object name = getExpression().evaluate(program);
-		return name;
+		List<Object> list = new ArrayList<>();
+		list.add(name);
+		return this.getPrinted();
 	}
 
 	private MyExpression getExpression() {

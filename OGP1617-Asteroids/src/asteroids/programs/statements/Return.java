@@ -1,16 +1,21 @@
 package asteroids.programs.statements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
+import asteroids.programs.MyStatement;
 
-public class Return extends ReturnStatement {
+public class Return extends MyStatement {
 	
 	private MyExpression expression;
 	
 	public Return (MyExpression expression, SourceLocation location) {
 		super(location);
 		this.setExpression (expression);
+		this.value = new ArrayList<>();
 		
 	}
 	
@@ -23,8 +28,18 @@ public class Return extends ReturnStatement {
 	}
 	//TODO check if the location given is in a function body!!!
 	
-	public Object evaluate(Program program) {
-		this.setValue(getExpression().evaluate(program));
-		return this.returnValue();
+	public List<Object> evaluate(Program program) {
+		this.addValue(getExpression().evaluate(program));
+		return this.getValue();
+	}
+	
+	private List<Object> value;
+
+	protected void addValue(Object value) {
+		this.value.add(value);
+	}
+	
+	protected List<Object> getValue() {
+		return this.value;
 	}
 }
