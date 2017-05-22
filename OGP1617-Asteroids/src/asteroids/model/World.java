@@ -297,9 +297,11 @@ public class World {
 	  */
 	 private boolean isTerminated = false;
 	 
-	 public void evolve(double dt, CollisionListener listener) { 
-		  while (dt > 0) {
-			  double tC = Double.POSITIVE_INFINITY;
+	 public void evolve(double dt, CollisionListener listener) throws IllegalArgumentException { 	 
+		 if (Double.isNaN(dt) || dt < 0) throw new IllegalArgumentException();
+		 
+		 while (dt > 0) {
+			 double tC = Double.POSITIVE_INFINITY;
 			  Map<Double, Entity[]> collisions = this.getCollisions();
 			  if (!collisions.keySet().isEmpty())
 				  tC = Collections.min(collisions.keySet());
@@ -325,6 +327,7 @@ public class World {
 				  
 				  dt = dt - tC;  
 			  }
+			  
 			  else {
 				  advance(dt);
 				  return;

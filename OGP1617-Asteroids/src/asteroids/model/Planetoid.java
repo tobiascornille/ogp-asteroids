@@ -22,6 +22,7 @@ public class Planetoid extends MinorPlanet {
     public Planetoid(Vector position, Vector velocity, double radius, double totalDistanceTraveled) throws IllegalArgumentException {
 		super(position, velocity, radius, 0);
 		this.setTotalDistanceTraveled(totalDistanceTraveled);
+		this.setRadius(this.getRadius() - 0.000001 * this.getTotalDistanceTraveled());
 	}
 
 	/**
@@ -84,7 +85,6 @@ public class Planetoid extends MinorPlanet {
 	 */
 	@Raw
 	public void setTotalDistanceTraveled(double totalDistanceTraveled) throws IllegalArgumentException  {
-		//TODO throw exception
 		if (!isValidTotalDistanceTraveled(totalDistanceTraveled))
 				this.terminate();
 		else
@@ -146,6 +146,7 @@ public class Planetoid extends MinorPlanet {
 	 */
 	@Override
 	 void move(double dt) throws IllegalArgumentException {
+		
 		if (dt < 0) throw new IllegalArgumentException();
 		Vector newPosition = this.getPosition().add(this.getVelocity().times(dt)); 
 		double distance = newPosition.getDistanceBetween(this.getPosition());

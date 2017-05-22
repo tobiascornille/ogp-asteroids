@@ -125,6 +125,7 @@ public class Part3TestFull {
     assertTrue(velocity <= 300000 + EPSILON);
     score += 1;
   }
+  
 
   @Test
   public void testCreateShipVelocityLargerThanLightSpeed() throws ModelException {
@@ -1040,7 +1041,7 @@ public class Part3TestFull {
       score += 2;
     }
   }
-
+  
   @Test
   public void testEvolveDtNegative() throws ModelException {
     try {

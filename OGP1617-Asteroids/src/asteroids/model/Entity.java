@@ -128,7 +128,7 @@ public abstract class Entity {
 	 *     	 | 	result == true
 	 */
 	public static boolean isValidPosition(Vector position) {
-		return true;
+		return (!Double.isNaN(position.getXComponent()) && !Double.isNaN(position.getYComponent()));
 	}
 	
 	/**
@@ -325,9 +325,9 @@ public abstract class Entity {
 	protected void setVelocity(Vector velocity) {
 		if (! isValidVelocity(velocity)) {
 			if (Double.isNaN(velocity.getXComponent()))
-				this.velocity = new Vector(C, velocity.getYComponent());
+				velocity = new Vector(C, velocity.getYComponent());
 			if (Double.isNaN(velocity.getYComponent()))
-				this.velocity = new Vector(velocity.getXComponent(), C);
+				velocity = new Vector(velocity.getXComponent(), C);
 			velocity = velocity.normalise().times(C);
 		}
 		this.velocity = velocity;
