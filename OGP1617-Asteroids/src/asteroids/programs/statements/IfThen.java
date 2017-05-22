@@ -1,5 +1,7 @@
 package asteroids.programs.statements;
 
+import java.util.List;
+
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
@@ -22,11 +24,11 @@ public class IfThen extends ConditionStatement {
 		return this.elseBody;
 	}
 	
-	public Object evaluate(Program program) {
+	public List<Object> evaluate(Program program) {
 		if ((boolean) this.getCondition().evaluate(program))
 			this.getBody().evaluate(program);
-		else if ((boolean) this.getElseBody().evaluate(program))
+		else 
 			this.getElseBody().evaluate(program);
-		return null;
+		return this.getPrinted();
 	}
 }

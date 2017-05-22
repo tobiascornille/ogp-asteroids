@@ -1,5 +1,7 @@
 package asteroids.programs.statements;
 
+import java.util.List;
+
 import asteroids.model.Program;
 import asteroids.model.Ship;
 import asteroids.part3.programs.SourceLocation;
@@ -13,7 +15,7 @@ public class Fire extends ActionStatement {
 	}
 	
 	@Override
-	public Object evaluate(Program program) {
+	public List<Object> evaluate(Program program) {
 		Self self = new Self();
 		Ship ship =   self.evaluate(program);
 		ship.fireBullet();

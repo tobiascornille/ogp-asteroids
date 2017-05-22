@@ -1,5 +1,7 @@
 package asteroids.programs.statements;
 
+import java.util.List;
+
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 
@@ -9,7 +11,7 @@ public class Skip extends ActionStatement {
 		super(location);
 	}
 	
-	public Object evaluate(Program program) {
+	public List<Object> evaluate(Program program) {
 		//kaka
 		return null;
 	}

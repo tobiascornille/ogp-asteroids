@@ -1,5 +1,7 @@
 package asteroids.programs.statements;
 
+import java.util.List;
+
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
@@ -11,12 +13,12 @@ public class While extends ConditionStatement{
 		super(condition, body, location);
 	}
 	
-	public Object evaluate(Program program) {
+	public List<Object> evaluate(Program program) {
 		
 		while ((boolean) this.getCondition().evaluate(program))
 			this.getBody().evaluate(program);
 		
-		return null;
+		return this.getPrinted();
 	}
 
 }
