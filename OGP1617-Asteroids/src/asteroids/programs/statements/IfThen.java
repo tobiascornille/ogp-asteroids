@@ -27,8 +27,10 @@ public class IfThen extends ConditionStatement {
 	public List<Object> evaluate(Program program) {
 		if ((boolean) this.getCondition().evaluate(program))
 			this.getBody().evaluate(program);
-		else 
+		
+		else if (this.getElseBody() != null) 
 			this.getElseBody().evaluate(program);
+		
 		return program.getPrinted();
 	}
 }
