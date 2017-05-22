@@ -29,6 +29,6 @@ public class IfThen extends ConditionStatement {
 			this.getBody().evaluate(program);
 		else 
 			this.getElseBody().evaluate(program);
-		return this.getPrinted();
+		return program.getPrinted();
 	}
 }

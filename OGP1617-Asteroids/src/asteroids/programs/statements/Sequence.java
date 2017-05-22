@@ -29,7 +29,7 @@ public class Sequence extends MyStatement {
 			e.evaluate(program);
 		}
 		
-		return this.getPrinted();
+		return program.getPrinted();
 
 	}
 	

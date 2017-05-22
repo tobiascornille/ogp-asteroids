@@ -28,11 +28,7 @@ public class MyStatement {
 		return this.location;
 	}
 	
-	protected List<Object> printed = new ArrayList<>();
 	
-	public List<Object >getPrinted() {
-		return this.printed;
-	}
 	
 
 }
