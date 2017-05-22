@@ -499,7 +499,7 @@ public class Ship extends Entity{
 			}
 		}
 		else if (entity instanceof Ship){
-			this.bounceOff((Ship) entity);
+			this.bounceOff(entity);
 		}
 	}
 
@@ -514,17 +514,34 @@ public class Ship extends Entity{
 	/**
 	 * Set the program of this Ship to the given program.
 	 * 
-	 * @param  program
-	 *         The new program for this Ship.
-	 * @post   The program of this new Ship is equal to
-	 *         the given program.
-	 *       | new.getProgram() == program
+	 * @param  	program
+	 *         	The new program for this Ship.
+	 * @post   	The program of this new Ship is equal to
+	 *         	the given program.
+	 *     	| 	new.getProgram() == program
+	 * @throws	IllegalArgumentException
+	 * 		|	! isValidProgram(program)
 	 */
 	@Raw
-	public void loadProgram(Program program) {
+	public void loadProgram(Program program) throws IllegalArgumentException {
+		if (! isValidProgram(program))
+			throw new IllegalArgumentException();
 		this.program = program;
 	}
-	
+
+	/**
+	 * Check whether the given program is a valid program for
+	 * any ship.
+	 *
+	 * @param  	program
+	 *         	The program to check.
+	 * @return	True if the program is not null.
+	 *     	| 	result == program != null
+	 */
+	private static boolean isValidProgram(Program program) {
+		return program != null;
+	}
+
 	/**
 	 * Variable registering the program of this Ship.
 	 */
