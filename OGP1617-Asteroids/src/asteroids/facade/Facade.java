@@ -288,7 +288,7 @@ public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
 	public Set<? extends Bullet> getBulletsOnShip(Ship ship) throws ModelException {
-		return new HashSet<>(ship.getBullets());
+		return ship.getBullets();
 	}
 
 	@Override
@@ -591,7 +591,11 @@ public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
 	public List<Object> executeProgram(Ship ship, double dt) throws ModelException {
-		return ship.executeProgram(dt);
+		try {
+			return ship.executeProgram(dt);
+		} catch (Exception e) {
+			throw new ModelException(e);
+		}
 	}
 
 	@Override

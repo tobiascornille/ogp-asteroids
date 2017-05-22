@@ -1,10 +1,12 @@
 package asteroids.model;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Raw;
@@ -189,10 +191,10 @@ public class Ship extends Entity{
 	 * 		|	@see implementation
 	 */
 	@Basic
-	public Deque<Bullet> getBullets() {
+	public Set<Bullet> getBullets() {
 		return this.bullets;
 	}	
-	
+
 	/**
 	 * Check whether this ship has the given bullet as one of its
 	 * bullets.
@@ -265,11 +267,13 @@ public class Ship extends Entity{
 	 * 		 | bullet == null
 	 * @throws IllegalArgumentException
 	 * 		 | bullet.getShip() != null
+	 * @throws IllegalArgumentException
+	 * 		 | bullet.getWorld() != null
 	 * @post   This ship has the given bullet as one of its bullets.
 	 *       | new.hasAsBullet(bullet)
 	 */
 	public void loadBullet(@Raw Bullet bullet) throws IllegalArgumentException {
-		if (bullet == null || bullet.getShip() != null) 
+		if (bullet == null || bullet.getShip() != null || bullet.getWorld() != null) 
 			throw new IllegalArgumentException();
 		bullet.setShip(this);
 		bullets.add(bullet);
@@ -315,7 +319,12 @@ public class Ship extends Entity{
 	public void fireBullet() {
 		// if there are no bullets left, or if the ship is not in a world, no bullets are fired
 		if ((this.getNbBullets() > 0) && (this.getWorld() != null)){
-			Bullet bullet = this.getBullets().peek();
+			Bullet bullet = null;
+			for(Bullet bulletFromIterator: this.getBullets()){
+				bullet = bulletFromIterator;
+				break;
+			}
+				
 			// Remove the bullet from this ship
 			this.removeBullet(bullet);
 			bullet.setSourceShip(this);
@@ -331,7 +340,7 @@ public class Ship extends Entity{
 			} catch (IllegalArgumentException e) {
 				
 				if (bullet.checkOverlapInWorld(this.getWorld())) {
-					this.objectCollision(bullet.getOverlappingEntityInWorld(this.getWorld()));
+					bullet.objectCollision(bullet.getOverlappingEntityInWorld(this.getWorld()));
 				}
 				
 				else
@@ -352,7 +361,7 @@ public class Ship extends Entity{
 	 *       |   ( (bullet != null) &&
 	 *       |     (! bullet.isTerminated()) )
 	 */
-	private final Deque<Bullet> bullets = new ArrayDeque<>();
+	private final Set<Bullet> bullets = new HashSet<>();
 	
 	/**
 	 * Change the velocity of this ship based on the velocity, 
