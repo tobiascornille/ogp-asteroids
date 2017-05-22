@@ -1,5 +1,6 @@
 package asteroids.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import asteroids.programs.MyFunction;
@@ -33,4 +34,14 @@ public class Program {
     }
 
     private final List<MyFunction> functions;
+
+    public List<Object> getPrinted() {
+        return printed;
+    }
+
+    public void addPrinted(Object object) {
+        this.printed.add(object);
+    }
+
+    private List<Object> printed = new ArrayList<>();
 }
