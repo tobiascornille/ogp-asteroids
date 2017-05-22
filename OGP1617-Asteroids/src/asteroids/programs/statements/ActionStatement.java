@@ -13,7 +13,7 @@ public abstract class ActionStatement extends MyStatement {
 	}
 
 	@Override
-	public List<Object> evaluate(Program program) {
+	public Object evaluate(Program program) {
 		return null;
 		
 	}

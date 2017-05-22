@@ -15,7 +15,7 @@ public class Fire extends ActionStatement {
 	}
 	
 	@Override
-	public List<Object> evaluate(Program program) {
+	public Object evaluate(Program program) {
 		Self self = new Self();
 		Ship ship = self.evaluate(program);
 		ship.fireBullet();

@@ -13,12 +13,12 @@ public class While extends ConditionStatement{
 		super(condition, body, location);
 	}
 	
-	public List<Object> evaluate(Program program) {
+	public Object evaluate(Program program) {
 		
 		while ((boolean) this.getCondition().evaluate(program))
 			this.getBody().evaluate(program);
 		
-		return program.getPrinted();
+		return null;
 	}
 
 }

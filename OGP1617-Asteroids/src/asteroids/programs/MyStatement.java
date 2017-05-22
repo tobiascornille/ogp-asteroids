@@ -12,7 +12,7 @@ public class MyStatement {
 		this.setSourceLocation(location);
 	}
 
-	public List<Object> evaluate(Program program) {
+	public Object evaluate(Program program) {
 		return null;		
 	}
 	

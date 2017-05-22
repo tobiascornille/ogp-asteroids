@@ -15,7 +15,6 @@ public class Return extends MyStatement {
 	public Return (MyExpression expression, SourceLocation location) {
 		super(location);
 		this.setExpression (expression);
-		this.value = new ArrayList<>();
 		
 	}
 	
@@ -28,18 +27,9 @@ public class Return extends MyStatement {
 	}
 	//TODO check if the location given is in a function body!!!
 	
-	public List<Object> evaluate(Program program) {
-		this.addValue(getExpression().evaluate(program));
-		return this.getValue();
+	public Object evaluate(Program program) {
+		Object value = this.getExpression().evaluate(program);
+		return value;
 	}
 	
-	private List<Object> value;
-
-	protected void addValue(Object value) {
-		this.value.add(value);
-	}
-	
-	protected List<Object> getValue() {
-		return this.value;
-	}
 }

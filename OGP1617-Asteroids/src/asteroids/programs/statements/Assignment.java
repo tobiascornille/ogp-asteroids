@@ -22,11 +22,11 @@ public class Assignment extends MyStatement  {
 	
 	
 	@Override
-	public List<Object> evaluate(Program program) {
+	public Object evaluate(Program program) {
 		Object name = getExpression().evaluate(program);
 		List<Object> list = new ArrayList<>();
 		list.add(name);
-		return program.getPrinted();
+		return name;
 	}
 
 	private MyExpression getExpression() {

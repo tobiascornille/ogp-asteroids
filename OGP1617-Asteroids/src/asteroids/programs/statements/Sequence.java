@@ -23,13 +23,13 @@ public class Sequence extends MyStatement {
 
 	private List<MyStatement> statements;
 	
-	public List<Object> evaluate(Program program) {
+	public Object evaluate(Program program) {
 		
 		for (MyStatement e: this.getStatements()) {
 			e.evaluate(program);
 		}
 		
-		return program.getPrinted();
+		return null;
 
 	}
 	
