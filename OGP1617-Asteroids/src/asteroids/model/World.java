@@ -433,4 +433,11 @@ public class World {
 
 		return closestEntity;
 	}
+
+	public Entity getBulletFromShip(Ship executingShip) {
+		for (Bullet bullet: (Set<Bullet>) this.getEntitiesOfType(Bullet.class))
+			if (bullet.getSourceShip() == executingShip)
+				return bullet;
+		return null;
+	}
 }
