@@ -7,9 +7,7 @@ import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 
 public class MyStatement {
-	
-
-	
+		
 	public MyStatement(SourceLocation location) {
 		this.setSourceLocation(location);
 	}
