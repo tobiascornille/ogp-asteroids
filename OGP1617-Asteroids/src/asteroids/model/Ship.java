@@ -549,7 +549,7 @@ public class Ship extends Entity{
 	
 	public List<Object> executeProgram(double dt){
 		this.getProgram().setExecutingShip(this);
-		List<Object> result = this.getProgram().getMain().evaluate();
+		List<Object> result = this.getProgram().getMain().evaluate(this.getProgram());
 		this.getProgram().setExecutingShip(null);
 		return result;
 	}
