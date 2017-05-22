@@ -25,21 +25,20 @@ public class Print extends MyStatement {
 	
 	@Override
 	public List<Object> evaluate(Program program) {	
-		this.addValue(this.getExpression().evaluate(program));;
-		System.out.println(this.getValue().toString());
-		printed.add(this.getValue());
+		Object result = this.getExpression().evaluate(program);
+		if (result == null) {
+			System.out.println(result);
+			printed.add(null);
+		}
+		
+		else {
+			System.out.println(result.toString());
+			printed.add(result);
+		}
 		return this.getPrinted();
 	}
 	
-	private List<Object> value = new ArrayList<>();
-
-	protected void addValue(Object value) {
-		this.value.add(value);
-	}
 	
-	protected List<Object> getValue() {
-		return this.value;
-	}
 
 	
 	
