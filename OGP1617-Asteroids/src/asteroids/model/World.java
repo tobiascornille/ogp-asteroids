@@ -422,7 +422,7 @@ public class World {
 	 	double minDistance = Double.POSITIVE_INFINITY;
 	 	for (T entity: (Set<T>) this.getEntitiesOfType(type)) {
 	 		double distance = entity.getPosition().getDistanceBetween(ship.getPosition());
-	 		if (distance < minDistance) {
+	 		if (distance < minDistance && ship != entity) {
 				minDistance = distance;
 	 			closestEntity = entity;
 			}

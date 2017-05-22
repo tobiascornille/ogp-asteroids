@@ -44,4 +44,14 @@ public class Program {
     }
 
     private List<Object> printed = new ArrayList<>();
+    
+    public double getTime() {
+		return this.time;
+	}
+
+	public void setTime(double time) {
+		this.time = time;
+	}
+
+	private double time = 0;
 }

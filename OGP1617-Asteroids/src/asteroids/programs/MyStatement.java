@@ -18,11 +18,11 @@ public class MyStatement {
 	
 	private SourceLocation location;
 	
-	protected void setSourceLocation(SourceLocation location) {
+	public void setSourceLocation(SourceLocation location) {
 		this.location = location;
 	}
 	
-	protected SourceLocation getSourceLocation() {
+	public SourceLocation getSourceLocation() {
 		return this.location;
 	}
 	
