@@ -1,5 +1,6 @@
 package asteroids.programs.statements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import asteroids.model.Program;
@@ -30,7 +31,7 @@ public class Print extends MyStatement {
 		return this.getPrinted();
 	}
 	
-	private List<Object> value;
+	private List<Object> value = new ArrayList<>();
 
 	protected void addValue(Object value) {
 		this.value.add(value);

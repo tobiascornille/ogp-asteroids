@@ -1,5 +1,6 @@
 package asteroids.programs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import asteroids.model.Program;
@@ -27,7 +28,7 @@ public class MyStatement {
 		return this.location;
 	}
 	
-	protected List<Object> printed;
+	protected List<Object> printed = new ArrayList<>();
 	
 	public List<Object >getPrinted() {
 		return this.printed;
