@@ -26,7 +26,7 @@ public class Assignment extends MyStatement  {
 		Object name = getExpression().evaluate(program);
 		List<Object> list = new ArrayList<>();
 		list.add(name);
-		return this.getPrinted();
+		return program.getPrinted();
 	}
 
 	private MyExpression getExpression() {

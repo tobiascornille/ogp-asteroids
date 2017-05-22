@@ -30,7 +30,7 @@ public class Turn extends ActionStatement {
 		Self self = new Self();
 		Ship ship = self.evaluate(program);
 		ship.turn((double) this.getAngle().evaluate(program));
-		return this.getPrinted();
+		return program.getPrinted();
 		
 	}
 	

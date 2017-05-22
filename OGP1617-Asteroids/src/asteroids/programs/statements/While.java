@@ -18,7 +18,7 @@ public class While extends ConditionStatement{
 		while ((boolean) this.getCondition().evaluate(program))
 			this.getBody().evaluate(program);
 		
-		return this.getPrinted();
+		return program.getPrinted();
 	}
 
 }

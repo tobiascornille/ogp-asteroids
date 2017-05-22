@@ -28,14 +28,15 @@ public class Print extends MyStatement {
 		Object result = this.getExpression().evaluate(program);
 		if (result == null) {
 			System.out.println(result);
-			printed.add(null);
+			program.addPrinted(null);
 		}
 		
 		else {
 			System.out.println(result.toString());
-			printed.add(result);
+			program.addPrinted(result);
 		}
-		return this.getPrinted();
+		
+		return program.getPrinted();
 	}
 	
 	
