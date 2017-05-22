@@ -8,7 +8,8 @@ import asteroids.programs.MyStatement;
 public class Program {
 
 	public Program(List<MyFunction> functions, MyStatement main) {
-		
+		this.functions = functions;
+		this.main = main;
 	}
 	
 	public void setExecutingShip(Ship ship) {
@@ -20,6 +21,16 @@ public class Program {
     }
     
     private Ship executingShip;
-    
-    
+
+    public MyStatement getMain() {
+        return main;
+    }
+
+	private final MyStatement main;
+
+    public List<MyFunction> getFunctions() {
+        return functions;
+    }
+
+    private final List<MyFunction> functions;
 }
