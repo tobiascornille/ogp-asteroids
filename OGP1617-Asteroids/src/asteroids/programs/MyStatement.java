@@ -5,6 +5,8 @@ import java.util.List;
 
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
+import asteroids.programs.statements.BreakException;
+import asteroids.programs.statements.IllegalBreakException;
 
 public abstract class MyStatement {
 		

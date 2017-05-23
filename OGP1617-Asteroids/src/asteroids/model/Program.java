@@ -85,6 +85,16 @@ public class Program {
 	public void setExecutingFunction(MyFunction function) {
 		this.executingFunction = function;
 	}
+	
+	public boolean isInWhile() {
+		return inWhile;
+	}
+
+	public void setInWhile(boolean inWhile) {
+		this.inWhile = inWhile;
+	}
+
+	private boolean inWhile = false;
 
 	private MyFunction executingFunction = null;
 }

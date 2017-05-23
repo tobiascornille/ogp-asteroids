@@ -14,8 +14,16 @@ public class While extends ConditionStatement{
 	}
 	
 	public void evaluate(Program program) {
+		program.setInWhile(true);
 		while ((boolean) this.getCondition().evaluate(program))
-			this.getBody().evaluate(program);
+			try {
+				this.getBody().evaluate(program);
+			} catch (BreakException e) {
+				program.setInWhile(false);
+				return;
+			}
+			
+		program.setInWhile(false);
 	}
 
 }
