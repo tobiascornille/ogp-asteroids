@@ -27,9 +27,9 @@ public class Return extends MyStatement {
 	}
 	//TODO check if the location given is in a function body!!!
 	
-	public Object evaluate(Program program) {
+	public void evaluate(Program program) {
 		Object value = this.getExpression().evaluate(program);
-		return value;
+		//TODO: do sth w value
 	}
 	
 }

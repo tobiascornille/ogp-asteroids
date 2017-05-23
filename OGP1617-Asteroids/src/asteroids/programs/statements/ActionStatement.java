@@ -13,12 +13,11 @@ public abstract class ActionStatement extends MyStatement {
 	}
 
 	@Override
-	public Object evaluate(Program program) {
+	public void evaluate(Program program) {
 		if (program.getTime() < 0.2) {
-			return null;
+			//TODO
 		}
 		program.setTime(program.getTime() - 0.2);
-		return null;
 	}
 	
 }

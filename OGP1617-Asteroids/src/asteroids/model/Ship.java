@@ -561,7 +561,9 @@ public class Ship extends Entity{
 		program.setExecutingShip(this);
 		program.setTime(dt);
 		this.getProgram().getMain().evaluate(this.getProgram());
-		return program.getPrinted();
+		if (program.isExecuted())
+			return program.getPrinted();
+		return null;
 	}
 }
 

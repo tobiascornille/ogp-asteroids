@@ -25,12 +25,10 @@ public class Turn extends ActionStatement {
 
 	private MyExpression angle;
 	
-	public Object Evaluate(Program program) {
-		
+	public void Evaluate(Program program) {
 		Self self = new Self();
 		Ship ship = self.evaluate(program);
 		ship.turn((double) this.getAngle().evaluate(program));
-		return null;
 		
 	}
 	

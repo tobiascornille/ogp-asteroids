@@ -7,33 +7,34 @@ import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
 import asteroids.programs.MyStatement;
+import asteroids.programs.expressions.BasicExpression;
 
 public class Assignment extends MyStatement  {
 	
-	public Assignment(String name, MyExpression value, SourceLocation location) {
+	public Assignment(String name, BasicExpression expression, SourceLocation location) {
 		super(location);
 		this.setName(name);
-		this.setExpression (value);
+		this.setExpression(expression);
 	}
 	
 	private String name;
-	private MyExpression expression;
+	private BasicExpression expression;
 	
 	
 	
 	@Override
-	public Object evaluate(Program program) {
-		Object name = getExpression().evaluate(program);
-		List<Object> list = new ArrayList<>();
-		list.add(name);
-		return name;
+	public void evaluate(Program program) {
+		if (program.getExecutingFunction() != null)
+			program.getExecutingFunction().addLocalVariable(this.getName(), expression);
+		else
+			program.addGlobalVariable(this.getName(), expression);
 	}
 
-	private MyExpression getExpression() {
+	private BasicExpression getExpression() {
 		return this.expression;
 	}
 	
-	private void setExpression(MyExpression expression) {
+	private void setExpression(BasicExpression expression) {
 		this.expression = expression;
 	}
 

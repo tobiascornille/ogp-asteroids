@@ -14,11 +14,10 @@ public class ThrustOff extends ActionStatement {
 	}
 
 	@Override
-	public Object evaluate(Program program) {
+	public void evaluate(Program program) {
 		Self self = new Self();
 		Ship ship = self.evaluate(program);
 		ship.thrustOff();
-		return null;
 	}
 	
 }

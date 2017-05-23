@@ -24,13 +24,11 @@ public class IfThen extends ConditionStatement {
 		return this.elseBody;
 	}
 	
-	public Object evaluate(Program program) {
+	public void evaluate(Program program) {
 		if ((boolean) this.getCondition().evaluate(program))
 			this.getBody().evaluate(program);
 		
 		else if (this.getElseBody() != null) 
 			this.getElseBody().evaluate(program);
-		
-		return null;
 	}
 }

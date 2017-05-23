@@ -15,11 +15,10 @@ public class Fire extends ActionStatement {
 	}
 	
 	@Override
-	public Object evaluate(Program program) {
+	public void evaluate(Program program) {
 		Self self = new Self();
 		Ship ship = self.evaluate(program);
 		ship.fireBullet();
-		return null;
 	}
 	
 	//TODO get the program that is running, and then the ship owning that program

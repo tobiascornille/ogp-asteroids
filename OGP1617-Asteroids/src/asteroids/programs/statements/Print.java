@@ -24,7 +24,7 @@ public class Print extends MyStatement {
 	}
 	
 	@Override
-	public Object evaluate(Program program) {	
+	public void evaluate(Program program) {	
 		Object result = this.getExpression().evaluate(program);
 		if (result == null) {
 			System.out.println(result);
@@ -35,8 +35,6 @@ public class Print extends MyStatement {
 			System.out.println(result.toString());
 			program.addPrinted(result);
 		}
-		
-		return null;
 	}
 	
 	

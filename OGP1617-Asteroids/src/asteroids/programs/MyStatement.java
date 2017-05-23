@@ -6,15 +6,13 @@ import java.util.List;
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 
-public class MyStatement {
+public abstract class MyStatement {
 		
 	public MyStatement(SourceLocation location) {
 		this.setSourceLocation(location);
 	}
 
-	public Object evaluate(Program program) {
-		return null;		
-	}
+	public abstract void evaluate(Program program);
 	
 	private SourceLocation location;
 	
@@ -25,8 +23,4 @@ public class MyStatement {
 	public SourceLocation getSourceLocation() {
 		return this.location;
 	}
-	
-	
-	
-
 }

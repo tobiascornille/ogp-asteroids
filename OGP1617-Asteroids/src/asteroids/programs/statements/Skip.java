@@ -11,9 +11,7 @@ public class Skip extends ActionStatement {
 		super(location);
 	}
 	
-	public Object evaluate(Program program) {
-		//kaka
-		return null;
+	public void evaluate(Program program) {
 	}
 
 }

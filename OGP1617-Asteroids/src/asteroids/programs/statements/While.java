@@ -13,12 +13,9 @@ public class While extends ConditionStatement{
 		super(condition, body, location);
 	}
 	
-	public Object evaluate(Program program) {
-		
+	public void evaluate(Program program) {
 		while ((boolean) this.getCondition().evaluate(program))
 			this.getBody().evaluate(program);
-		
-		return null;
 	}
 
 }

@@ -14,10 +14,9 @@ public class ThrustOn extends ActionStatement {
 	}
 
 	@Override
-	public Object evaluate(Program program) {
+	public void evaluate(Program program) {
 		Self self = new Self();
 		Ship ship = self.evaluate(program);
 		ship.thrustOn();
-		return null;
 	}
 }
