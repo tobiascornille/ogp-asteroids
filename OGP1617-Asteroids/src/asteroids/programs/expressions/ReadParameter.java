@@ -8,6 +8,7 @@ public class ReadParameter extends NameExpression {
     }
 
     public Object evaluate(Program program) {
-        return null; //TODO: fix after having implemented functions
+        int i = Character.getNumericValue(this.getName().charAt(1));
+        return program.getExecutingFunction().getParameters().get(i);
     }
 }

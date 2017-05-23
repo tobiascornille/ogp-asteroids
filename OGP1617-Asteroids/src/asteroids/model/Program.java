@@ -13,7 +13,9 @@ import asteroids.programs.expressions.BasicExpression;
 public class Program {
 
 	public Program(List<MyFunction> functions, MyStatement main) {
-		this.functions = functions;
+		for (MyFunction function: functions) {
+			this.addFunction(function.getName(), function);
+		}
 		this.main = main;
 	}
 	
@@ -33,11 +35,15 @@ public class Program {
 
 	private final MyStatement main;
 
-    public List<MyFunction> getFunctions() {
+    public Map<String, MyFunction> getFunctions() {
         return functions;
     }
 
-    private final List<MyFunction> functions;
+    public void addFunction(String name, MyFunction function) {
+    	this.getFunctions().put(name, function);
+	}
+
+    private Map<String, MyFunction> functions = new HashMap<>();
 
     public List<Object> getPrinted() {
         return printed;

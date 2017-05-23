@@ -2,25 +2,18 @@ package asteroids.programs.expressions;
 
 import asteroids.model.Program;
 import asteroids.programs.MyExpression;
+import asteroids.programs.MyFunction;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FunctionCall extends MyExpression {
 
-    public FunctionCall(String functionName, List<? extends MyExpression> arguments) throws IllegalArgumentException{
+    public FunctionCall(String functionName, List<? extends MyExpression> arguments) {
         this.name = functionName;
         this.arguments = arguments;
-        Class[] classes = new Class[]{};
-        for (int i = 0; i < arguments.size(); i++) {
-            classes[i] = this.getArguments().get(i).getClass();
-        }
-        try {
-            this.function = (classes[0]).getMethod(functionName, classes);
-        } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException();
-        }
     }
 
     public String getName() {
@@ -35,20 +28,14 @@ public class FunctionCall extends MyExpression {
 
     private final List<? extends MyExpression> arguments;
 
-    public Method getFunction() {
-        return function;
-    }
-
-    private final Method function;
-
     public Object evaluate(Program program) {
-        try {
-            return Program.invoke(this.getArguments()); //TODO: fix
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return null;
+        MyFunction function = program.getFunctions().get(this.getName());
+        program.setExecutingFunction(function);
+        List<Object> parameters = new ArrayList<>();
+        for(MyExpression argument: this.getArguments())
+            parameters.add(argument.evaluate(program));
+        function.setParameters(parameters);
+        function.getBody().evaluate(program);
+        return program.getReturnObject();
     }
 }

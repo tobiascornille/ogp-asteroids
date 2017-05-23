@@ -1,6 +1,7 @@
 package asteroids.programs.expressions;
 
 import asteroids.model.Program;
+import asteroids.programs.MyFunction;
 
 public class ReadVariable extends NameExpression {
     public ReadVariable(String variableName) {
@@ -8,7 +9,17 @@ public class ReadVariable extends NameExpression {
     }
 
     public Object evaluate(Program program) {
-        Object value = program.getGlobalVariables().get(this.getName());
+        MyFunction function = program.getExecutingFunction();
+        Object value;
+
+        if (function != null) {
+            value = function.getLocalVariables().get(this.getName());
+
+            if (value != null)
+                return value;
+        }
+
+        value = program.getGlobalVariables().get(this.getName());
         if (value == null)
             throw new RuntimeException();
         return value;
