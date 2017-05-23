@@ -7,13 +7,13 @@ import asteroids.programs.expressions.BasicExpression;
 
 public class MyFunction {
 	
-	public Map<String, BasicExpression> getLocalVariables() {
+	public Map<String, Object> getLocalVariables() {
 		return localVariables;
 	}
 
-	public void addLocalVariable(String name, BasicExpression expression) {
-		this.getLocalVariables().put(name, expression);
+	public void addLocalVariable(String name, Object object) {
+		this.getLocalVariables().put(name, object);
 	}
 
-	private Map<String, BasicExpression> localVariables = new HashMap<>();
+	private Map<String, Object> localVariables = new HashMap<>();
 }

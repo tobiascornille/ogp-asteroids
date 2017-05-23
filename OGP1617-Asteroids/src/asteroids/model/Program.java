@@ -59,15 +59,15 @@ public class Program {
 
 	private double time = 0;
 	
-	public Map<String, BasicExpression> getGlobalVariables() {
+	public Map<String, Object> getGlobalVariables() {
 		return globalVariables;
 	}
 
-	public void addGlobalVariable(String name, BasicExpression expression) {
-		this.getGlobalVariables().put(name, expression);
+	public void addGlobalVariable(String name, Object object) {
+		this.getGlobalVariables().put(name, object);
 	}
 
-	private Map<String, BasicExpression> globalVariables = new HashMap<>();
+	private Map<String, Object> globalVariables = new HashMap<>();
 	
 	public void setIsExecuted(Boolean bool) {
 		this.isExecuted = bool;
