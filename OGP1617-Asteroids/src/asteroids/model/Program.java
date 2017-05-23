@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import asteroids.programs.MyFunction;
 import asteroids.programs.MyStatement;
@@ -85,6 +86,28 @@ public class Program {
 	public void setExecutingFunction(MyFunction function) {
 		this.executingFunction = function;
 	}
+	
+	public boolean inWhile() {
+		return inWhile.isEmpty();
+	}
 
+	public void setInWhile() {
+		this.inWhile.push("e");
+	}
+
+	public Object getReturnObject() {
+		return returnObject;
+	}
+	
+	public void setOutOfWhile() {
+		this.inWhile.pop();
+	}
+
+	public void setReturnObject(Object returnObject) {
+		this.returnObject = returnObject;
+	}
+
+	private Stack<String >inWhile = new Stack<>();
+	private Object returnObject = null;
 	private MyFunction executingFunction = null;
 }

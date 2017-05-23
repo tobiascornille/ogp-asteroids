@@ -430,7 +430,10 @@ public class Ship extends Entity{
 	public boolean canHaveAsRadius(double radius) {
 		return radius > 10;
 	}
-
+	
+	/**
+	 * 
+	 */
 	@Override
 	public void terminate() {
 		if (!isTerminated()) {
@@ -450,7 +453,7 @@ public class Ship extends Entity{
 	}
 	
 	/**
-	 * Prepares the given bullet for removal during an iterator
+	 * Prepare the given bullet for removal during an iterator
 	 * 
 	 * @param  bullet
 	 *         The bullet to be removed.
@@ -489,7 +492,15 @@ public class Ship extends Entity{
 	public double getDefaultDensity() {
 		return 1.42E12;
 	}
-
+	
+	/**
+	 * Resolves the collision between a ship and another entity.
+	 * 
+	 * @param entity
+	 * 		  The entity that will collide with this ship.
+	 * 
+	 *  @see implementation
+	 */
 	void objectCollision(Entity entity) {
 		if (entity instanceof Bullet) {
 			entity.objectCollision(this);
@@ -556,6 +567,19 @@ public class Ship extends Entity{
 	 */
 	private Program program;
 	
+	/**
+	 * Executes the program loaded on this ship, for a time dt.
+	 * 
+	 * @param dt
+	 * @return The objects printed during the executing of the program if 
+	 * 		   the program is completely executed.
+	 *       | if(program.isExecuted())
+	 *       | 	result == program.getPrinted()
+	 * @return Null if the program is not completely executed
+	 * 		 | if(!program.isExecuted())
+	 * 		 | 	result == null 
+	 * 		   
+	 */
 	public List<Object> executeProgram(double dt){
 		Program program = this.getProgram();
 		program.setExecutingShip(this);
