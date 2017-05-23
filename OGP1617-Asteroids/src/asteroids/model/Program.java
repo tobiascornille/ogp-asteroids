@@ -88,7 +88,7 @@ public class Program {
 	}
 	
 	public boolean inWhile() {
-		return inWhile.isEmpty();
+		return !inWhile.isEmpty();
 	}
 
 	public void setInWhile() {
