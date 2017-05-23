@@ -600,7 +600,11 @@ public class Facade implements asteroids.part3.facade.IFacade {
 
 	@Override
 	public IProgramFactory<?, ?, ?, ? extends Program> createProgramFactory() throws ModelException {
-		return new ProgramFactory();
+		try {
+			return new ProgramFactory();
+		} catch (Exception e) {
+			throw new ModelException(e);
+		}
 	}
 	
 }
