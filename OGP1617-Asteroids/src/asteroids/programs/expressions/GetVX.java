@@ -9,6 +9,6 @@ public class GetVX extends UnaryExpression<ToEntityExpression> implements ToDoub
     }
 
     public Double evaluate(Program program) {
-        return this.getExpression().evaluate(program).getVelocity().getXComponent();
+        return ((asteroids.model.Entity) this.getExpression().evaluate(program)).getVelocity().getXComponent();
     }
 }

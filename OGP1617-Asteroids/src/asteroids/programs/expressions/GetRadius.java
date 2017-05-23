@@ -9,6 +9,6 @@ public class GetRadius extends UnaryExpression<ToEntityExpression> implements To
     }
 
     public Double evaluate(Program program) {
-        return this.getExpression().evaluate(program).getRadius();
+        return ((asteroids.model.Entity) this.getExpression().evaluate(program)).getRadius();
     }
 }
