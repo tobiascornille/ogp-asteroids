@@ -1,8 +1,10 @@
 package asteroids.programs.expressions;
 
+import asteroids.model.Program;
 import asteroids.programs.MyExpression;
 
-public abstract class NameExpression extends MyExpression implements BasicExpression {
+public abstract class NameExpression extends MyExpression
+        implements ToBooleanExpression, ToDoubleExpression, ToEntityExpression, ToShipExpression{
     NameExpression(String name) {
         this.name = name;
     }
@@ -12,4 +14,6 @@ public abstract class NameExpression extends MyExpression implements BasicExpres
     }
 
     private final String name;
+
+    public abstract Object evaluate(Program program);
 }

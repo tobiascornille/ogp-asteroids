@@ -2,13 +2,9 @@ package asteroids.programs.expressions;
 
 import asteroids.model.Program;
 
-public class Multiplication extends BinaryExpression<BasicExpression, BasicExpression> implements ToDoubleExpression {
+public class Multiplication extends BinaryExpression<ToDoubleExpression, ToDoubleExpression> implements ToDoubleExpression {
 
     public Multiplication(ToDoubleExpression leftExpression, ToDoubleExpression rightExpression) {
-        super(leftExpression, rightExpression);
-    }
-
-    public Multiplication(NameExpression leftExpression, NameExpression rightExpression) {
         super(leftExpression, rightExpression);
     }
 

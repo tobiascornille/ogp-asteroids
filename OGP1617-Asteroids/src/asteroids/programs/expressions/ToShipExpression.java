@@ -5,5 +5,5 @@ import asteroids.model.Ship;
 
 public interface ToShipExpression extends ToEntityExpression {
     
-	Ship evaluate(Program program);
+/*	Ship evaluate(Program program);*/
 }

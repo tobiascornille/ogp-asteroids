@@ -2,13 +2,9 @@ package asteroids.programs.expressions;
 
 import asteroids.model.Program;
 
-public class LessThan extends BinaryExpression<BasicExpression, BasicExpression> implements ToBooleanExpression {
+public class LessThan extends BinaryExpression<ToDoubleExpression, ToDoubleExpression> implements ToBooleanExpression {
 
     public LessThan(ToDoubleExpression leftExpression, ToDoubleExpression rightExpression) {
-        super(leftExpression, rightExpression);
-    }
-
-    public LessThan(NameExpression leftExpression, NameExpression rightExpression) {
         super(leftExpression, rightExpression);
     }
 

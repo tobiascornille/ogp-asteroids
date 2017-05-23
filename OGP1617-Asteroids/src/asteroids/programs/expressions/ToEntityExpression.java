@@ -5,5 +5,5 @@ import asteroids.model.Program;
 
 public interface ToEntityExpression extends BasicExpression {
     
-	Entity evaluate(Program program);
+/*	Entity evaluate(Program program);*/
 }
