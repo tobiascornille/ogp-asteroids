@@ -8,6 +8,8 @@ public class ReadVariable extends NameExpression {
     }
 
     public Object evaluate(Program program) {
-        return program.getGlobalVariables().get(this.getName());
+        Object value = program.getGlobalVariables().get(this.getName());
+        if (value == null)
+            throw new RuntimeException();
     }
 }
