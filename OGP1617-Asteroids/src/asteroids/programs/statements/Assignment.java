@@ -25,9 +25,9 @@ public class Assignment extends MyStatement  {
 	@Override
 	public void evaluate(Program program) {
 		if (program.getExecutingFunction() != null)
-			program.getExecutingFunction().addLocalVariable(this.getName(), expression);
+			program.getExecutingFunction().addLocalVariable(this.getName(), this.getExpression());
 		else
-			program.addGlobalVariable(this.getName(), expression);
+			program.addGlobalVariable(this.getName(), this.getExpression());
 	}
 
 	private BasicExpression getExpression() {
