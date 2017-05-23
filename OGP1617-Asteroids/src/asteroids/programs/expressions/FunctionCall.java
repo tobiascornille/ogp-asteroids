@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class FunctionCall extends NameExpression {
+public class FunctionCall extends MyExpression {
 
     public FunctionCall(String functionName, List<? extends MyExpression> arguments) throws IllegalArgumentException{
         super(functionName);
