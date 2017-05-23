@@ -27,9 +27,11 @@ public class Return extends MyStatement {
 	}
 	//TODO check if the location given is in a function body!!!
 	
-	public void evaluate(Program program) {
-		Object value = this.getExpression().evaluate(program);
-		//TODO: do sth w value
+	public void evaluate(Program program) throws IllegalReturnException {
+		if (program.getExecutingFunction() != null)
+			program.setReturnObject(this.getExpression().evaluate(program));
+		else
+			throw new IllegalReturnException();
 	}
 	
 }

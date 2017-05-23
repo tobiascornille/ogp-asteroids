@@ -11,7 +11,7 @@ public class Break extends MyStatement {
 	}
 	
 	public void evaluate(Program program) throws IllegalBreakException,BreakException {
-		if (!program.isInWhile())
+		if (!program.inWhile())
 			throw new IllegalBreakException();
 		else
 			throw new BreakException();			

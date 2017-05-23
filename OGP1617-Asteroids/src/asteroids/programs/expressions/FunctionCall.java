@@ -10,7 +10,7 @@ import java.util.List;
 public class FunctionCall extends MyExpression {
 
     public FunctionCall(String functionName, List<? extends MyExpression> arguments) throws IllegalArgumentException{
-        super(functionName);
+        this.name = functionName;
         this.arguments = arguments;
         Class[] classes = new Class[]{};
         for (int i = 0; i < arguments.size(); i++) {
@@ -23,6 +23,11 @@ public class FunctionCall extends MyExpression {
         }
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    private final String name;
 
     public List<? extends MyExpression> getArguments() {
         return this.arguments;
