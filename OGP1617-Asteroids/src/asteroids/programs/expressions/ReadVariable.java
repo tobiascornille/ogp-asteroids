@@ -11,5 +11,6 @@ public class ReadVariable extends NameExpression {
         Object value = program.getGlobalVariables().get(this.getName());
         if (value == null)
             throw new RuntimeException();
+        return value;
     }
 }
