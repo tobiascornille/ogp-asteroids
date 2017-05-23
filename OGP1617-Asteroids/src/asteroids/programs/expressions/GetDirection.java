@@ -9,6 +9,6 @@ public class GetDirection extends UnaryExpression<ToShipExpression> implements T
     }
 
     public Double evaluate(Program program) {
-        return this.getExpression().evaluate(program).getOrientation();
+        return ((asteroids.model.Ship) this.getExpression().evaluate(program)).getOrientation();
     }
 }

@@ -9,6 +9,6 @@ public class GetY extends UnaryExpression<ToEntityExpression> implements ToDoubl
     }
 
     public Double evaluate(Program program) {
-        return this.getExpression().evaluate(program).getPosition().getYComponent();
+        return ((asteroids.model.Entity) this.getExpression().evaluate(program)).getPosition().getYComponent();
     }
 }
