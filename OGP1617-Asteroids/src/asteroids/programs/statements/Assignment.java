@@ -24,9 +24,10 @@ public class Assignment extends BasicStatement  {
 	
 	@Override
 	public void evaluate(Program program) throws IllegalStatementException {
-		if (program.getExecutingFunction() != null)
+		if (program.getExecutingFunction() != null) {
 			program.getExecutingFunction().addLocalVariable(this.getName(), this.getExpression().evaluate(program));
-		
+			System.out.println(this.getName() + ": " + this.getExpression().evaluate(program).toString());
+		}
 		else if (program.getFunctions().containsKey(this.getName()))
 			throw new IllegalStatementException();
 		
