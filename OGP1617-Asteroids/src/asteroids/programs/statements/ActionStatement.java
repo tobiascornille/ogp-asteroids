@@ -15,7 +15,7 @@ public abstract class ActionStatement extends MyStatement {
 			throw new IllegalStatementException();
 		
 		if (program.getTime() < 0.2) {
-			//TODO
+			throw new TimeUpException();
 		}
 		program.setTime(program.getTime() - 0.2);
 	}

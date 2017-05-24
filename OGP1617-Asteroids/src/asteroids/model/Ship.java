@@ -547,6 +547,7 @@ public class Ship extends Entity{
 		if (! isValidProgram(program))
 			throw new IllegalArgumentException();
 		this.program = program;
+		this.programThread = new ProgramThread(program);
 	}
 
 	/**
@@ -566,9 +567,15 @@ public class Ship extends Entity{
 	 * Variable registering the program of this Ship.
 	 */
 	private Program program;
-	
+
+	public ProgramThread getProgramThread() {
+		return programThread;
+	}
+
+	private ProgramThread programThread;
+
 	/**
-	 * Executes the program loaded on this ship, for a time dt.
+	 * Execute the program loaded on this ship, for a time dt.
 	 * 
 	 * @param dt
 	 * @return The objects printed during the executing of the program if 
@@ -580,12 +587,28 @@ public class Ship extends Entity{
 	 * 		 | 	result == null 
 	 * 		   
 	 */
-	public List<Object> executeProgram(double dt){
+	public List<Object> executeProgram(double dt) {
 		Program program = this.getProgram();
+		ProgramThread thread = this.getProgramThread();
 		program.setExecutingShip(this);
-		program.setTime(dt);
-		this.getProgram().getMain().evaluate(this.getProgram());
+		program.setTime(program.getTime() + dt);
 		program.setIsExecuted(true);
+
+		try {
+			if (thread.getState() == Thread.State.WAITING)
+				thread.notify();
+			else
+				thread.start();
+
+		} catch (TimeUpException e) {
+			try {
+				program.setIsExecuted(false);
+				thread.wait();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+
 		if (program.isExecuted())
 			return program.getPrinted();
 		return null;
