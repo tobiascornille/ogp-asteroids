@@ -8,7 +8,7 @@ import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
 import asteroids.programs.MyStatement;
 
-public class Return extends MyStatement {
+public class Return extends BasicStatement {
 	
 	private MyExpression expression;
 	
@@ -25,7 +25,6 @@ public class Return extends MyStatement {
 	private void setExpression(MyExpression expression) {
 		this.expression = expression;
 	}
-	//TODO check if the location given is in a function body!!!
 	
 	public void evaluate(Program program) throws IllegalReturnException {
 		if (program.getExecutingFunction() != null)

@@ -1,7 +1,5 @@
 package asteroids.programs.statements;
 
-import java.util.List;
-
 import asteroids.model.Program;
 import asteroids.model.Ship;
 import asteroids.part3.programs.SourceLocation;
@@ -15,9 +13,8 @@ public class ThrustOff extends ActionStatement {
 
 	@Override
 	public void evaluate(Program program) {
-		Self self = new Self();
-		Ship ship = self.evaluate(program);
-		ship.thrustOff();
+		resolveAction(program);
+		program.getExecutingShip().thrustOff();
 	}
 	
 }

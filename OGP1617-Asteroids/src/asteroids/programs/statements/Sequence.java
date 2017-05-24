@@ -6,7 +6,7 @@ import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyStatement;
 
-public class Sequence extends MyStatement {
+public class Sequence extends BasicStatement {
 	
 	public Sequence (List<MyStatement> statements, SourceLocation location) {
 		super(location);

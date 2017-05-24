@@ -1,26 +1,18 @@
 package asteroids.programs.expressions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import asteroids.model.Program;
 import asteroids.programs.MyExpression;
 import asteroids.programs.MyFunction;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
-public class FunctionCall extends MyExpression {
+public class FunctionCall extends NameExpression {
 
     public FunctionCall(String functionName, List<? extends MyExpression> arguments) {
-        this.name = functionName;
+        super(functionName);
         this.arguments = arguments;
     }
-
-    public String getName() {
-        return this.name;
-    }
-
-    private final String name;
 
     public List<? extends MyExpression> getArguments() {
         return this.arguments;
@@ -35,7 +27,10 @@ public class FunctionCall extends MyExpression {
         for(MyExpression argument: this.getArguments())
             parameters.add(argument.evaluate(program));
         function.setParameters(parameters);
+        
         function.getBody().evaluate(program);
+        
+        program.removeExecutingFunction();;
         return program.getReturnObject();
     }
 }

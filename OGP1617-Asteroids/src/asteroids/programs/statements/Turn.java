@@ -1,7 +1,5 @@
 package asteroids.programs.statements;
 
-import java.util.List;
-
 import asteroids.model.Program;
 import asteroids.model.Ship;
 import asteroids.part3.programs.SourceLocation;
@@ -25,10 +23,10 @@ public class Turn extends ActionStatement {
 
 	private MyExpression angle;
 	
-	public void Evaluate(Program program) {
-		Self self = new Self();
-		Ship ship = self.evaluate(program);
-		ship.turn((double) this.getAngle().evaluate(program));
+	@Override
+	public void evaluate(Program program) {
+		resolveAction(program);
+		program.getExecutingShip().turn((double) this.getAngle().evaluate(program));
 		
 	}
 	

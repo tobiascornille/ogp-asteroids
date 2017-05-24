@@ -25,6 +25,9 @@ public class Print extends MyStatement {
 	
 	@Override
 	public void evaluate(Program program) {	
+		if (program.inFunction())
+			throw new IllegalStatementException();
+
 		Object result = this.getExpression().evaluate(program);
 		if (result == null) {
 			System.out.println(result);

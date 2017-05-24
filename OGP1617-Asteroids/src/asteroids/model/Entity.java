@@ -757,35 +757,5 @@ public abstract class Entity {
 		if (!getVelocity().equals(entity.getVelocity())) return false;
 		return getWorld() != null ? getWorld().equals(entity.getWorld()) : entity.getWorld() == null;
 	}
-
-	@Override
-	public int hashCode() {
-		int result;
-		long temp;
-		temp = Double.doubleToLongBits(getRadius());
-		result = (int) (temp ^ (temp >>> 32));
-		result = 31 * result + getPosition().hashCode();
-		result = 31 * result + getVelocity().hashCode();
-		temp = Double.doubleToLongBits(getDensity());
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(getMass());
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		result = 31 * result + (getWorld() != null ? getWorld().hashCode() : 0);
-		result = 31 * result + (isTerminated() ? 1 : 0);
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		return "Entity{" +
-				"radius=" + radius +
-				", position=" + position +
-				", velocity=" + velocity +
-				", density=" + density +
-				", mass=" + mass +
-				", world=" + world +
-				", isTerminated=" + isTerminated +
-				'}';
-	}
 }
 

@@ -5,10 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import asteroids.programs.expressions.BasicExpression;
+import asteroids.programs.statements.BasicStatement;
 
 public class MyFunction {
 
-	public MyFunction(String name, MyStatement body){
+	public MyFunction(String name, BasicStatement body){
 		this.name = name;
 		this.body = body;
 	}
@@ -19,11 +20,11 @@ public class MyFunction {
 
 	private final String name;
 
-	public MyStatement getBody() {
+	public BasicStatement getBody() {
 		return body;
 	}
 
-	private final MyStatement body;
+	private final BasicStatement body;
 
 	public Map<String, Object> getLocalVariables() {
 		return localVariables;

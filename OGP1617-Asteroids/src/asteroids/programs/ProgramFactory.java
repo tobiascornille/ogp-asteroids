@@ -18,14 +18,14 @@ public class ProgramFactory implements IProgramFactory<MyExpression, MyStatement
 
 	@Override
 	public MyFunction createFunctionDefinition(String functionName, MyStatement body, SourceLocation sourceLocation) {
-		return new MyFunction(functionName, body);
+		return new MyFunction(functionName, (BasicStatement) body);
 	}
 
 	@Override
 	public MyStatement createAssignmentStatement(String variableName, MyExpression value,
 			SourceLocation sourceLocation) {
 
-		return new Assignment(variableName, (ToDoubleExpression)value, sourceLocation);
+		return new Assignment(variableName, (ToDoubleExpression) value, sourceLocation);
 	}
 
 	@Override

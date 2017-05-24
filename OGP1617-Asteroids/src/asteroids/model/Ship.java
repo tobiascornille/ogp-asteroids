@@ -101,7 +101,7 @@ public class Ship extends Entity{
 	 * 	      | new.getOrientation() == this.getOrientation() + angle;
 	 */
 	public void turn(double angle) {
-		assert isValidOrientation(this.getOrientation() + angle);
+		assert (isValidOrientation(this.getOrientation() + angle));
 		this.setOrientation(this.getOrientation() + angle);		
 	}
 	

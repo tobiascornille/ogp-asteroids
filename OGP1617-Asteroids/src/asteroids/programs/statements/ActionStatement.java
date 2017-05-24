@@ -1,7 +1,5 @@
 package asteroids.programs.statements;
 
-import java.util.List;
-
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyStatement;
@@ -12,12 +10,15 @@ public abstract class ActionStatement extends MyStatement {
 		super(location);
 	}
 
-	@Override
-	public void evaluate(Program program) {
+	void resolveAction(Program program) throws IllegalStatementException {
+		if (program.inFunction())
+			throw new IllegalStatementException();
+		
 		if (program.getTime() < 0.2) {
 			//TODO
 		}
 		program.setTime(program.getTime() - 0.2);
 	}
 	
+	public abstract void evaluate(Program program);
 }

@@ -4,7 +4,7 @@ import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
 import asteroids.programs.MyStatement;
 
-public abstract class ConditionStatement extends MyStatement {
+public abstract class ConditionStatement extends BasicStatement {
 	
 	public ConditionStatement(MyExpression condition, MyStatement body, SourceLocation location) {
 		super(location);

@@ -9,7 +9,7 @@ import asteroids.programs.MyExpression;
 import asteroids.programs.MyStatement;
 import asteroids.programs.expressions.BasicExpression;
 
-public class Assignment extends MyStatement  {
+public class Assignment extends BasicStatement  {
 	
 	public Assignment(String name, BasicExpression expression, SourceLocation location) {
 		super(location);
@@ -23,9 +23,13 @@ public class Assignment extends MyStatement  {
 	
 	
 	@Override
-	public void evaluate(Program program) {
+	public void evaluate(Program program) throws IllegalStatementException {
 		if (program.getExecutingFunction() != null)
 			program.getExecutingFunction().addLocalVariable(this.getName(), this.getExpression().evaluate(program));
+		
+		else if (program.getFunctions().containsKey(this.getName()))
+			throw new IllegalStatementException();
+		
 		else
 			program.addGlobalVariable(this.getName(), this.getExpression().evaluate(program));
 	}

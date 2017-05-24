@@ -1,12 +1,8 @@
 package asteroids.programs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
-import asteroids.programs.statements.BreakException;
-import asteroids.programs.statements.IllegalBreakException;
+import asteroids.programs.statements.IllegalStatementException;
 
 public abstract class MyStatement {
 		

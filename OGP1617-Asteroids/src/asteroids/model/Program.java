@@ -1,6 +1,8 @@
 package asteroids.model;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,12 +88,18 @@ public class Program {
 	private boolean isExecuted = false;
 	
 	public MyFunction getExecutingFunction() {
-		return this.executingFunction;
+		return this.executingFunctions.peek();
 	}
 
 	public void setExecutingFunction(MyFunction function) {
-		this.executingFunction = function;
+		this.executingFunctions.push(function);
 	}
+	
+	public void removeExecutingFunction() {
+		this.executingFunctions.pop();
+	}
+	
+	private Deque<MyFunction> executingFunctions = new ArrayDeque<>();
 	
 	public boolean inWhile() {
 		return !inWhile.isEmpty();
@@ -101,19 +109,23 @@ public class Program {
 		this.inWhile.push("e");
 	}
 
-	public Object getReturnObject() {
-		return returnObject;
-	}
-	
 	public void setOutOfWhile() {
 		this.inWhile.pop();
 	}
 
+	private Deque<String> inWhile = new ArrayDeque<>();
+	
 	public void setReturnObject(Object returnObject) {
 		this.returnObject = returnObject;
 	}
 
-	private Stack<String >inWhile = new Stack<>();
+	public Object getReturnObject() {
+		return returnObject;
+	}
+	
 	private Object returnObject = null;
-	private MyFunction executingFunction = null;
+
+	public boolean inFunction() {
+		return this.getExecutingFunction() != null;
+	}
 }

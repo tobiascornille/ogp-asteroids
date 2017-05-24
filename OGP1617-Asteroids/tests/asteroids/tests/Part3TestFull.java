@@ -125,7 +125,6 @@ public class Part3TestFull {
     assertTrue(velocity <= 300000 + EPSILON);
     score += 1;
   }
-  
 
   @Test
   public void testCreateShipVelocityLargerThanLightSpeed() throws ModelException {
@@ -1041,7 +1040,7 @@ public class Part3TestFull {
       score += 2;
     }
   }
-  
+
   @Test
   public void testEvolveDtNegative() throws ModelException {
     try {
@@ -1506,7 +1505,6 @@ public class Part3TestFull {
     assertArrayEquals(expecteds, results.toArray());
     score += 8;
   }
-  
 
   @Test
   public void testIfStatement_ElsePartNonIterruptable() throws ModelException {
@@ -1539,7 +1537,6 @@ public class Part3TestFull {
     assertArrayEquals(expecteds, results.toArray());
     score += 6;
   }
-  
 
   @Test
   public void testIfStatement_NoElsePart() throws ModelException {
@@ -1959,9 +1956,9 @@ public class Part3TestFull {
       Object[] expecteds = { 10.0, 15.0, 17.0, 19.0, 0.0 };
       assertArrayEquals(expecteds, results.toArray());
       score += 21;
-    }  
+    }
   }
-  
+
   @Test
   public void testBreak_OutsideWhile() throws ModelException {
     try {

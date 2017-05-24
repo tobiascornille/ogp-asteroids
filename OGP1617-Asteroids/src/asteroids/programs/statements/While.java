@@ -19,6 +19,8 @@ public class While extends ConditionStatement{
 			try {
 				this.getBody().evaluate(program);
 			} catch (BreakException e) {
+				if (program.inFunction())
+					program.removeExecutingFunction();
 				program.setOutOfWhile();
 				return;
 			}
