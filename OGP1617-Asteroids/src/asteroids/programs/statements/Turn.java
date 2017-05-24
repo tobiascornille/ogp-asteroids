@@ -27,7 +27,15 @@ public class Turn extends ActionStatement {
 	public void evaluate(Program program) {
 		resolveAction(program);
 		program.getExecutingShip().turn((double) this.getAngle().evaluate(program));
-		
 	}
+	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			return false;
+		else
+			this.evaluate(program);
+		return true;
+	}	
 	
 }

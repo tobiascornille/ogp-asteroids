@@ -16,4 +16,13 @@ public class Break extends BasicStatement {
 		else
 			throw new BreakException();			
 	}
+	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			return false;
+		else
+			this.evaluate(program);
+		return true;
+	}
 }

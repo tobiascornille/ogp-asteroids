@@ -40,8 +40,12 @@ public class Print extends MyStatement {
 		}
 	}
 	
-	
-
-	
-	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			return false;
+		else
+			this.evaluate(program);
+		return true;
+	}	
 }

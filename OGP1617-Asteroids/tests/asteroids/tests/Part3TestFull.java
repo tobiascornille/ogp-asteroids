@@ -1765,6 +1765,7 @@ public class Part3TestFull {
       List<Object> results = facade.executeProgram(ship1, 0.35);
       assertFalse(facade.isShipThrusterActive(ship1));
       Object[] expecteds = { 0.4, 0.8 };
+
       assertArrayEquals(expecteds, results.toArray());
       score += 3;
     }
@@ -1905,7 +1906,6 @@ public class Part3TestFull {
     String code = "def sumfac { " + "  a := $1; " + "  t := 1.0; " + "  while 1.5 < a { "
         + "    t := t + (a*sumfac(a + -1.0));" + "    a := a + -1.0; " + "  }" + "  return t; " + "} "
         + "print sumfac(4.0); ";
-    System.out.println(code);
     Program program = ProgramParser.parseProgramFromString(code, programFactory);
     facade.loadProgramOnShip(ship1, program);
     List<Object> results = facade.executeProgram(ship1, 0.3);

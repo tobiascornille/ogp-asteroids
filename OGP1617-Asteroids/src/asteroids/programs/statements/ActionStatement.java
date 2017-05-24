@@ -13,11 +13,13 @@ public abstract class ActionStatement extends MyStatement {
 	void resolveAction(Program program) throws IllegalStatementException {
 		if (program.inFunction())
 			throw new IllegalStatementException();
+		System.out.println("location " + this.getSourceLocation().getLine() + " " + this.getSourceLocation().getColumn());
 		
 		if (program.getTime() < 0.2) {
-			throw new TimeUpException();
+			program.setGoalLocation(this.getSourceLocation());
+			throw new OutOfTimeException();
 		}
-		program.setTime(program.getTime() - 0.2);
+		program.addTime(-0.2);
 	}
 	
 	public abstract void evaluate(Program program);

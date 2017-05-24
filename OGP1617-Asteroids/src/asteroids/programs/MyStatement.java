@@ -21,4 +21,6 @@ public abstract class MyStatement {
 	public SourceLocation getSourceLocation() {
 		return this.location;
 	}
+	
+	public abstract Boolean goToGoalLocation(Program program);
 }

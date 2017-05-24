@@ -16,4 +16,13 @@ public class ThrustOn extends ActionStatement {
 		resolveAction(program);
 		program.getExecutingShip().thrustOn();
 	}
+	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			return false;
+		else
+			this.evaluate(program);
+		return true;
+	}	
 }

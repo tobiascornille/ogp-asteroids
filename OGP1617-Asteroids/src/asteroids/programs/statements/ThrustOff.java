@@ -17,4 +17,12 @@ public class ThrustOff extends ActionStatement {
 		program.getExecutingShip().thrustOff();
 	}
 	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			return false;
+		else
+			this.evaluate(program);
+		return true;
+	}	
 }

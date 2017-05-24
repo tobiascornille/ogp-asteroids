@@ -20,13 +20,10 @@ public class Assignment extends BasicStatement  {
 	private String name;
 	private BasicExpression expression;
 	
-	
-	
 	@Override
 	public void evaluate(Program program) throws IllegalStatementException {
 		if (program.getExecutingFunction() != null) {
 			program.getExecutingFunction().addLocalVariable(this.getName(), this.getExpression().evaluate(program));
-			System.out.println(this.getName() + ": " + this.getExpression().evaluate(program).toString());
 		}
 		else if (program.getFunctions().containsKey(this.getName()))
 			throw new IllegalStatementException();
@@ -34,7 +31,16 @@ public class Assignment extends BasicStatement  {
 		else
 			program.addGlobalVariable(this.getName(), this.getExpression().evaluate(program));
 	}
-
+	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			return false;
+		else
+			this.evaluate(program);
+		return true;
+	}
+	
 	private BasicExpression getExpression() {
 		return this.expression;
 	}

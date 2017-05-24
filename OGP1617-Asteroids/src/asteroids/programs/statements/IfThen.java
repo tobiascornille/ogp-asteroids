@@ -24,11 +24,26 @@ public class IfThen extends ConditionStatement {
 		return this.elseBody;
 	}
 	
+	@Override
 	public void evaluate(Program program) {
 		if ((boolean) this.getCondition().evaluate(program))
 			this.getBody().evaluate(program);
 		
 		else if (this.getElseBody() != null) 
 			this.getElseBody().evaluate(program);
+	}
+	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation())){
+			if ((boolean) this.getCondition().evaluate(program))
+				return this.getBody().goToGoalLocation(program);
+			
+			else if (this.getElseBody() != null) 
+				return this.getElseBody().goToGoalLocation(program);
+		}
+		else
+			this.evaluate(program);
+		return true;
 	}
 }

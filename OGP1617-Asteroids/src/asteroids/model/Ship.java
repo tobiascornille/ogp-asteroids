@@ -1,14 +1,11 @@
 package asteroids.model;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import asteroids.programs.statements.TimeUpException;
+import asteroids.programs.statements.OutOfTimeException;
 import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Raw;
 
@@ -561,7 +558,6 @@ public class Ship extends Entity{
 		if (! isValidProgram(program))
 			throw new IllegalArgumentException();
 		this.program = program;
-		this.programThread = new ProgramThread(program);
 	}
 
 	/**
@@ -582,12 +578,6 @@ public class Ship extends Entity{
 	 */
 	private Program program;
 
-	public ProgramThread getProgramThread() {
-		return programThread;
-	}
-
-	private ProgramThread programThread;
-
 	/**
 	 * Execute the program loaded on this ship, for a time dt.
 	 * 
@@ -603,26 +593,26 @@ public class Ship extends Entity{
 	 */
 	public List<Object> executeProgram(double dt) {
 		Program program = this.getProgram();
-		ProgramThread thread = this.getProgramThread();
 		program.setExecutingShip(this);
-		program.setTime(program.getTime() + dt);
-		program.setIsExecuted(true);
-
-		try {
-			if (thread.getState() == Thread.State.WAITING)
-				thread.notify();
-			else
-				thread.start();
-
-		} catch (TimeUpException e) {
+		program.addTime(dt);
+		if(program.isfirstExecution()) {
+			program.firstExecution();
+			
 			try {
+				this.getProgram().getMain().evaluate(this.getProgram());
+				program.setIsExecuted(true);
+			} catch (OutOfTimeException e) {
 				program.setIsExecuted(false);
-				thread.wait();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
 			}
 		}
-
+		else {
+			try {
+				this.getProgram().getMain().goToGoalLocation(program);
+				program.setIsExecuted(true);
+			} catch (OutOfTimeException e) {
+				program.setIsExecuted(false);
+			}
+		}
 		if (program.isExecuted())
 			return program.getPrinted();
 		return null;

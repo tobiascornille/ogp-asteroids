@@ -11,11 +11,19 @@ public class Fire extends ActionStatement {
 		super(location);
 	}
 	
+	@Override
 	public void evaluate(Program program) {
 		resolveAction(program);
 		program.getExecutingShip().fireBullet();
 	}
 	
-	//TODO get the program that is running, and then the ship owning that program
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			return false;
+		else
+			this.evaluate(program);
+		return true;
+	}
 
 }

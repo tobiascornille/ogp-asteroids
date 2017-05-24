@@ -26,6 +26,7 @@ public class Return extends BasicStatement {
 		this.expression = expression;
 	}
 	
+	@Override
 	public void evaluate(Program program) throws IllegalReturnException {
 		if (program.getExecutingFunction() != null)
 			program.setReturnObject(this.getExpression().evaluate(program));
@@ -33,4 +34,12 @@ public class Return extends BasicStatement {
 			throw new IllegalReturnException();
 	}
 	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			return false;
+		else
+			this.evaluate(program);
+		return true;
+	}	
 }

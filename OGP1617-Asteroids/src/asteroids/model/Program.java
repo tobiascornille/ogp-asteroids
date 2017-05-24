@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyFunction;
 import asteroids.programs.MyStatement;
 import asteroids.programs.expressions.BasicExpression;
@@ -61,8 +62,8 @@ public class Program {
 		return this.time;
 	}
 
-	public void setTime(double time) {
-		this.time = time;
+	public void addTime(double time) {
+		this.time += time;
 	}
 
 	private double time = 0;
@@ -86,6 +87,16 @@ public class Program {
 	}
 	
 	private boolean isExecuted = false;
+	
+	public void firstExecution(){
+		this.isFirstExecution = false;
+	}
+	
+	public boolean isfirstExecution() {
+		return this.isFirstExecution;
+	}
+	
+	private boolean isFirstExecution = true;
 	
 	public MyFunction getExecutingFunction() {
 		return this.executingFunctions.peek();
@@ -128,4 +139,15 @@ public class Program {
 	public boolean inFunction() {
 		return this.getExecutingFunction() != null;
 	}
+	
+	public SourceLocation getGoalLocation() {
+		return goalLocation;
+	}
+
+	public void setGoalLocation(SourceLocation goalLocation) {
+		this.goalLocation = goalLocation;
+	}
+
+	private SourceLocation goalLocation = null;
+	
 }

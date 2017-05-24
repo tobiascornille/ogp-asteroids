@@ -9,8 +9,17 @@ public class Skip extends ActionStatement {
 		super(location);
 	}
 	
+	@Override
 	public void evaluate(Program program) {
 		resolveAction(program);
 	}
-
+	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			return false;
+		else
+			this.evaluate(program);
+		return true;
+	}	
 }

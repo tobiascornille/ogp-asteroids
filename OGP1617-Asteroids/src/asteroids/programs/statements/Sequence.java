@@ -23,11 +23,29 @@ public class Sequence extends BasicStatement {
 
 	private List<MyStatement> statements;
 	
+	@Override
 	public void evaluate(Program program) {
 		for (MyStatement e: this.getStatements()) {
 			e.evaluate(program);
 		}
-
+	}
+	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		Boolean found = false;
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			for (MyStatement e: this.getStatements()) {
+				if (!found)
+					found = e.goToGoalLocation(program);
+				else
+					e.evaluate(program);
+				
+			}
+		else {
+			found = true;
+			this.evaluate(program);
+		}
+		return found;
 	}
 	
 }

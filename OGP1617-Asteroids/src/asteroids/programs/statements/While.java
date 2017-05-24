@@ -26,5 +26,22 @@ public class While extends ConditionStatement{
 			}
 		program.setOutOfWhile();
 	}
+	
+	@Override
+	public Boolean goToGoalLocation(Program program) {
+		Boolean found = false;
+		if (! this.getSourceLocation().equals(program.getGoalLocation()))
+			while ((boolean) this.getCondition().evaluate(program)) {
+				if (!found)
+					found = this.getBody().goToGoalLocation(program);
+				else
+					this.getBody().evaluate(program);
+			}
+		else {
+			found = true;
+			this.evaluate(program);
+		}
+		return found;
+	}	
 
 }
