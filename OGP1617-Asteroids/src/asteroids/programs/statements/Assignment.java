@@ -6,6 +6,7 @@ import java.util.List;
 import asteroids.model.Program;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.MyExpression;
+import asteroids.programs.MyFunction;
 import asteroids.programs.MyStatement;
 import asteroids.programs.expressions.BasicExpression;
 
@@ -22,14 +23,33 @@ public class Assignment extends BasicStatement  {
 	
 	@Override
 	public void evaluate(Program program) throws IllegalStatementException {
-		if (program.getExecutingFunction() != null) {
-			program.getExecutingFunction().addLocalVariable(this.getName(), this.getExpression().evaluate(program));
+		MyFunction function = program.getExecutingFunction();
+		String name = this.getName();
+		
+		if (function != null) {
+			if (function.getLocalVariables().containsKey(name)) {
+				if (function.getLocalVariables().get(name).getClass().equals(this.getExpression().evaluate(program).getClass()))
+					function.addLocalVariable(this.getName(), this.getExpression().evaluate(program));
+				else
+					throw new IllegalStatementException();
+			}
+			else
+				function.addLocalVariable(this.getName(), this.getExpression().evaluate(program));	
 		}
 		else if (program.getFunctions().containsKey(this.getName()))
 			throw new IllegalStatementException();
 		
-		else
-			program.addGlobalVariable(this.getName(), this.getExpression().evaluate(program));
+		else {
+			if (program.getGlobalVariables().containsKey(name)) {
+				//TODO: add null checks
+				if (program.getGlobalVariables().get(name).getClass().equals(this.getExpression().evaluate(program).getClass()))
+					program.addGlobalVariable(this.getName(), this.getExpression().evaluate(program));
+				else
+					throw new IllegalStatementException();
+			}
+			else
+				program.addGlobalVariable(this.getName(), this.getExpression().evaluate(program));
+		}
 	}
 	
 	@Override

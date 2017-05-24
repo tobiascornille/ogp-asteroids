@@ -13,7 +13,6 @@ public abstract class ActionStatement extends MyStatement {
 	void resolveAction(Program program) throws IllegalStatementException {
 		if (program.inFunction())
 			throw new IllegalStatementException();
-		System.out.println("location " + this.getSourceLocation().getLine() + " " + this.getSourceLocation().getColumn());
 		
 		if (program.getTime() < 0.2) {
 			program.setGoalLocation(this.getSourceLocation());

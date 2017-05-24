@@ -25,7 +25,7 @@ public class ProgramFactory implements IProgramFactory<MyExpression, MyStatement
 	public MyStatement createAssignmentStatement(String variableName, MyExpression value,
 			SourceLocation sourceLocation) {
 
-		return new Assignment(variableName, (ToDoubleExpression) value, sourceLocation);
+		return new Assignment(variableName, (BasicExpression) value, sourceLocation);
 	}
 
 	@Override

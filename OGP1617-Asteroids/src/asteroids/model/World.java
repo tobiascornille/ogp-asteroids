@@ -333,6 +333,10 @@ public class World {
 			  
 			  else {
 				  advance(dt);
+				  for(Ship ship: (Set<Ship>) this.getEntitiesOfType(Ship.class)) {
+					  if(ship.getProgram() != null)
+						  ship.executeProgram(dt);
+				  }
 				  return;
 			  }
 		  }
