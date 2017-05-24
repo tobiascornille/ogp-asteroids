@@ -21,7 +21,7 @@ public class Part3 {
 			} else if (arg.equals("-sound")) {
 				enableSound = false;
 			} else if (arg.equals("-ai")) {
-				if (i + 1 < args.length) {
+ 				if (i + 1 < args.length) {
 					String aiProgramPath = args[++i];
 					File file = new File(aiProgramPath);
 					if (!file.exists()) {
