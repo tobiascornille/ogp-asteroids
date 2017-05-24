@@ -1,5 +1,7 @@
 package asteroids.programs;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,16 +27,23 @@ public class MyFunction {
 	}
 
 	private final BasicStatement body;
-
+	private Deque<Map<String, Object>> localVariablesStack = new ArrayDeque<>();
+	
+	public void removeLocalVariables() {
+		 localVariablesStack.remove();
+	}
+	
 	public Map<String, Object> getLocalVariables() {
-		return localVariables;
+		return localVariablesStack.peek();
 	}
 
 	public void addLocalVariable(String name, Object object) {
 		this.getLocalVariables().put(name, object);
 	}
-
-	private Map<String, Object> localVariables = new HashMap<>();
+	
+	public void newLocalVariables() {
+		localVariablesStack.push(new HashMap<String, Object>());
+	}
 
 	public List<Object> getParameters() {
 		return this.parameters;

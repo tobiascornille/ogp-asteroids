@@ -27,10 +27,13 @@ public class FunctionCall extends NameExpression {
         for(MyExpression argument: this.getArguments())
             parameters.add(argument.evaluate(program));
         function.setParameters(parameters);
+        function.newLocalVariables();
         
-        function.getBody().evaluate(program);
+        //execute the function itself
+        function.getBody().evaluate(program); 
         
-        program.removeExecutingFunction();;
+        program.removeExecutingFunction();
+        function.removeLocalVariables();
         return program.getReturnObject();
     }
 }

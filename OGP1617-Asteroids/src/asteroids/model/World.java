@@ -297,6 +297,9 @@ public class World {
 	  */
 	 private boolean isTerminated = false;
 	 
+	 /**
+	  * 
+	  */
 	 public void evolve(double dt, CollisionListener listener) throws IllegalArgumentException { 	 
 		 if (Double.isNaN(dt) || dt < 0) throw new IllegalArgumentException();
 		 
@@ -335,6 +338,9 @@ public class World {
 		  }
 	 }
 	 
+	 /**
+	  * 
+	  */
 	 private void advance(double dt) {
 		 
 		 Map<Vector, Entity> newEntities  = new HashMap<>();
@@ -351,6 +357,9 @@ public class World {
 		 this.entities = newEntities;
 	 }
 	 
+	 /**
+	  *
+	  */
 	 private Map<Double, Entity[]> getCollisions() { 
 		  Map<Double, Entity[]> collisions = new HashMap<>();
 		  double time;
@@ -377,12 +386,19 @@ public class World {
 		  }
 		  return collisions; 
 	 }
-	 
+	 /**
+	  * 
+	  *
+	  */
 	 public double getTimeNextCollision() {
 		 Map<Double, Entity[]> collisions = this.getCollisions();
 		 return Collections.min(collisions.keySet());  
 	 }
 	 
+	 /**
+	  * 
+	  * @return
+	  */
 	 public Vector getPositionNextCollision() { 
 		  Map<Double, Entity[]> collisions = this.getCollisions();
 		  double time = Collections.min(collisions.keySet()); 
@@ -392,7 +408,12 @@ public class World {
 		  else
 			  return collidingEntities[0].getCollisionPosition(collidingEntities[1]);
 	 }
-
+	 
+	/**
+	  * 
+	  * @param entity
+	  * @param collisionPosition
+	  */
 	void boundaryCollision(Entity entity, Vector collisionPosition) {
 		 if (entity instanceof Bullet) {
 			 if (((Bullet)entity).getCollisionCounter() >= 2) {
@@ -405,6 +426,11 @@ public class World {
 		 bounceOffBoundary(entity, collisionPosition);
 	}
 	
+	/**
+	 * 
+	 * @param entity
+	 * @param collisionPosition
+	 */
 	private void bounceOffBoundary(Entity entity, Vector collisionPosition) {
 		if (collisionPosition.getXComponent() == 0){
 			entity.setVelocity(new Vector(entity.getVelocity().getXComponent() * -1, entity.getVelocity().getYComponent()));
@@ -419,7 +445,13 @@ public class World {
 			 entity.setVelocity(new Vector(entity.getVelocity().getXComponent(), entity.getVelocity().getYComponent() * -1));
 		 }
 	}
-
+	
+	/**
+	 * 
+	 * @param type
+	 * @param ship
+	 * @return
+	 */
 	public <T extends Entity> T getClosestEntityOfType(Class type, Ship ship) {
 	 	T closestEntity = null;
 	 	double minDistance = Double.POSITIVE_INFINITY;
@@ -433,7 +465,16 @@ public class World {
 
 		return closestEntity;
 	}
-
+	
+	/**
+	 * Return a bullet that was fired by the executing ship 
+	 * and is not terminated yet. 
+	 * 
+	 * @param 	executingShip
+	 * 			The ship you want the bullet from.
+	 * 		  
+	 * @return
+	 */
 	public Entity getBulletFromShip(Ship executingShip) {
 		for (Bullet bullet: (Set<Bullet>) this.getEntitiesOfType(Bullet.class))
 			if (bullet.getSourceShip() == executingShip)

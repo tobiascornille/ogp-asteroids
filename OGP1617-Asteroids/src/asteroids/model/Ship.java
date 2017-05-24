@@ -316,6 +316,10 @@ public class Ship extends Entity{
 		this.setTotalMass(this.getTotalMass() - bullet.getMass());
 	}
 	
+	/**
+	 * 
+	 * 
+	 */
 	public void fireBullet() {
 		// if there are no bullets left, or if the ship is not in a world, no bullets are fired
 		if ((this.getNbBullets() > 0) && (this.getWorld() != null)){
@@ -383,19 +387,27 @@ public class Ship extends Entity{
 		this.setVelocity(newVelocity);	
 	}
 	
+	/**
+	 * Return the state of this thruster
+	 * 
+	 * @return True if  thruster.getState() is true, false
+	 * 		   if thruster.getState() is false. 
+	 * 		| result == thruster.getState()
+	 * 			
+	 */
 	public boolean getThrusterState(){
 		return this.thruster.getState();
 	}
 	
 	/**
-	 * Enable the thruster
+	 * Enable the thruster.
 	 */
 	public void thrustOn() {
 		this.thruster = new Thruster(this.thruster.getForce(), true);
 	}
 	
 	/**
-	 * Disable the thruster
+	 * Disable the thruster.
 	 */
 	public void thrustOff() {
 		this.thruster = new Thruster(this.thruster.getForce(), false);
@@ -432,7 +444,8 @@ public class Ship extends Entity{
 	}
 	
 	/**
-	 * 
+	 * Terminate this Ship.
+	 * | @see implementation
 	 */
 	@Override
 	public void terminate() {
