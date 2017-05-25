@@ -7,6 +7,7 @@ import asteroids.part3.programs.IProgramFactory;
 import asteroids.part3.programs.SourceLocation;
 import asteroids.programs.expressions.*;
 import asteroids.programs.statements.*;
+import asteroids.util.ModelException;
 
 
 public class ProgramFactory implements IProgramFactory<MyExpression, MyStatement, MyFunction, Program> {

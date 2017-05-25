@@ -350,7 +350,11 @@ public class World {
 		 Map<Vector, Entity> newEntities  = new HashMap<>();
 		 for (Iterator<Entity> i = entities.values().iterator(); i.hasNext();) {
 			    Entity entity = i.next();
-			    entity.move(dt);
+			    try {
+					entity.move(dt);
+				} catch (IllegalArgumentException e) {
+					return;
+				}
 			    
 			    if (entity instanceof Ship && ((Ship) entity).getThrusterState()) {
 			    	((Ship) entity).thrust(dt);

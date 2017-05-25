@@ -5,7 +5,7 @@ import asteroids.model.Program;
 public class LessThan extends BinaryExpression<ToDoubleExpression, ToDoubleExpression> implements ToBooleanExpression {
 
     public LessThan(ToDoubleExpression leftExpression, ToDoubleExpression rightExpression) {
-        super(leftExpression, rightExpression);
+        super((ToDoubleExpression) leftExpression, (ToDoubleExpression)rightExpression);
     }
 
     public Boolean evaluate(Program program) {

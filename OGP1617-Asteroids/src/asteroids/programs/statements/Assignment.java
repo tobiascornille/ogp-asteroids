@@ -25,30 +25,36 @@ public class Assignment extends BasicStatement  {
 	public void evaluate(Program program) throws IllegalStatementException {
 		MyFunction function = program.getExecutingFunction();
 		String name = this.getName();
+		Object evaluated = this.getExpression().evaluate(program);
+		if (evaluated == null)
+			return;
 		
 		if (function != null) {
-			if (function.getLocalVariables().containsKey(name)) {
-				if (function.getLocalVariables().get(name).getClass().equals(this.getExpression().evaluate(program).getClass()))
-					function.addLocalVariable(this.getName(), this.getExpression().evaluate(program));
+			if (function.getLocalVariables().get(name) != null) {
+				Object existingValue = function.getLocalVariables().get(name);
+				
+				if (existingValue.getClass().equals(evaluated.getClass()))
+					function.addLocalVariable(name, evaluated);
 				else
 					throw new IllegalStatementException();
 			}
 			else
 				function.addLocalVariable(this.getName(), this.getExpression().evaluate(program));	
 		}
-		else if (program.getFunctions().containsKey(this.getName()))
+		else if (program.getFunctions().containsKey(name))
 			throw new IllegalStatementException();
 		
 		else {
-			if (program.getGlobalVariables().containsKey(name)) {
-				//TODO: add null checks
-				if (program.getGlobalVariables().get(name).getClass().equals(this.getExpression().evaluate(program).getClass()))
-					program.addGlobalVariable(this.getName(), this.getExpression().evaluate(program));
+			if (program.getGlobalVariables().get(name) != null) {
+				Object existingValue = program.getGlobalVariables().get(name);
+				
+				if (existingValue.getClass().equals(evaluated.getClass()))
+					program.addGlobalVariable(name, evaluated);
 				else
 					throw new IllegalStatementException();
 			}
 			else
-				program.addGlobalVariable(this.getName(), this.getExpression().evaluate(program));
+				program.addGlobalVariable(name, evaluated);
 		}
 	}
 	
