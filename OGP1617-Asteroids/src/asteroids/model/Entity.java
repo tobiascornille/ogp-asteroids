@@ -20,8 +20,8 @@ import java.util.Set;
  * 		|	canHaveAsRadius(this.getRadius())
  * @invar  	The world of each entity must be a valid world for this
  *         	entity.
- *      | 	isValidWorld(getWorld())
- * @version 1.0
+ *      | 	isValidWorld(getWorld()
+ * @version 2.0
  * @author 	Simon Merckx and Tobias Cornille.
  *         	We both study informatics (1ba).
  *         	Private repo on https://github.com/tobiascornille/Asteroids
@@ -34,6 +34,10 @@ public abstract class Entity {
 	 * 
 	 * @effect	The radius of this new ship is set to the given radius.
 	 * 		|	this.setRadius(radius)
+	 * @effect	The mass of this new ship is calculated with the radius and density.
+	 * 		|	this.setMass(4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity())
+	 * @throws 	IllegalArgumentException
+	 * 		|	! canHaveAsRadius(radius)
 	 */
 	public Entity(double radius) throws IllegalArgumentException {	
 		if (! canHaveAsRadius(radius)) throw new IllegalArgumentException(); 
@@ -536,7 +540,7 @@ public abstract class Entity {
 		double sigma = this.getRadius() + other.getRadius();
 		double d = Math.pow(dv.dot(dr), 2) - (dv.dot(dv) * (dr.dot(dr) - Math.pow(sigma, 2))); 
 		
-		if (dv.dot(dr) >= 0)	// TODO: deftige rounding
+		if (dv.dot(dr) >= 0)
 			return Double.POSITIVE_INFINITY;
 		else if (d <= 0)
 			return Double.POSITIVE_INFINITY;
@@ -697,6 +701,12 @@ public abstract class Entity {
 		}
 	}
 
+	/**
+	 * Resolve the collision between this entity and the other entity.
+	 * 
+	 * @param 	entity
+	 * 			The other entity involved in the collision.
+	 */
 	abstract void objectCollision(Entity entity);
 	
 	void bounceOff(Entity entity) {
@@ -741,22 +751,6 @@ public abstract class Entity {
 
 		this.setVelocity(newVelocity);
 		entity.setVelocity(newVelocityEntity);
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Entity)) return false;
-
-		Entity entity = (Entity) o;
-
-		if (Double.compare(entity.getRadius(), getRadius()) != 0) return false;
-		if (Double.compare(entity.getDensity(), getDensity()) != 0) return false;
-		if (Double.compare(entity.getMass(), getMass()) != 0) return false;
-		if (isTerminated() != entity.isTerminated()) return false;
-		if (!getPosition().equals(entity.getPosition())) return false;
-		if (!getVelocity().equals(entity.getVelocity())) return false;
-		return getWorld() != null ? getWorld().equals(entity.getWorld()) : entity.getWorld() == null;
 	}
 }
 

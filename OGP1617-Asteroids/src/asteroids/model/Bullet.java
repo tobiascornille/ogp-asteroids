@@ -356,7 +356,7 @@ public class Bullet extends Entity{
 	 * 
 	 * @param	otherEntity
 	 * 			The other entity involved in the collision. 
-	 * @effect	
+	 * @result	
 	 * 			| if (otherEntity == this.getSourceShip())
 	 * 			|	then this.getWorld() = null && otherEntity.getBullets().contains(this)
 	 *			| else
