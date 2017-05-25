@@ -48,7 +48,7 @@ public class Thruster implements Comparable<Thruster>{
 	 * 			and false enabled state.
 	 * 		|	DEFAULT.equals(new Thruster(1.1 * Math.pow(10, 21), false))
 	 */
-	public final static Thruster DEFAULT = new Thruster(1.1 * Math.pow(10, 19), false);
+	public final static Thruster DEFAULT = new Thruster(1.1 * Math.pow(10, 18), false);
 	
 	/**
 	 * Return the force of this thruster.
