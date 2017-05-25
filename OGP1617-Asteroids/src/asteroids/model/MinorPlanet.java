@@ -73,7 +73,7 @@ public abstract class MinorPlanet extends Entity {
     /**
      * Terminates this minorplanet.
      * 
-     * @post 
+     * @post This minorplanet is terminated.
      * 	  |@see implementation
      */
     public void terminate() {
@@ -90,7 +90,7 @@ public abstract class MinorPlanet extends Entity {
      * 
      * @param entity
      * 		  The entity that will collide with this minorplanet.
-     * @post
+     * @post The collision is resolved.
      * 	  |@see implementation
      */
     void objectCollision(Entity entity) {
