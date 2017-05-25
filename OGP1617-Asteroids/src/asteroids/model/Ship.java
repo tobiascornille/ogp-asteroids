@@ -586,14 +586,14 @@ public class Ship extends Entity{
 	/**
 	 * Execute the program loaded on this ship, for a time dt.
 	 * 
-	 * @param dt
-	 * @return The objects printed during the executing of the program if 
-	 * 		   the program is completely executed.
-	 *       | if(program.isExecuted())
-	 *       | 	result == program.getPrinted()
-	 * @return Null if the program is not completely executed
-	 * 		 | if(!program.isExecuted())
-	 * 		 | 	result == null 
+	 * @param 	dt
+	 * @return 	The objects printed during the executing of the program if 
+	 * 		   	the program is completely executed.
+	 *       | 	if(program.isExecuted())
+	 *       | 		result == program.getPrinted()
+	 * @return 	Null if the program is not completely executed
+	 * 		 | 	if(!program.isExecuted())
+	 * 		 | 		result == null 
 	 * 		   
 	 */
 	public List<Object> executeProgram(double dt) {
