@@ -161,7 +161,7 @@ public class Planetoid extends MinorPlanet {
 	}
 	
 	/**
-	 *  Set the radius of this planetoid to the given radius.
+	 * Set the radius of this planetoid to the given radius.
 	 *  
 	 * @param radius
 	 *  	  The new radius for this planetoid.

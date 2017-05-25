@@ -297,9 +297,6 @@ public class World {
 	  */
 	 private boolean isTerminated = false;
 	 
-	 /**
-	  * 
-	  */
 	 public void evolve(double dt, CollisionListener listener) throws IllegalArgumentException { 	 
 		 if (Double.isNaN(dt) || dt < 0) throw new IllegalArgumentException();
 		 
@@ -342,9 +339,7 @@ public class World {
 		  }
 	 }
 	 
-	 /**
-	  * 
-	  */
+	
 	 private void advance(double dt) {
 		 
 		 Map<Vector, Entity> newEntities  = new HashMap<>();
@@ -365,9 +360,10 @@ public class World {
 		 this.entities = newEntities;
 	 }
 	 
-	 /**
-	  *
-	  */
+	/**
+	 * 
+	 * @return
+	 */
 	 private Map<Double, Entity[]> getCollisions() { 
 		  Map<Double, Entity[]> collisions = new HashMap<>();
 		  double time;
@@ -404,8 +400,14 @@ public class World {
 	 }
 	 
 	 /**
+	  * Returns the position of the next collision in this world.
 	  * 
-	  * @return
+	  * @return 
+	  * 		| if (collidingEntities[1] == null)
+	  * 		| 	return collidingEntities[0].getCollisionBoundaryPosition()
+	  * @return 
+	  * 		| if(!collidingEntities[1] == null)
+	  * 		|   return collidingEntities[0].getCollisionPosition(collidingEntities[1])
 	  */
 	 public Vector getPositionNextCollision() { 
 		  Map<Double, Entity[]> collisions = this.getCollisions();
@@ -418,6 +420,7 @@ public class World {
 	 }
 	 
 	/**
+	  * Resolve a boundarycollision in this world.
 	  * 
 	  * @param entity
 	  * @param collisionPosition
@@ -481,7 +484,12 @@ public class World {
 	 * @param 	executingShip
 	 * 			The ship you want the bullet from.
 	 * 		  
-	 * @return
+	 * @return If there is a bullet with it's sourceship 
+	 * 		   set as executingship, that bullet will be returned.
+	 * 		| result == bullet
+	 * @return If there is no bullet with it's sourceship 
+	 * 		   set as executingShip, null will be returned.
+	 * 		| result == null
 	 */
 	public Entity getBulletFromShip(Ship executingShip) {
 		for (Bullet bullet: (Set<Bullet>) this.getEntitiesOfType(Bullet.class))
