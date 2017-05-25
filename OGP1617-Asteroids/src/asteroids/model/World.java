@@ -12,15 +12,15 @@ import java.util.stream.Collectors;
 import asteroids.part2.CollisionListener;
 
 /**
- * A class of worlds involving a size and entities.
+ * A class of worlds involving a size.
  * 
  * @author Simon Merckx and Tobias Cornille
  * 
- * @invar  Each world can have its size as size .
- *       | canHaveAsSize(this.getSize)
+ * @invar  	Each world can have its size as size .
+ *     	| 	canHaveAsSize(this.getSize)
  * @invar   Each world must have proper entities.
- *        | hasProperEntities()
- * @version 1.0
+ *      | 	hasProperEntities()
+ * @version 2.0
  * @author 	Simon Merckx and Tobias Cornille.
  *         	We both study informatics (1ba).
  *         	Private repo on https://github.com/tobiascornille/Asteroids

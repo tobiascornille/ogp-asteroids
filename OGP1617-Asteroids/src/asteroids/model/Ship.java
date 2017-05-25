@@ -10,26 +10,26 @@ import be.kuleuven.cs.som.annotate.Basic;
 import be.kuleuven.cs.som.annotate.Raw;
 
 /**
- * A class of ships involving a position, velocity, radius and orientation.
+ * A class of ships, which are entities, involving an orientation and a program.
  * 
  * @invar 	The orientation of each ship must be a valid orientation for any 
  * 			ship.
  * 		|	isValidOrientation(getOrientation())
  * @invar   Each ship must have proper bullets.
- *        | hasProperBullets()
- * @invar  The mass of each ship must be a valid mass for any
- *         ship.
- *       | isValidMass(getMass())
- * @invar  The density of each ship must be a valid density for any
- *         ship.
- *       | isValidDensity(getDensity())
- * @invar  The total mass of each ship must be a valid total mass for that
- *         ship.
- *       | isValidTotalMass(getTotalMass())
- * @invar  The program of each Ship must be a valid program for any
- *         Ship.
- *       | isValidProgram(getProgram())
- * @version 2.0
+ *     	| 	hasProperBullets()
+ * @invar  	The mass of each ship must be a valid mass for any
+ *         	ship.
+ *      | 	isValidMass(getMass())
+ * @invar  	The density of each ship must be a valid density for any
+ *         	ship.
+ *      | 	isValidDensity(getDensity())
+ * @invar  	The total mass of each ship must be a valid total mass for that
+ *         	ship.
+ *      |	isValidTotalMass(getTotalMass())
+ * @invar 	The program of each Ship must be a valid program for any
+ *         	Ship.
+ *      | 	isValidProgram(getProgram())
+ * @version 3.0
  * @author 	Simon Merckx and Tobias Cornille.
  *         	We both study informatics (1ba).
  *         	Private repo on https://github.com/tobiascornille/Asteroids
@@ -511,12 +511,12 @@ public class Ship extends Entity{
 	}
 	
 	/**
-	 * Resolves the collision between a ship and another entity.
+	 * Resolves the collision between this ship and another entity.
 	 * 
-	 * @param entity
-	 * 		  The entity that will collide with this ship.
-	 * @post The collision is resolved.
-	 *   | @see implementation
+	 * @param	entity
+	 * 		  	The other entity involved in the collision.
+	 * @post 	The collision is resolved.
+	 *   	| 	@see implementation
 	 */
 	void objectCollision(Entity entity) {
 		if (entity instanceof Bullet) {

@@ -540,11 +540,8 @@ public abstract class Entity {
 		double sigma = this.getRadius() + other.getRadius();
 		double d = Math.pow(dv.dot(dr), 2) - (dv.dot(dv) * (dr.dot(dr) - Math.pow(sigma, 2))); 
 		
-<<<<<<< HEAD
-		if (dv.dot(dr) >= 0)
-=======
 		if (dv.dot(dr) >= 0)	
->>>>>>> origin/master
+
 			return Double.POSITIVE_INFINITY;
 		else if (d <= 0)
 			return Double.POSITIVE_INFINITY;

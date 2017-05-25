@@ -5,17 +5,18 @@ import java.util.Random;
 import be.kuleuven.cs.som.annotate.*;
 
 /**
-* @invar The totalDistanceTraveled of each planetoid must be a valid totalDistanceTraveled for any
-*        planetoid.
-*       | isValidTotalDistanceTraveled(getTotalDistanceTraveled())
-* @invar Each asteroid must have a valid density.
-* 		| isValidDensity(this.getDensity)
-* @version 1.0
-* @author Simon Merckx and Tobias Cornille.
-*         We both study informatics (1ba).
-*         Private repo on https://github.com/tobiascornille/Asteroids
-*         Please send us an email with your account info so we can add you as a contributer.
-*/
+ * A class of asteroids, which are minor planets involving a distance traveled.
+ * @invar 	The totalDistanceTraveled of each planetoid must be a valid totalDistanceTraveled for any
+ *        	planetoid.
+ *       | 	isValidTotalDistanceTraveled(getTotalDistanceTraveled())
+ * @invar 	Each asteroid must have a valid density.
+ * 		 | 	isValidDensity(this.getDensity)
+ * @version 1.0
+ * @author 	Simon Merckx and Tobias Cornille.
+ *         	We both study informatics (1ba).
+ *         	Private repo on https://github.com/tobiascornille/Asteroids
+ *         	Please send us an email with your account info so we can add you as a contributer.
+ */
 public class Planetoid extends MinorPlanet {
 	
 	/**

@@ -2,14 +2,14 @@ package asteroids.model;
 
 import be.kuleuven.cs.som.annotate.*;
 /**
- * A class of sizes involving an x component and a y component.
+ * A class of sizes, which are ordered pairs.
  * 
  * @invar	Each size can have its x component as x component.
  *       | 	canHaveAsXComponent(this.getXComponent())
  * @invar  	Each size can have its y component as y component.
  *       | 	canHaveAsYComponent(this.getYComponent())
  * 
- * @version 1.2
+ * @version 1.0
  * @author 	Simon Merckx and Tobias Cornille
  *
  */

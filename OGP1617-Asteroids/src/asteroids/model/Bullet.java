@@ -9,16 +9,16 @@ import be.kuleuven.cs.som.annotate.*;
 /**
  * A class of bullets, which are entities, involving a ship, a source ship and a collision counter.
  * 
- * @invar  The ship of each bullet must be a valid ship for any
- *         bullet.
- *       | isValidShip(getShip())
- * @invar  The source ship of each bullet must be a valid source ship for this
- *         bullet.
- *       | isValidSourceShip(getSourceShip())
- * @invar  The collision counter of each bullet must be a valid collision counter for any
- *         bullet.
- *       | isValidCollisionCounter(getCollisionCounter())	
- * @version 1.0
+ * @invar  	The ship of each bullet must be a valid ship for any
+ *         	bullet.
+ *       | 	isValidShip(getShip())
+ * @invar  	The source ship of each bullet must be a valid source ship for this
+ *         	bullet.
+ *       | 	isValidSourceShip(getSourceShip())
+ * @invar  	The collision counter of each bullet must be a valid collision counter for any
+ *         	bullet.
+ *       | 	isValidCollisionCounter(getCollisionCounter())	
+ * @version 2.0
  * @author 	Simon Merckx and Tobias Cornille.
  *         	We both study informatics (1ba).
  *         	Private repo on https://github.com/tobiascornille/Asteroids
