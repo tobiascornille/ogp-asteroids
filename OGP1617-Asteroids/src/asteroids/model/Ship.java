@@ -319,8 +319,8 @@ public class Ship extends Entity{
 	}
 	
 	/**
-	 * 
-	 * 
+	 * Fires a bullet from this ship.
+	 * |@see implementation
 	 */
 	public void fireBullet() {
 		// if there are no bullets left, or if the ship is not in a world, no bullets are fired

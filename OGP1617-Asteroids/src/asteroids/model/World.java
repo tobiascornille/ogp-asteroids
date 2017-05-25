@@ -361,8 +361,10 @@ public class World {
 	 }
 	 
 	/**
+	 * Return a map containing all the collisions that will occur in this world.
 	 * 
-	 * @return
+	 * @return The hashmap containing all the collisions that will occur in this world.
+	 * 		| result == collisions
 	 */
 	 private Map<Double, Entity[]> getCollisions() { 
 		  Map<Double, Entity[]> collisions = new HashMap<>();
@@ -390,9 +392,12 @@ public class World {
 		  }
 		  return collisions; 
 	 }
+	 
 	 /**
+	  * Return the time to the next collision in this world.
 	  * 
-	  *
+	  * @return The time to the next collision in this world.
+	  * 	 | @see implementation
 	  */
 	 public double getTimeNextCollision() {
 		 Map<Double, Entity[]> collisions = this.getCollisions();
@@ -423,7 +428,9 @@ public class World {
 	  * Resolve a boundarycollision in this world.
 	  * 
 	  * @param entity
+	  * 	   The entity that will collide with the boundary.
 	  * @param collisionPosition
+	  * 	   The position were the entity will collide with the boundary.
 	  */
 	void boundaryCollision(Entity entity, Vector collisionPosition) {
 		 if (entity instanceof Bullet) {
@@ -438,9 +445,12 @@ public class World {
 	}
 	
 	/**
+	 * Make a entity bounce off a boundary in this world.
 	 * 
 	 * @param entity
+	 * 		  The entity that will bounce off a boundary in this world.
 	 * @param collisionPosition
+	 * 		  The position in this world were the entity will bounce off the boundary.
 	 */
 	private void bounceOffBoundary(Entity entity, Vector collisionPosition) {
 		if (collisionPosition.getXComponent() == 0){
@@ -458,10 +468,16 @@ public class World {
 	}
 	
 	/**
+	 * Returns the closest type of entity to ship in this world.
 	 * 
 	 * @param type
+	 * 		  The type of entity.
 	 * @param ship
-	 * @return
+	 * 		  The ship.
+	 * @return If there is no entity of type in this world
+	 * 		   Double.POSITIVE_INFINITY is returned.
+	 * 		| result == 
+	 * 			
 	 */
 	public <T extends Entity> T getClosestEntityOfType(Class type, Ship ship) {
 	 	T closestEntity = null;

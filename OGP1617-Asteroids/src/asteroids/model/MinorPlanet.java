@@ -89,7 +89,7 @@ public abstract class MinorPlanet extends Entity {
      * 
      * @param entity
      * 		  The entity that will collide with this minorplanet.
-     * @see implementation
+     * |@see implementation
      */
     void objectCollision(Entity entity) {
 		if (entity instanceof Bullet) {
