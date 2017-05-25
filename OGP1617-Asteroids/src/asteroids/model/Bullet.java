@@ -351,6 +351,17 @@ public class Bullet extends Entity{
 		return mass == 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE;
 	}
 
+	/**
+	 * Resolve the collision between this bullet and another entity.
+	 * 
+	 * @param	otherEntity
+	 * 			The other entity involved in the collision. 
+	 * @effect	
+	 * 			| if (otherEntity == this.getSourceShip())
+	 * 			|	then this.getWorld() = null && otherEntity.getBullets().contains(this)
+	 *			| else
+	 *			|	then this.isTerminated() && otherEntity.isTerminated()	
+	 */
 	void objectCollision(Entity otherEntity) {
 		if (otherEntity == this.getSourceShip()) {
 			this.getWorld().removeEntity(this);
