@@ -119,7 +119,11 @@ public class Planetoid extends MinorPlanet {
 	private double totalDistanceTraveled = 0;
 	
 	/**
-	 * 
+	 *  Terminate this plantoid. If the
+	 *  radius of this planetoid was greater than 30,
+	 *  2 asteroids will be spawned.
+	 *  
+	 * | @see implementation
 	 */
 	@Override
 	public void terminate() {

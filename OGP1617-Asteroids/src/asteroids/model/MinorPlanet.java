@@ -4,6 +4,14 @@ import be.kuleuven.cs.som.annotate.*;
 
 /**
  * A class of minor planets involving a position, velocity, radius.
+ * 
+ * @invar Each minorplanet must have a valid mass.
+ * 		 | this.isValidMass(this.getMass())
+ * @version 1.0
+ * @author Simon Merckx and Tobias Cornille.
+ *         We both study informatics (1ba).
+ *         Private repo on https://github.com/tobiascornille/Asteroids
+ *         Please send us an email with your account info so we can add you as a contributer.
  */
 public abstract class MinorPlanet extends Entity {
 	/**
@@ -77,7 +85,9 @@ public abstract class MinorPlanet extends Entity {
     }
     
     /**
+     * Resolve the collision of a minorplanet with another entity.
      * 
+     * @see implementation
      */
     void objectCollision(Entity entity) {
 		if (entity instanceof Bullet) {
