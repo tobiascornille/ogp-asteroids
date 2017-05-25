@@ -8,10 +8,26 @@ import be.kuleuven.cs.som.annotate.*;
 public abstract class MinorPlanet extends Entity {
 	/**
 	 * 
+	 * Initialize this new minorplanet with given 
+	 * vector of the position, given vector of the velocity ,
+	 * given radius and given mass.
+	 * 
 	 * @param position
+	 * 		  The position of this new minorplanet.
 	 * @param velocity
+	 * 		  The velocity of this new minorplanet
 	 * @param radius
+	 * 		  The radius of this new minorplanet.
 	 * @param mass
+	 * 		  The mass of this new minorplanet.
+	 * @effect	The position of this new minorplanet is set to the given position.  
+	 * 		|	this.setPosition(position)
+	 * @effect  The velocity of this new minorplanet is set to the given velocity.
+	 * 		|   this.setVelocity(velocity)
+	 * @effect  The radius of this new minorplanet is set to the given radius.
+	 *      |   this.setRadius(radius)
+	 * @effect The mass this new plantoid is set to the given mass.
+	 * 		| 	this.setMass(mass)  
 	 * @throws IllegalArgumentException
 	 */
     public MinorPlanet(Vector position, Vector velocity, double radius, double mass) throws IllegalArgumentException {
@@ -46,6 +62,11 @@ public abstract class MinorPlanet extends Entity {
         return mass == 4.0/3.0 * Math.PI * Math.pow(this.getRadius(), 3) * this.getDensity() && mass < Double.MAX_VALUE;
     }
     
+    /**
+     * Terminates this minorplanet.
+     * 
+     * @see implementation
+     */
     public void terminate() {
 		if (!isTerminated()) {
 			if (this.getWorld() != null)
@@ -55,6 +76,9 @@ public abstract class MinorPlanet extends Entity {
 		}
     }
     
+    /**
+     * 
+     */
     void objectCollision(Entity entity) {
 		if (entity instanceof Bullet) {
 			entity.objectCollision(this);

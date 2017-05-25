@@ -183,7 +183,7 @@ public abstract class Entity {
 	 * 			of the entity plus the displacement of the entity.
 	 *		|	new.getPosition().equals 
 	 *		|		this.getPosition().add(this.getVelocity().times(dt))        
-	 * throws	IllegalArgumentException
+	 * @throws	IllegalArgumentException
 	 * 			If the time dt is less than 0.
 	 * 		|	dt &lt; 0
 	 */

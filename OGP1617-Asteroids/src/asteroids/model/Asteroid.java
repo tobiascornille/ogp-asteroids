@@ -2,15 +2,34 @@ package asteroids.model;
 
 /**
  * A class of asteroids involving a position, velocity, radius.
+ * 
+ * @invar Each asteroid must have a valid density.
+ * 		| isValidDensity(this.getDensity)
+ * @version 1.0
+ * @author 	Simon Merckx and Tobias Cornille.
+ *         	We both study informatics (1ba).
+ *         	Private repo on https://github.com/tobiascornille/Asteroids
+ *         	Please send us an email with your account info so we can add you as a contributer.
  */
 public class Asteroid extends MinorPlanet{
 	
 	/**
+	 * Initialize this new Asteroid with given 
+	 * vector of the position, given vector of the velocity and
+	 * given radius.
 	 * 
 	 * @param position
+	 * 		  The position of this new asteroid.
 	 * @param velocity
+	 * 	      The velocity of this new asteroid.
 	 * @param radius
-	 * @param mass
+	 * 	      The radius of this new asteroid.
+	 * @effect The position of this new asteroid is set to the given position.  
+	 * 		|	this.setPosition(position)
+	 * @effect  The velocity of this new asteroid is set to the given velocity.
+	 * 		|   this.setVelocity(velocity)
+	 * @effect  The radius of this new asteroid is set to the given radius.
+	 *      |   this.setRadius(radius)
 	 * @throws IllegalArgumentException
 	 */
     public Asteroid(Vector position, Vector velocity, double radius) throws IllegalArgumentException {

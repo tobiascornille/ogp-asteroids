@@ -47,9 +47,8 @@ public class Ship extends Entity{
 	
 	/**
 	 * Initialize this new ship as a non terminated ship with given 
-	 * X coordinate of the position, given Y coordinate of the position, 
-	 * given X component of the velocity, given Y component of the 
-	 * velocity and given orientation, and with no bullets yet.
+	 * vector of the position, given vector of the velocity ,
+	 * given radius, given orientation and given mass, and with no bullets yet.
 	 * 
 	 * @param 	position
 	 * 			The position of this new ship. 	  
@@ -70,6 +69,11 @@ public class Ship extends Entity{
 	 * 		|   this.setVelocity(velocity)
 	 * @effect  The orientation of this new ship is set to the given orientation.
 	 *      |   this.setOrientation(orientation)  
+	 * @effect The mass of this new ship is set to the given mass.
+	 * 		| 	this.setMass(mass);
+	 * @effect The total mass of this new ship is set to the given mass.
+	 * 		| this.setTotalMass(mass);
+	 * @throws IllegalArgumentException
 	 */	
 	public Ship (Vector position, Vector velocity, double radius, double orientation, double mass) throws IllegalArgumentException {
 		super(position, velocity, radius, mass);
