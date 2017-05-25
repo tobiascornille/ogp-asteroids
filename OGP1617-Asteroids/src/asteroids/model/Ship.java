@@ -523,11 +523,10 @@ public class Ship extends Entity{
 			Random randomNumber = new Random();
 			double x = this.getRadius() + randomNumber.nextDouble() * (this.getWorld().getSize().getXComponent() - this.getRadius());
 			double y = this.getRadius() + randomNumber.nextDouble() * (this.getWorld().getSize().getYComponent() - this.getRadius());
-			try {
-				this.setPosition(new Vector(x, y));
-			} catch (IllegalArgumentException e) {
+			this.setPosition(new Vector(x, y));
+			
+			if(! this.hasValidPositionInWorld(this.getWorld()))
 				this.terminate();
-			}
 		}
 		else if (entity instanceof Ship){
 			this.bounceOff(entity);

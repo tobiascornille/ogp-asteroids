@@ -238,7 +238,8 @@ public abstract class Entity {
 	}
 
     /**
-     * Return true if there is an entity overlapping with this entity in the given world.
+     * Return true if there is an entity overlapping with this entity in the given world 
+     * that isn't this entity.
      *
      * @param world
      * 		  The world to check for overlapping entities.
@@ -250,7 +251,7 @@ public abstract class Entity {
         Set<Entity> entities = world.getEntities();
         for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
             Entity entity = i.next();
-            if (this.overlap(entity))
+            if (this.overlap(entity) && this != entity)
                 return true;
         }
         return false;
