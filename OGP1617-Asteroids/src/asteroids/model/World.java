@@ -339,7 +339,15 @@ public class World {
 		  }
 	 }
 	 
-	
+	/**
+	 * Advance all the entities in this world by a given time dt.
+	 * 
+	 * @param  	dt
+	 * 			The given time
+	 * @post	All the entities are moved and the 
+	 * 			the ships are thrusted if their thruster is on.
+	 * 		|	@see implementation
+	 */
 	 private void advance(double dt) {
 		 
 		 Map<Vector, Entity> newEntities  = new HashMap<>();
@@ -363,8 +371,8 @@ public class World {
 	/**
 	 * Return a map containing all the collisions that will occur in this world.
 	 * 
-	 * @return The hashmap containing all the collisions that will occur in this world.
-	 * 		| result == collisions
+	 * @return 	The hashmap containing all the collisions that will occur in this world.
+	 * 		| 	result == collisions
 	 */
 	 private Map<Double, Entity[]> getCollisions() { 
 		  Map<Double, Entity[]> collisions = new HashMap<>();
@@ -397,7 +405,7 @@ public class World {
 	  * Return the time to the next collision in this world.
 	  * 
 	  * @return The time to the next collision in this world.
-	  * 	 | @see implementation
+	  * 	 | 	@see implementation
 	  */
 	 public double getTimeNextCollision() {
 		 Map<Double, Entity[]> collisions = this.getCollisions();
@@ -425,18 +433,18 @@ public class World {
 	 }
 	 
 	/**
-	  * Resolve a boundarycollision in this world.
+	  * Resolve a boundary collision in this world.
 	  * 
-	  * @param entity
-	  * 	   The entity that will collide with the boundary.
-	  * @param collisionPosition
-	  * 	   The position were the entity will collide with the boundary.
-	  * @post If entity is a bullet and bullet.getCOllisionCounter >= 2,
-	  * 	  entity will be terminated.
-	  * 	| if (((Bullet)entity).getCollisionCounter() >= 2) {
-				 entity.terminate();
-	  * @post The entity will bounce off the boundary.
-	  * 	| bounceOffBoundary(entity, collisionPosition)
+	  * @param 	entity
+	  * 	   	The entity that will collide with the boundary.
+	  * @param 	collisionPosition
+	  * 	   	The position were the entity will collide with the boundary.
+	  * @post 	If entity is a bullet and bullet.getCollisionCounter >= 2,
+	  * 	  	entity will be terminated.
+	  * 	| 	if (((Bullet)entity).getCollisionCounter() >= 2) {
+					entity.terminate();
+	  * @post 	The entity will bounce off the boundary.
+	  * 	|	bounceOffBoundary(entity, collisionPosition)
 	  * 
 	  */
 	void boundaryCollision(Entity entity, Vector collisionPosition) {
@@ -454,13 +462,13 @@ public class World {
 	/**
 	 * Make a entity bounce off a boundary in this world.
 	 * 
-	 * @param entity
-	 * 		  The entity that will bounce off a boundary in this world.
-	 * @param collisionPosition
-	 * 		  The position in this world were the entity will bounce off the boundary.
-	 * @post The entity will bounce off the boundary, it's velocity will be changed according
-	 * 		 to the boundary it collides with.
-	 * 	   | @see implementation
+	 * @param 	entity
+	 * 		  	The entity that will bounce off a boundary in this world.
+	 * @param 	collisionPosition
+	 * 		 	The position in this world were the entity will bounce off the boundary.
+	 * @post 	The entity will bounce off the boundary, it's velocity will be changed according
+	 * 		 	to the boundary it collides with.
+	 * 	   	| 	@see implementation
 	 * 
 	 */
 	private void bounceOffBoundary(Entity entity, Vector collisionPosition) {
@@ -481,12 +489,12 @@ public class World {
 	/**
 	 * Returns the closest type of entity to ship in this world.
 	 * 
-	 * @param type
-	 * 		  The type of entity.
-	 * @param ship
-	 * 		  The ship.
-	 * @return The entity of type that is closest to ship.
-	 * 		| @see implementation
+	 * @param 	type
+	 * 		  	The type of entity.
+	 * @param 	ship
+	 * 		  	The ship.
+	 * @return 	The entity of type that is closest to ship.
+	 * 		| 	@see implementation
 	 * 			
 	 */
 	public <T extends Entity> T getClosestEntityOfType(Class type, Ship ship) {
@@ -510,12 +518,12 @@ public class World {
 	 * @param 	executingShip
 	 * 			The ship you want the bullet from.
 	 * 		  
-	 * @return If there is a bullet in this world with it's sourceship 
-	 * 		   set as executingship, that bullet will be returned.
-	 * 		| result == bullet
-	 * @return If there is no bullet in this world with it's sourceship 
-	 * 		   set as executingShip, null will be returned.
-	 * 		| result == null
+	 * @return 	If there is a bullet in this world with it's sourceship 
+	 * 		   	set as executingship, that bullet will be returned.
+	 * 		| 	result == bullet
+	 * @return 	If there is no bullet in this world with it's sourceship 
+	 * 		   	set as executingShip, null will be returned.
+	 * 		| 	result == null
 	 */
 	public Entity getBulletFromShip(Ship executingShip) {
 		for (Bullet bullet: (Set<Bullet>) this.getEntitiesOfType(Bullet.class))
