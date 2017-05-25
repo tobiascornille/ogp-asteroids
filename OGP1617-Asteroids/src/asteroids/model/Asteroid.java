@@ -1,5 +1,8 @@
 package asteroids.model;
 
+/**
+ * A class of asteroids involving a position, velocity, radius.
+ */
 public class Asteroid extends MinorPlanet{
 	
 	/**

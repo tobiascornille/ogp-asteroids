@@ -594,8 +594,8 @@ public class Ship extends Entity{
 		Program program = this.getProgram();
 		program.setExecutingShip(this);
 		program.addTime(dt);
-		if(program.isfirstExecution()) {
-			program.firstExecution();
+		if(program.isFirstExecution()) {
+			program.setFirstExecution(false);
 			
 			try {
 				this.getProgram().getMain().evaluate(this.getProgram());
@@ -612,8 +612,11 @@ public class Ship extends Entity{
 				program.setIsExecuted(false);
 			}
 		}
-		if (program.isExecuted())
-			return program.getPrinted();
+		if (program.isExecuted()) {
+			List<Object> printed = program.getPrinted();
+			program.clearExecution();
+			return printed;
+		}
 		return null;
 	}
 }

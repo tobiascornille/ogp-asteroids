@@ -22,6 +22,7 @@ public class Program {
 		this.main = main;
 	}
 	
+	
 	public void setExecutingShip(Ship ship) {
         this.executingShip = ship;
     }
@@ -32,12 +33,14 @@ public class Program {
     
     private Ship executingShip;
 
+    
     public MyStatement getMain() {
         return main;
     }
 
 	private final MyStatement main;
 
+	
     public Map<String, MyFunction> getFunctions() {
         return functions;
     }
@@ -48,6 +51,10 @@ public class Program {
 
     private Map<String, MyFunction> functions = new HashMap<>();
 
+    public void setPrinted(List<Object> printed) {
+    	this.printed = printed;
+    }
+    
     public List<Object> getPrinted() {
         return printed;
     }
@@ -57,6 +64,7 @@ public class Program {
     }
 
     private List<Object> printed = new ArrayList<>();
+    
     
     public double getTime() {
 		return this.time;
@@ -68,6 +76,7 @@ public class Program {
 
 	private double time = 0;
 	
+	
 	public Map<String, Object> getGlobalVariables() {
 		return globalVariables;
 	}
@@ -77,6 +86,7 @@ public class Program {
 	}
 
 	private Map<String, Object> globalVariables = new HashMap<>();
+	
 	
 	public void setIsExecuted(Boolean bool) {
 		this.isExecuted = bool;
@@ -88,15 +98,17 @@ public class Program {
 	
 	private boolean isExecuted = false;
 	
-	public void firstExecution(){
-		this.isFirstExecution = false;
+	
+	public void setFirstExecution(Boolean bool){
+		this.isFirstExecution = bool;
 	}
 	
-	public boolean isfirstExecution() {
+	public boolean isFirstExecution() {
 		return this.isFirstExecution;
 	}
 	
 	private boolean isFirstExecution = true;
+	
 	
 	public MyFunction getExecutingFunction() {
 		return this.executingFunctions.peek();
@@ -110,7 +122,12 @@ public class Program {
 		this.executingFunctions.pop();
 	}
 	
+	public boolean inFunction() {
+		return this.getExecutingFunction() != null;
+	}
+	
 	private Deque<MyFunction> executingFunctions = new ArrayDeque<>();
+	
 	
 	public boolean inWhile() {
 		return !inWhile.isEmpty();
@@ -126,6 +143,7 @@ public class Program {
 
 	private Deque<String> inWhile = new ArrayDeque<>();
 	
+	
 	public void setReturnObject(Object returnObject) {
 		this.returnObject = returnObject;
 	}
@@ -135,10 +153,7 @@ public class Program {
 	}
 	
 	private Object returnObject = null;
-
-	public boolean inFunction() {
-		return this.getExecutingFunction() != null;
-	}
+	
 	
 	public SourceLocation getGoalLocation() {
 		return goalLocation;
@@ -149,5 +164,17 @@ public class Program {
 	}
 
 	private SourceLocation goalLocation = null;
+
+
+	public void clearExecution() {
+		this.setPrinted(null);
+		this.setExecutingShip(null);
+		this.getGlobalVariables().clear();
+		this.addTime(- this.getTime());
+		this.setIsExecuted(false);
+		this.setFirstExecution(true);
+		this.setReturnObject(null);
+		this.setGoalLocation(null);
+	}
 	
 }
