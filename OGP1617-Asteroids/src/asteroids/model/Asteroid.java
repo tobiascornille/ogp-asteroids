@@ -1,10 +1,10 @@
 package asteroids.model;
 
 /**
- * A class of asteroids involving a position, velocity, radius.
+ * A class of asteroids, which are minor planets.
  * 
- * @invar Each asteroid must have a valid density.
- * 		| isValidDensity(this.getDensity)
+ * @invar 	Each asteroid must have a valid density.
+ * 		| 	isValidDensity(this.getDensity)
  * @version 1.0
  * @author 	Simon Merckx and Tobias Cornille.
  *         	We both study informatics (1ba).
