@@ -447,7 +447,9 @@ public class Ship extends Entity{
 	
 	/**
 	 * Terminate this Ship.
-	 * | @see implementation
+	 * 
+	 * @post This ship is terminated.
+	 * 	 | @see implementation
 	 */
 	@Override
 	public void terminate() {
@@ -513,8 +515,8 @@ public class Ship extends Entity{
 	 * 
 	 * @param entity
 	 * 		  The entity that will collide with this ship.
-	 * 
-	 *  @see implementation
+	 * @post The collision is resolved.
+	 *   | @see implementation
 	 */
 	void objectCollision(Entity entity) {
 		if (entity instanceof Bullet) {

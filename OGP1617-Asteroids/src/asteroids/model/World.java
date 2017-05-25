@@ -405,7 +405,7 @@ public class World {
 	 }
 	 
 	 /**
-	  * Returns the position of the next collision in this world.
+	  * Return the position of the next collision in this world.
 	  * 
 	  * @return 
 	  * 		| if (collidingEntities[1] == null)
@@ -458,8 +458,9 @@ public class World {
 	 * 		  The entity that will bounce off a boundary in this world.
 	 * @param collisionPosition
 	 * 		  The position in this world were the entity will bounce off the boundary.
-	 * @post The entity will bounce off the boundary
-	 * 	   | @see implementation.
+	 * @post The entity will bounce off the boundary, it's velocity will be changed according
+	 * 		 to the boundary it collides with.
+	 * 	   | @see implementation
 	 * 
 	 */
 	private void bounceOffBoundary(Entity entity, Vector collisionPosition) {
