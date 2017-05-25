@@ -1765,7 +1765,6 @@ public class Part3TestFull {
       List<Object> results = facade.executeProgram(ship1, 0.35);
       assertFalse(facade.isShipThrusterActive(ship1));
       Object[] expecteds = { 0.4, 0.8 };
-
       assertArrayEquals(expecteds, results.toArray());
       score += 3;
     }
@@ -2896,4 +2895,5 @@ public class Part3TestFull {
       score += 5;
     }
   }
+
 }
