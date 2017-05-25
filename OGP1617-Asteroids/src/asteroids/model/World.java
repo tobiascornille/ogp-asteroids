@@ -474,9 +474,8 @@ public class World {
 	 * 		  The type of entity.
 	 * @param ship
 	 * 		  The ship.
-	 * @return If there is no entity of type in this world
-	 * 		   Double.POSITIVE_INFINITY is returned.
-	 * 		| result == 
+	 * @return The entity of type that is closest to ship.
+	 * 		| @see implementation
 	 * 			
 	 */
 	public <T extends Entity> T getClosestEntityOfType(Class type, Ship ship) {
