@@ -431,6 +431,13 @@ public class World {
 	  * 	   The entity that will collide with the boundary.
 	  * @param collisionPosition
 	  * 	   The position were the entity will collide with the boundary.
+	  * @post If entity is a bullet and bullet.getCOllisionCounter >= 2,
+	  * 	  entity will be terminated.
+	  * 	| if (((Bullet)entity).getCollisionCounter() >= 2) {
+				 entity.terminate();
+	  * @post The entity will bounce off the boundary.
+	  * 	| bounceOffBoundary(entity, collisionPosition)
+	  * 
 	  */
 	void boundaryCollision(Entity entity, Vector collisionPosition) {
 		 if (entity instanceof Bullet) {
@@ -451,6 +458,9 @@ public class World {
 	 * 		  The entity that will bounce off a boundary in this world.
 	 * @param collisionPosition
 	 * 		  The position in this world were the entity will bounce off the boundary.
+	 * @post The entity will bounce off the boundary
+	 * 	   | @see implementation.
+	 * 
 	 */
 	private void bounceOffBoundary(Entity entity, Vector collisionPosition) {
 		if (collisionPosition.getXComponent() == 0){
