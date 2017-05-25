@@ -484,10 +484,10 @@ public class World {
 	 * @param 	executingShip
 	 * 			The ship you want the bullet from.
 	 * 		  
-	 * @return If there is a bullet with it's sourceship 
+	 * @return If there is a bullet in this world with it's sourceship 
 	 * 		   set as executingship, that bullet will be returned.
 	 * 		| result == bullet
-	 * @return If there is no bullet with it's sourceship 
+	 * @return If there is no bullet in this world with it's sourceship 
 	 * 		   set as executingShip, null will be returned.
 	 * 		| result == null
 	 */

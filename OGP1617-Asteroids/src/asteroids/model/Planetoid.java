@@ -139,8 +139,16 @@ public class Planetoid extends MinorPlanet {
 	}
 	
 	/**
-	 * 
+	 * Adds 2 asteroids with a random velocity, a radius half the size
+	 * of the radius of this planetoid and a position to the world given 
+	 * as parameter.
+	 *  
 	 * @param world
+	 * 		  The world in which the asteroids will be added.
+	 * @post world now contains asteroid and otherAsteroid.
+	 * 		| world.getEntities.contains(asteroid) == true &&
+	 * 		| 	world.getEntities.contains(otherAsteroid) == true
+	 * 		
 	 */
 	private void spawnAsteroids(World world) {
 		Random randomNumber = new Random();
